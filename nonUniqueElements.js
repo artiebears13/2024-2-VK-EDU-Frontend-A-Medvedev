@@ -25,5 +25,8 @@ nonUniqueElements([10, 9, 10, 10, 9, 8]) == [10, 9, 10, 10, 9]
  */
 
 export default function nonUniqueElements(data) {
+  if (!Array.isArray(data) || !data.every(Number.isInteger)) {
+    return [];
+  }
   return data.filter((el) => data.indexOf(el) !== data.lastIndexOf(el));
 }

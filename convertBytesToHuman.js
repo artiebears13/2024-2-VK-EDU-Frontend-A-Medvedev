@@ -12,9 +12,9 @@
  * и класса (например, отрицательные числа)
  */
 
-const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
+const sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
-function roundNum(number){
+function roundNum(number) {
     /*
     * методом  проб и ошибок замечено, что плохо умножает float'ы
     *     1.005*100 -> 100.49999999999999
@@ -24,14 +24,16 @@ function roundNum(number){
     return +(Math.round(number * 100 + 1e-7) / 100);
 }
 
-const isPositiveNumber = (value) => {
+function isPositiveNumber(value) {
     return typeof value === 'number' && value >= 0
 }
 
 export default function convertBytesToHuman(bytes) {
-    if (isPositiveNumber(bytes)){
-        let sizeIndex = 0;
-        sizeIndex = Math.trunc(Math.log2(bytes) / 10);
+    if (bytes === 0) {
+        return '0 B';
+    }
+    if (isPositiveNumber(bytes)) {
+        const sizeIndex = Math.trunc(Math.log2(bytes) / 10);
         bytes = bytes / Math.pow(2, sizeIndex * 10);
         return `${roundNum(bytes)} ${sizes[sizeIndex]}`
     }
