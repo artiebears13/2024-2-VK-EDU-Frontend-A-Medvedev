@@ -86,6 +86,19 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./img/artem.jpg":
+/*!***********************!*\
+  !*** ./img/artem.jpg ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "f1fb90f442df20ce1adf11fe49b6ea2a.jpg");
+
+/***/ }),
+
 /***/ "./index.css":
 /*!*******************!*\
   !*** ./index.css ***!
@@ -108,12 +121,12 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.css */ "./index.css");
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _img_artem_jpg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./img/artem.jpg */ "./img/artem.jpg");
 
 var form = document.querySelector('.form');
 var input = document.querySelector('.form-input');
 var messagesList = document.querySelector('.messages-list');
-var backgroundImagesContainer = document.querySelector('.background-images');
-var imageCount = 20;
+
 document.addEventListener('DOMContentLoaded', loadMessages);
 form.addEventListener('submit', function (event) {
   event.preventDefault();
