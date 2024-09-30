@@ -3,8 +3,7 @@ import "./index.css"
 const form = document.querySelector('.form');
 const input = document.querySelector('.form-input');
 const messagesList = document.querySelector('.messages-list');
-const backgroundImagesContainer = document.querySelector('.background-images');
-const imageCount = 20;
+import avatar from "./img/artem.jpg"
 
 document.addEventListener('DOMContentLoaded', loadMessages);
 

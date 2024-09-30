@@ -35,6 +35,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif)$/i,
+                include: SRC_PATH,
                 use: [
                     {
                         loader: 'file-loader',
