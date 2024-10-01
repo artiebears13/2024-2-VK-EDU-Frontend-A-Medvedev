@@ -18,7 +18,7 @@ body {
     line-height: 20px;
 }
 
-.header{
+.header {
     padding: 0 10px;
     width: 100%;
     height: 60px;
@@ -28,24 +28,25 @@ body {
     align-items: center;
 }
 
-.receiver-photo{
+.receiver-photo {
     display: flex;
     align-items: center;
 }
 
-.receiver-photo > img{
+.receiver-photo__image {
     border-radius: 50%;
     object-fit: cover;
 }
 
-.receiver{
+.receiver {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     width: 100%;
 }
-.receiver-name{
+
+.receiver-name {
     font-size: 18px;
     font-weight: 500;
 }
@@ -66,7 +67,7 @@ body {
 }
 
 
-ul {
+.messages-list {
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -74,7 +75,7 @@ ul {
     flex-direction: column;
 }
 
-li {
+.message-item {
     background-color: lightblue;
     max-width: 60%;
     margin-bottom: 10px;
@@ -87,47 +88,48 @@ li {
     min-width: 60px;
 }
 
-li.sent {
+.message-item.sent {
     align-self: flex-end;
 }
 
-li::after,
-li::before{
-    bottom: -0.1rem;
+.message-item::after,
+.message-item::before {
+    bottom: -2px;
     content: "";
-    height: 1rem;
+    height: 16px;
     position: absolute;
 }
 
-li.sent::before {
-    border-bottom-left-radius: 0.8rem 0.7rem;
-    border-right: 1rem solid lightblue;
-    right: -0.35rem;
-    transform: translate(0, -0.1rem);
+.message-item.sent::before {
+    border-bottom-left-radius: 12px 11px;
+    border-right: 16px solid lightblue;
+    right: -5px;
+    transform: translate(0, -2px);
 }
-li.sent::after{
+
+.message-item.sent::after {
     background-color: #93b58b;
-    border-bottom-left-radius: 0.5rem;
+    border-bottom-left-radius: 6px;
     right: -40px;
-    transform:translate(-30px, -2px);
+    transform: translate(-30px, -2px);
     width: 10px;
     content: "";
 }
 
-li.received {
+.message-item.received {
     align-self: flex-start;
 }
 
-li.received::before {
-    border-bottom-right-radius: 0.8rem 0.7rem;
-    border-left: 1rem solid lightblue;
-    left: -0.35rem;
-    transform: translate(0, -0.1rem);
+.message-item.received::before {
+    border-bottom-right-radius: 12px 11px;
+    border-left: 16px solid lightblue;
+    left: -5px;
+    transform: translate(0, -1px);
 }
 
-li.received::after {
+.message-item.received::after {
     background-color: #93b58b;
-    border-bottom-right-radius: 0.5rem;
+    border-bottom-right-radius: 8px;
     left: -40px;
     transform: translate(30px, -2px);
     width: 10px;
@@ -142,7 +144,6 @@ li.received::after {
     bottom: 5px;
     right: 10px;
 }
-
 
 
 .form-container {
@@ -201,6 +202,6 @@ li.received::after {
 }
 
 
-.white{
+.white {
     color: white;
 }
