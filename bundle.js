@@ -86,19 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./img/artem.jpg":
-/*!***********************!*\
-  !*** ./img/artem.jpg ***!
-  \***********************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "f1fb90f442df20ce1adf11fe49b6ea2a.jpg");
-
-/***/ }),
-
 /***/ "./index.css":
 /*!*******************!*\
   !*** ./index.css ***!
@@ -121,13 +108,12 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.css */ "./index.css");
 /* harmony import */ var _index_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_index_css__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _img_artem_jpg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./img/artem.jpg */ "./img/artem.jpg");
 
 var form = document.querySelector('.form');
 var input = document.querySelector('.form-input');
 var messagesList = document.querySelector('.messages-list');
-
 document.addEventListener('DOMContentLoaded', loadMessages);
+var lastMessageId = 0;
 form.addEventListener('submit', function (event) {
   event.preventDefault();
   var messageText = input.value.trim();
@@ -138,6 +124,9 @@ form.addEventListener('submit', function (event) {
     input.value = '';
   }
 });
+function getMessageId(id) {
+  return "message_".concat(id);
+}
 function createMessageObject(text, type) {
   var senderName = 'Artem';
   var timeStamp = new Date().toLocaleTimeString([], {
@@ -152,19 +141,29 @@ function createMessageObject(text, type) {
   };
 }
 function saveMessage(message) {
-  var messages = JSON.parse(localStorage.getItem('messages')) || [];
-  messages.push(message);
-  localStorage.setItem('messages', JSON.stringify(messages));
+  lastMessageId += 1;
+  localStorage.setItem(getMessageId(lastMessageId), JSON.stringify(message));
+  localStorage.setItem('lastMessageId', lastMessageId);
 }
 function addMessageToUI(message) {
   var messageItem = document.createElement('li');
+  messageItem.classList.add('message-item');
+  var timeSpan = "<span class=\"time\">".concat(message.time, "</span>");
   messageItem.classList.add(message.type);
-  messageItem.innerHTML = "".concat(message.text, " <span class=\"time\">").concat(message.time, "</span>");
+  messageItem.insertAdjacentText('afterbegin', message.text);
+  messageItem.insertAdjacentHTML('beforeend', timeSpan);
   messagesList.appendChild(messageItem);
 }
 function loadMessages() {
-  var messages = JSON.parse(localStorage.getItem('messages')) || [];
-  messages.forEach(addMessageToUI);
+  if (localStorage.getItem('lastMessageId') !== null) {
+    lastMessageId = +localStorage.getItem('lastMessageId');
+  }
+  for (var i = 0; i < localStorage.length; i++) {
+    if (JSON.parse(localStorage.getItem(getMessageId(i))) !== null) {
+      var message = JSON.parse(localStorage.getItem(getMessageId(i)));
+      addMessageToUI(message);
+    }
+  }
 }
 
 /***/ })
