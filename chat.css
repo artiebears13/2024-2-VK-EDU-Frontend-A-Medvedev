@@ -1,0 +1,47 @@
+/* src/index.css */
+
+/* Reset and basic styles */
+html {
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    background-color: #fff;
+    color: #333;
+    font-size: 15px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+/* Header styles */
+.header {
+    padding: 0 10px;
+    width: 100%;
+    height: 60px;
+    background-color: #006bbf;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-button{
+    outline: none;
+    border: none;
+    text-decoration: none;
+
+}
+
+.white {
+    color: white;
+}
+
+/* Add any other global styles here */
+
+
+/*# sourceMappingURL=chat.css.map*/
