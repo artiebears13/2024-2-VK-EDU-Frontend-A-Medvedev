@@ -1,0 +1,110 @@
+/* src/components/chatList/chatList.css */
+
+/* Chat List Container */
+#chat-list {
+    padding: 10px;
+}
+
+/* Chat Item Styles */
+.chat-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+}
+
+.chat-item:hover {
+    background-color: #f5f5f5;
+}
+
+/* Chat Item Photo */
+.chat-item-photo {
+    margin-right: 10px;
+}
+
+.chat-item-photo img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+/* Chat Item Info */
+.chat-item-info {
+    flex-grow: 1;
+}
+
+.chat-item-name {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.chat-item-last-message {
+    color: #555;
+    margin-top: 5px;
+}
+
+/* Chat Item Status */
+.chat-item-status {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+.unread-count {
+    background-color: gray;
+    color: white;
+    border-radius: 50%;
+    font-size: 12px;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.material-symbols-outlined {
+    font-size: 18px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.message-status-icon {
+    align-self: flex-start;
+}
+
+/* Chat Item Time */
+.chat-item-time {
+    font-size: 12px;
+    color: #999;
+    margin-left: 10px;
+    white-space: nowrap;
+    align-self: flex-start;
+}
+
+/* Create Chat Button */
+.create-chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007aff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.create-chat-button::before {
+    content: '+';
+}
+
+.create-chat-button:hover {
+    background-color: #0051a8;
+}
