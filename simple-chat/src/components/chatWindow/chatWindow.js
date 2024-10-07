@@ -47,10 +47,11 @@ function fillHeader(chatId) {
         receiverDiv.classList.add('receiver');
 
         // кнопка "назад"
-        const backButton = document.createElement('a');
+        const backButton = document.createElement('button');
         backButton.classList.add('material-symbols-outlined', 'back-button', 'white');
-        backButton.href = '/';
+        // backButton.href = '/';
         backButton.textContent = 'arrow_back_ios';
+        backButton.onclick = () => {window.history.back()}
 
         // имя
         const receiverNameSpan = document.createElement('span');
