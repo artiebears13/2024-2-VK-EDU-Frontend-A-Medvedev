@@ -590,10 +590,13 @@ function fillHeader(chatId) {
     receiverDiv.classList.add('receiver');
 
     // кнопка "назад"
-    var backButton = document.createElement('a');
+    var backButton = document.createElement('button');
     backButton.classList.add('material-symbols-outlined', 'back-button', 'white');
-    backButton.href = '/';
+    // backButton.href = '/';
     backButton.textContent = 'arrow_back_ios';
+    backButton.onclick = function () {
+      window.history.back();
+    };
 
     // имя
     var receiverNameSpan = document.createElement('span');
