@@ -97,7 +97,7 @@
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "../node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "/* src/components/chatList/chatList.css */\n\n/* Chat List Container */\n#chat-list {\n    padding: 10px;\n}\n\n/* Chat Item Styles */\n.chat-item {\n    display: flex;\n    align-items: center;\n    padding: 10px;\n    cursor: pointer;\n    border-bottom: 1px solid #ccc;\n}\n\n.chat-item:hover {\n    background-color: #f5f5f5;\n}\n\n/* Chat Item Photo */\n.chat-item-photo {\n    margin-right: 10px;\n}\n\n.chat-item-photo img {\n    border-radius: 50%;\n    width: 50px;\n    height: 50px;\n    object-fit: cover;\n}\n\n/* Chat Item Info */\n.chat-item-info {\n    flex-grow: 1;\n}\n\n.chat-item-name {\n    font-weight: bold;\n    display: flex;\n    align-items: center;\n}\n\n.chat-item-last-message {\n    color: #555;\n    margin-top: 5px;\n}\n\n/* Chat Item Status */\n.chat-item-status {\n    margin-left: auto;\n    display: flex;\n    align-items: center;\n}\n\n.unread-count {\n    background-color: gray;\n    color: white;\n    border-radius: 50%;\n    font-size: 12px;\n    height: 20px;\n    width: 20px;\n    text-align: center;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.material-symbols-outlined {\n    font-size: 18px;\n    vertical-align: middle;\n    margin-left: 5px;\n}\n\n.message-status-icon {\n    align-self: flex-start;\n}\n\n/* Chat Item Time */\n.chat-item-time {\n    font-size: 12px;\n    color: #999;\n    margin-left: 10px;\n    white-space: nowrap;\n    align-self: flex-start;\n}\n\n/* Create Chat Button */\n.create-chat-button {\n    position: fixed;\n    bottom: 20px;\n    right: 20px;\n    background-color: #007aff;\n    color: #fff;\n    border: none;\n    border-radius: 50%;\n    width: 60px;\n    height: 60px;\n    font-size: 30px;\n    cursor: pointer;\n    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n}\n\n.create-chat-button::before {\n    content: '+';\n}\n\n.create-chat-button:hover {\n    background-color: #0051a8;\n}\n", ""]);
+exports.push([module.i, "#chat-list {\n    padding: 10px;\n}\n\n.chat-item {\n    display: flex;\n    align-items: center;\n    padding: 10px;\n    cursor: pointer;\n    border-bottom: 1px solid #ccc;\n}\n\n.chat-item:hover {\n    background-color: #f5f5f5;\n}\n\n.chat-item-photo {\n    margin-right: 10px;\n}\n\n.chat-item-photo img {\n    border-radius: 50%;\n    width: 50px;\n    height: 50px;\n    object-fit: cover;\n}\n\n/* Chat Item Info */\n.chat-item-info {\n    flex-grow: 1;\n}\n\n.chat-item-name {\n    font-weight: bold;\n    display: flex;\n    align-items: center;\n}\n\n.chat-item-last-message {\n    color: #555;\n    margin-top: 5px;\n}\n\n.chat-item-status {\n    margin-left: auto;\n    display: flex;\n    align-items: center;\n}\n\n.unread-count {\n    background-color: #808080FF;\n    color: white;\n    border-radius: 50%;\n    font-size: 12px;\n    height: 20px;\n    width: 20px;\n    text-align: center;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.material-symbols-outlined {\n    font-size: 18px;\n    vertical-align: middle;\n    margin-left: 5px;\n}\n\n.message-status-icon {\n    align-self: flex-start;\n}\n\n.chat-item-time {\n    font-size: 12px;\n    color: #999;\n    margin-left: 10px;\n    white-space: nowrap;\n    align-self: flex-start;\n}\n\n.create-chat-button {\n    position: fixed;\n    bottom: 20px;\n    right: 20px;\n    background-color: #007aff;\n    color: #fff;\n    border: none;\n    border-radius: 50%;\n    width: 60px;\n    height: 60px;\n    font-size: 30px;\n    cursor: pointer;\n    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n}\n\n.plus{\n    margin-left: 0;\n}\n.create-chat-button:hover {\n    background-color: #0051a8;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -115,7 +115,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "../node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "/* src/components/modal/modal.css */\n\n/* Modal Overlay */\n.modal {\n    display: none; /* Hidden by default */\n    position: fixed; /* Stay in place */\n    z-index: 1000; /* Sit on top */\n    left: 0;\n    top: 0;\n    width: 100%; /* Full width */\n    height: 100%; /* Full height */\n    overflow: auto; /* Enable scroll if needed */\n    background-color: rgba(0, 0, 0, 0.3); /* Black w/ opacity */\n}\n\n/* Modal Content */\n.modal-content {\n    background-color: #ffffff;\n    margin: 100px auto; /* 15% from the top and centered */\n    padding: 20px 30px;\n    border-radius: 12px;\n    width: 90%;\n    max-width: 400px;\n    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);\n    position: relative;\n}\n\n/* Close Button */\n.close-button {\n    position: absolute;\n    top: 15px;\n    right: 20px;\n    color: #aaa;\n    font-size: 24px;\n    font-weight: bold;\n    cursor: pointer;\n}\n\n.close-button:hover,\n.close-button:focus {\n    color: #000;\n}\n\n/* Modal Header */\n.modal-header {\n    font-size: 20px;\n    font-weight: 500;\n    margin-bottom: 20px;\n    color: #000;\n}\n\n/* Input Field */\n#new-person-name {\n    width: 100%;\n    padding: 12px 16px;\n    margin-bottom: 20px;\n    font-size: 16px;\n    border: 1px solid #ced4da;\n    border-radius: 8px;\n    outline: none;\n}\n\n#new-person-name:focus {\n    border-color: #66afe9;\n}\n\n/* Confirm Button */\n#create-chat-confirm {\n    background-color: #0088cc; /* Color similar to Telegram */\n    color: #fff;\n    border: none;\n    padding: 12px 20px;\n    font-size: 16px;\n    cursor: pointer;\n    border-radius: 8px;\n    width: 100%;\n}\n\n#create-chat-confirm:hover {\n    background-color: #007ab8;\n}\n\n/* Responsive Modal */\n@media screen and (max-width: 480px) {\n    .modal-content {\n        margin: 50px auto;\n        width: 90%;\n    }\n}\n", ""]);
+exports.push([module.i, ".modal {\n    display: none;\n    position: fixed;\n    z-index: 1000;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    overflow: auto;\n    background-color: rgba(0, 0, 0, 0.3);\n}\n\n.modal-content {\n    background-color: #ffffff;\n    margin: 100px auto;\n    padding: 20px 30px;\n    border-radius: 12px;\n    width: 90%;\n    max-width: 400px;\n    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);\n    position: relative;\n}\n\n.close-button {\n    position: absolute;\n    top: 15px;\n    right: 20px;\n    color: #aaa;\n    font-size: 24px;\n    font-weight: bold;\n    cursor: pointer;\n}\n\n.close-button:hover,\n.close-button:focus {\n    color: #000;\n}\n\n.modal-header {\n    font-size: 20px;\n    font-weight: 500;\n    margin-bottom: 20px;\n    color: #000;\n}\n\n#new-person-name {\n    width: 100%;\n    padding: 12px 16px;\n    margin-bottom: 20px;\n    font-size: 16px;\n    border: 1px solid #ced4da;\n    border-radius: 8px;\n    outline: none;\n}\n\n#new-person-name:focus {\n    border-color: #66afe9;\n}\n\n#create-chat-confirm {\n    background-color: #0088cc;\n    color: #fff;\n    border: none;\n    padding: 12px 20px;\n    font-size: 16px;\n    cursor: pointer;\n    border-radius: 8px;\n    width: 100%;\n}\n\n#create-chat-confirm:hover {\n    background-color: #007ab8;\n}\n\n@media screen and (max-width: 480px) {\n    .modal-content {\n        margin: 50px auto;\n        width: 90%;\n    }\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -554,9 +554,9 @@ __webpack_require__.r(__webpack_exports__);
 function renderChatList() {
   var people = Object(_utils_storage_js__WEBPACK_IMPORTED_MODULE_1__["loadPeople"])();
   var chatListDiv = document.getElementById('chat-list');
-  chatListDiv.innerHTML = ''; // Clear existing content
+  chatListDiv.innerHTML = '';
 
-  // вытаскиваем последнее сообщение
+  // get last message
   var chatsWithLastMessage = people.map(function (person) {
     var lastMessage = Object(_utils_storage_js__WEBPACK_IMPORTED_MODULE_1__["getLastMessage"])(person.id);
     return {
@@ -565,14 +565,14 @@ function renderChatList() {
     };
   });
 
-  // сортировка по времени
+  // sort by time
   chatsWithLastMessage.sort(function (a, b) {
     var timeA = a.lastMessage ? a.lastMessage.timestamp : 0;
     var timeB = b.lastMessage ? b.lastMessage.timestamp : 0;
     return timeB - timeA;
   });
 
-  // добавляем сообщения
+  // add messages
   chatsWithLastMessage.forEach(function (chat) {
     var chatItem = createChatItem(chat);
     chatListDiv.appendChild(chatItem);
@@ -583,8 +583,6 @@ function createChatItem(_ref) {
     lastMessage = _ref.lastMessage;
   var chatItem = document.createElement('div');
   chatItem.classList.add('chat-item');
-
-  // создаем компоненты
   var statusBadge = createStatusBadge(lastMessage);
   var chatItemPhotoDiv = createChatItemPhotoDiv(person);
   var chatItemInfoDiv = createChatItemInfoDiv(person, lastMessage);
@@ -594,16 +592,12 @@ function createChatItem(_ref) {
   chatItem.appendChild(chatItemInfoDiv);
   chatItem.appendChild(chatItemStatusDiv);
   chatItem.appendChild(chatItemTimeDiv);
-
-  // переход к чату
   chatItem.addEventListener('click', function () {
     Object(_utils_storage_js__WEBPACK_IMPORTED_MODULE_1__["markReceivedMessagesAsRead"])(person.id);
-    window.location.href = "chat.html?id=".concat(person.id);
+    window.location.href = "chat.html?id=".concat(person.id); // to be refactored in spa
   });
   return chatItem;
 }
-
-// статус сообщения
 function createStatusBadge(lastMessage) {
   var statusBadge = null;
   if (lastMessage) {
@@ -626,8 +620,6 @@ function createStatusBadge(lastMessage) {
   }
   return statusBadge;
 }
-
-// аватарка
 function createChatItemPhotoDiv(person) {
   var chatItemPhotoDiv = document.createElement('div');
   chatItemPhotoDiv.classList.add('chat-item-photo');
@@ -637,8 +629,6 @@ function createChatItemPhotoDiv(person) {
   chatItemPhotoDiv.appendChild(img);
   return chatItemPhotoDiv;
 }
-
-// имя + текст сообщения
 function createChatItemInfoDiv(person, lastMessage) {
   var lastMessageText = lastMessage ? lastMessage.text : '';
   var chatItemInfoDiv = document.createElement('div');
@@ -655,8 +645,6 @@ function createChatItemInfoDiv(person, lastMessage) {
   chatItemInfoDiv.appendChild(chatItemLastMessageDiv);
   return chatItemInfoDiv;
 }
-
-//контейнер статуса чата
 function createChatItemStatusDiv(statusBadge) {
   var chatItemStatusDiv = document.createElement('div');
   chatItemStatusDiv.classList.add('chat-item-status');
@@ -665,8 +653,6 @@ function createChatItemStatusDiv(statusBadge) {
   }
   return chatItemStatusDiv;
 }
-
-// время сообщения
 function createChatItemTimeDiv(lastMessage) {
   var lastMessageTime = lastMessage ? new Date(lastMessage.timestamp).toLocaleTimeString([], {
     hour: '2-digit',
@@ -725,7 +711,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// окно добавления нового чата
+// init new chat modal
 function initializeModal() {
   var createChatButton = document.querySelector('.create-chat-button');
   var modal = document.getElementById('create-chat-modal');
@@ -748,10 +734,10 @@ function initializeModal() {
   });
 }
 function openModal(modal) {
-  modal.style.display = 'block'; // делаем видимым
+  modal.style.display = 'block';
 }
 function closeModal(modal, inputField) {
-  modal.style.display = 'none'; // делаем невидимым
+  modal.style.display = 'none';
   inputField.value = '';
 }
 function handleCreateChat(newNameInput, modal) {
@@ -773,36 +759,12 @@ function handleCreateChat(newNameInput, modal) {
     people.push(newPerson);
     localStorage.setItem('people', JSON.stringify(people));
     closeModal(modal, newNameInput);
-    location.reload(); // обновляемся
-
-    window.location.href = "chat.html?id=".concat(newPerson.id); // переход в чат
+    location.reload();
+    window.location.href = "chat.html?id=".concat(newPerson.id); // to be refactored in spa
   } else {
     alert('Пожалуйста, введите имя пользователя.');
   }
 }
-
-/***/ }),
-
-/***/ "./data/people.js":
-/*!************************!*\
-  !*** ./data/people.js ***!
-  \************************/
-/*! exports provided: initialPeople */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialPeople", function() { return initialPeople; });
-// чтобы в начале не пусто было
-var initialPeople = [{
-  id: '1',
-  name: 'John Doe',
-  photo: 'https://picsum.photos/50/50?random=1'
-}, {
-  id: '2',
-  name: 'Jane Smith',
-  photo: 'https://picsum.photos/50/50?random=2'
-}];
 
 /***/ }),
 
@@ -842,6 +804,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /***/ }),
 
+/***/ "./mocks/__mocks__.js":
+/*!****************************!*\
+  !*** ./mocks/__mocks__.js ***!
+  \****************************/
+/*! exports provided: initialPeople */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialPeople", function() { return initialPeople; });
+// init placeholder people
+var initialPeople = [{
+  id: '1',
+  name: 'John Doe',
+  photo: 'https://picsum.photos/50/50?random=1'
+}, {
+  id: '2',
+  name: 'Jane Smith',
+  photo: 'https://picsum.photos/50/50?random=2'
+}];
+
+/***/ }),
+
 /***/ "./utils/storage.js":
 /*!**************************!*\
   !*** ./utils/storage.js ***!
@@ -856,21 +841,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "markReceivedMessagesAsRead", function() { return markReceivedMessagesAsRead; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMessageObject", function() { return createMessageObject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveMessage", function() { return saveMessage; });
-/* harmony import */ var _data_people_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/people.js */ "./data/people.js");
+/* harmony import */ var _mocks_mocks_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mocks/__mocks__.js */ "./mocks/__mocks__.js");
 
 
-// берем из localStorage чаты
+// load from localStorage
 function loadPeople() {
   var storedPeople = JSON.parse(localStorage.getItem('people'));
   if (storedPeople && Array.isArray(storedPeople)) {
     return storedPeople;
   } else {
-    localStorage.setItem('people', JSON.stringify(_data_people_js__WEBPACK_IMPORTED_MODULE_0__["initialPeople"]));
-    return _data_people_js__WEBPACK_IMPORTED_MODULE_0__["initialPeople"];
+    localStorage.setItem('people', JSON.stringify(_mocks_mocks_js__WEBPACK_IMPORTED_MODULE_0__["initialPeople"]));
+    return _mocks_mocks_js__WEBPACK_IMPORTED_MODULE_0__["initialPeople"];
   }
 }
-
-// последнее сообщение
 function getLastMessage(personId) {
   var lastMessageId = localStorage.getItem("".concat(personId, ".lastMessageId"));
   if (lastMessageId) {
@@ -878,8 +861,6 @@ function getLastMessage(personId) {
   }
   return null;
 }
-
-// сделать последнее сообщение прочитанным
 function markReceivedMessagesAsRead(personId) {
   var lastMessageId = parseInt(localStorage.getItem("".concat(personId, ".lastMessageId")));
   if (lastMessageId) {
@@ -891,8 +872,6 @@ function markReceivedMessagesAsRead(personId) {
     }
   }
 }
-
-// создание сообщения
 function createMessageObject(text, direction) {
   var timeStamp = new Date();
   return {
@@ -903,8 +882,6 @@ function createMessageObject(text, direction) {
     readStatus: 'unread'
   };
 }
-
-// сохранение в localStorage
 function saveMessage(chatId, message) {
   var lastMessageId = parseInt(localStorage.getItem("".concat(chatId, ".lastMessageId"))) || 0;
   lastMessageId += 1;

@@ -97,7 +97,7 @@
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "../node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "/* src/components/chatWindow/chatWindow.css */\n\n/* Chat Container */\n.chat-container {\n    display: flex;\n    flex-direction: column;\n    height: calc(100vh - 60px); /* Adjust based on header height */\n    justify-content: flex-end;\n}\n\n/* Messages Container */\n.messages-container {\n    flex-grow: 1;\n    padding: 20px;\n    overflow-y: auto;\n    background: #93b58b;\n    position: relative;\n}\n\n/* Messages List */\n.messages-list {\n    list-style-type: none;\n    padding: 0;\n    margin: 0;\n    display: flex;\n    flex-direction: column;\n}\n\n/* Message Item */\n.message-item {\n    background-color: lightblue;\n    max-width: 60%;\n    margin-bottom: 10px;\n    padding: 10px 40px 10px 15px;\n    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n    position: relative;\n    word-wrap: break-word;\n    align-self: flex-start;\n    border-radius: 10px 10px 10px 10px;\n    min-width: 60px;\n}\n\n.message-item.sent {\n    align-self: flex-end;\n    background-color: #dcf8c6; /* Light green for sent messages */\n}\n\n.message-item.received {\n    align-self: flex-start;\n    background-color: #fff; /* White for received messages */\n}\n\n/* Message Tails */\n.message-item::after,\n.message-item::before {\n    bottom: -2px;\n    content: \"\";\n    height: 16px;\n    position: absolute;\n}\n\n.message-item.sent::before {\n    border-bottom-left-radius: 12px 11px;\n    border-right: 16px solid #dcf8c6;\n    right: -5px;\n    transform: translate(0, -2px);\n}\n\n.message-item.sent::after {\n    background-color: #93b58b;\n    border-bottom-left-radius: 6px;\n    right: -40px;\n    transform: translate(-30px, -2px);\n    width: 10px;\n}\n\n.message-item.received::before {\n    border-bottom-right-radius: 12px 11px;\n    border-left: 16px solid #fff;\n    left: -5px;\n    transform: translate(0, -1px);\n}\n\n.message-item.received::after {\n    background-color: #93b58b;\n    border-bottom-right-radius: 8px;\n    left: -40px;\n    transform: translate(30px, -2px);\n    width: 10px;\n}\n\n/* Time and Status */\n.message-item .time {\n    font-size: 10px;\n    color: #999;\n    position: absolute;\n    bottom: 5px;\n    right: 10px;\n}\n\n.message-item .material-symbols-outlined {\n    font-size: 16px;\n    vertical-align: middle;\n    margin-left: 5px;\n}\n\n/* Form Container */\n.form-container {\n    width: 100%;\n    height: 60px;\n    padding: 10px;\n    background-color: #f1f1f1;\n    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.2);\n    display: flex;\n    justify-content: center;\n}\n\n/* Form Styles */\n.form {\n    display: flex;\n    align-items: center;\n    width: 100%;\n    max-width: 800px;\n    border-radius: 25px;\n    padding: 10px;\n    background-color: #f1f1f1;\n    border: 1px solid #ddd;\n}\n\n.form-input {\n    flex-grow: 1;\n    padding: 10px;\n    border: none;\n    outline: none;\n    border-radius: 20px;\n    background-color: transparent;\n    font-size: 14px;\n    word-wrap: break-word;\n    margin-right: 10px;\n    color: #707070;\n}\n\n/* Send Button */\n.send-btn {\n    background-color: #4d8de3;\n    height: 30px;\n    width: 30px;\n    border: none;\n    padding: 10px;\n    border-radius: 50%;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.send-btn .material-symbols-outlined {\n    font-size: 20px;\n    color: white;\n}\n\n.send-btn:hover {\n    background-color: #006bbf;\n}\n\n/* Header Styles */\n.header {\n    padding: 0 10px;\n    width: 100%;\n    height: 60px;\n    background-color: #006bbf;\n    display: flex;\n    align-items: center;\n    position: relative;\n}\n\n.receiver {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    width: 100%;\n}\n\n.receiver .material-symbols-outlined {\n    margin-right: 10px;\n}\n\n.receiver-name {\n    font-size: 18px;\n    font-weight: 500;\n    color: white;\n    flex-grow: 1;\n    text-align: center;\n}\n\n.receiver-photo {\n    display: flex;\n    align-items: center;\n}\n\n.receiver-photo__image {\n    border-radius: 50%;\n    object-fit: cover;\n    width: 40px;\n    height: 40px;\n}\n", ""]);
+exports.push([module.i, ".chat-container {\n    display: flex;\n    flex-direction: column;\n    height: calc(100vh - 60px);\n    justify-content: flex-end;\n}\n\n.messages-container {\n    flex-grow: 1;\n    padding: 20px;\n    overflow-y: auto;\n    background: #93b58b;\n    position: relative;\n}\n\n.messages-list {\n    list-style-type: none;\n    padding: 0;\n    margin: 0;\n    display: flex;\n    flex-direction: column;\n}\n\n.message-item {\n    background-color: lightblue;\n    max-width: 60%;\n    margin-bottom: 10px;\n    padding: 10px 40px 10px 15px;\n    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n    position: relative;\n    word-wrap: break-word;\n    align-self: flex-start;\n    border-radius: 10px 10px 10px 10px;\n    min-width: 60px;\n}\n\n.message-item.sent {\n    align-self: flex-end;\n    background-color: #dcf8c6;\n}\n\n.message-item.received {\n    align-self: flex-start;\n    background-color: #fff;\n}\n\n.message-item::after,\n.message-item::before {\n    bottom: -2px;\n    content: \"\";\n    height: 16px;\n    position: absolute;\n}\n\n.message-item.sent::before {\n    border-bottom-left-radius: 12px 11px;\n    border-right: 16px solid #dcf8c6;\n    right: -5px;\n    transform: translate(0, -2px);\n}\n\n.message-item.sent::after {\n    background-color: #93b58b;\n    border-bottom-left-radius: 6px;\n    right: -40px;\n    transform: translate(-30px, -2px);\n    width: 10px;\n}\n\n.message-item.received::before {\n    border-bottom-right-radius: 12px 11px;\n    border-left: 16px solid #fff;\n    left: -5px;\n    transform: translate(0, -1px);\n}\n\n.message-item.received::after {\n    background-color: #93b58b;\n    border-bottom-right-radius: 8px;\n    left: -40px;\n    transform: translate(30px, -2px);\n    width: 10px;\n}\n\n.message-item .time {\n    font-size: 10px;\n    color: #999;\n    position: absolute;\n    bottom: 5px;\n    right: 10px;\n}\n\n.message-item .material-symbols-outlined {\n    font-size: 16px;\n    vertical-align: middle;\n    margin-left: 5px;\n}\n\n.form-container {\n    width: 100%;\n    height: 60px;\n    padding: 10px;\n    background-color: #f1f1f1;\n    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.2);\n    display: flex;\n    justify-content: center;\n}\n\n.form {\n    display: flex;\n    align-items: center;\n    width: 100%;\n    max-width: 800px;\n    border-radius: 25px;\n    padding: 10px;\n    background-color: #f1f1f1;\n    border: 1px solid #ddd;\n}\n\n.form-input {\n    flex-grow: 1;\n    padding: 10px;\n    border: none;\n    outline: none;\n    border-radius: 20px;\n    background-color: transparent;\n    font-size: 14px;\n    word-wrap: break-word;\n    margin-right: 10px;\n    color: #707070;\n}\n\n.send-btn {\n    background-color: #4d8de3;\n    height: 30px;\n    width: 30px;\n    border: none;\n    padding: 10px;\n    border-radius: 50%;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.send-btn .material-symbols-outlined {\n    font-size: 20px;\n    color: white;\n}\n\n.send-btn:hover {\n    background-color: #006bbf;\n}\n\n.header {\n    padding: 0 10px;\n    width: 100%;\n    height: 60px;\n    background-color: #006bbf;\n    display: flex;\n    align-items: center;\n    position: relative;\n}\n\n.receiver {\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    width: 100%;\n}\n\n.receiver .material-symbols-outlined {\n    margin-right: 10px;\n}\n\n.receiver-name {\n    font-size: 18px;\n    font-weight: 500;\n    color: white;\n    flex-grow: 1;\n    text-align: center;\n}\n\n.receiver-photo {\n    display: flex;\n    align-items: center;\n}\n\n.receiver-photo__image {\n    border-radius: 50%;\n    object-fit: cover;\n    width: 40px;\n    height: 40px;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -576,8 +576,6 @@ function initializeChatWindow() {
     simulateReceivedMessage(chatId, 'Привет) как дела?', messagesList);
   }, 5000);
 }
-
-// добавляем в хэдер имя и аватарку
 function fillHeader(chatId) {
   var header = document.querySelector('.header');
   var people = Object(_utils_storage_js__WEBPACK_IMPORTED_MODULE_1__["loadPeople"])();
@@ -588,26 +586,17 @@ function fillHeader(chatId) {
     header.innerHTML = '';
     var receiverDiv = document.createElement('div');
     receiverDiv.classList.add('receiver');
-
-    // кнопка "назад"
     var backButton = document.createElement('button');
     backButton.classList.add('material-symbols-outlined', 'back-button', 'white');
-    // backButton.href = '/';
     backButton.textContent = 'arrow_back_ios';
     backButton.onclick = function () {
       window.history.back();
     };
-
-    // имя
     var receiverNameSpan = document.createElement('span');
     receiverNameSpan.classList.add('receiver-name', 'white');
     receiverNameSpan.textContent = person.name;
-
-    // контейнер аватарки
     var receiverPhotoDiv = document.createElement('div');
     receiverPhotoDiv.classList.add('receiver-photo');
-
-    // аватарка
     var receiverPhotoImg = document.createElement('img');
     receiverPhotoImg.classList.add('receiver-photo__image');
     receiverPhotoImg.src = person.photo;
@@ -641,7 +630,7 @@ function loadMessages(chatId, messagesList) {
       addMessageToUI(message, messagesList);
     }
   }
-  Object(_utils_storage_js__WEBPACK_IMPORTED_MODULE_1__["markReceivedMessagesAsRead"])(chatId); // прочитали непрочитанное
+  Object(_utils_storage_js__WEBPACK_IMPORTED_MODULE_1__["markReceivedMessagesAsRead"])(chatId);
 }
 
 // добавляем пузырек сообщения
@@ -677,17 +666,28 @@ function simulateReceivedMessage(chatId, text, messagesList) {
 
 /***/ }),
 
-/***/ "./data/people.js":
-/*!************************!*\
-  !*** ./data/people.js ***!
-  \************************/
+/***/ "./index.css":
+/*!*******************!*\
+  !*** ./index.css ***!
+  \*******************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ "./mocks/__mocks__.js":
+/*!****************************!*\
+  !*** ./mocks/__mocks__.js ***!
+  \****************************/
 /*! exports provided: initialPeople */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initialPeople", function() { return initialPeople; });
-// чтобы в начале не пусто было
+// init placeholder people
 var initialPeople = [{
   id: '1',
   name: 'John Doe',
@@ -697,17 +697,6 @@ var initialPeople = [{
   name: 'Jane Smith',
   photo: 'https://picsum.photos/50/50?random=2'
 }];
-
-/***/ }),
-
-/***/ "./index.css":
-/*!*******************!*\
-  !*** ./index.css ***!
-  \*******************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -725,21 +714,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "markReceivedMessagesAsRead", function() { return markReceivedMessagesAsRead; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMessageObject", function() { return createMessageObject; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveMessage", function() { return saveMessage; });
-/* harmony import */ var _data_people_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/people.js */ "./data/people.js");
+/* harmony import */ var _mocks_mocks_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../mocks/__mocks__.js */ "./mocks/__mocks__.js");
 
 
-// берем из localStorage чаты
+// load from localStorage
 function loadPeople() {
   var storedPeople = JSON.parse(localStorage.getItem('people'));
   if (storedPeople && Array.isArray(storedPeople)) {
     return storedPeople;
   } else {
-    localStorage.setItem('people', JSON.stringify(_data_people_js__WEBPACK_IMPORTED_MODULE_0__["initialPeople"]));
-    return _data_people_js__WEBPACK_IMPORTED_MODULE_0__["initialPeople"];
+    localStorage.setItem('people', JSON.stringify(_mocks_mocks_js__WEBPACK_IMPORTED_MODULE_0__["initialPeople"]));
+    return _mocks_mocks_js__WEBPACK_IMPORTED_MODULE_0__["initialPeople"];
   }
 }
-
-// последнее сообщение
 function getLastMessage(personId) {
   var lastMessageId = localStorage.getItem("".concat(personId, ".lastMessageId"));
   if (lastMessageId) {
@@ -747,8 +734,6 @@ function getLastMessage(personId) {
   }
   return null;
 }
-
-// сделать последнее сообщение прочитанным
 function markReceivedMessagesAsRead(personId) {
   var lastMessageId = parseInt(localStorage.getItem("".concat(personId, ".lastMessageId")));
   if (lastMessageId) {
@@ -760,8 +745,6 @@ function markReceivedMessagesAsRead(personId) {
     }
   }
 }
-
-// создание сообщения
 function createMessageObject(text, direction) {
   var timeStamp = new Date();
   return {
@@ -772,8 +755,6 @@ function createMessageObject(text, direction) {
     readStatus: 'unread'
   };
 }
-
-// сохранение в localStorage
 function saveMessage(chatId, message) {
   var lastMessageId = parseInt(localStorage.getItem("".concat(chatId, ".lastMessageId"))) || 0;
   lastMessageId += 1;
