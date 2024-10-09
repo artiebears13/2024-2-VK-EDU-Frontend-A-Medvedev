@@ -6,9 +6,9 @@ export function renderChatList() {
     let people = loadPeople();
 
     const chatListDiv = document.getElementById('chat-list');
-    chatListDiv.innerHTML = ''; // Clear existing content
+    chatListDiv.innerHTML = '';
 
-    // вытаскиваем последнее сообщение
+    // get last message
     const chatsWithLastMessage = people.map(person => {
         const lastMessage = getLastMessage(person.id);
         return {
@@ -17,14 +17,14 @@ export function renderChatList() {
         };
     });
 
-    // сортировка по времени
+    // sort by time
     chatsWithLastMessage.sort((a, b) => {
         const timeA = a.lastMessage ? a.lastMessage.timestamp : 0;
         const timeB = b.lastMessage ? b.lastMessage.timestamp : 0;
         return timeB - timeA;
     });
 
-    // добавляем сообщения
+    // add messages
     chatsWithLastMessage.forEach(chat => {
         const chatItem = createChatItem(chat);
         chatListDiv.appendChild(chatItem);
@@ -35,7 +35,6 @@ function createChatItem({ person, lastMessage }) {
     const chatItem = document.createElement('div');
     chatItem.classList.add('chat-item');
 
-    // создаем компоненты
     const statusBadge = createStatusBadge(lastMessage);
     const chatItemPhotoDiv = createChatItemPhotoDiv(person);
     const chatItemInfoDiv = createChatItemInfoDiv(person, lastMessage);
@@ -47,16 +46,14 @@ function createChatItem({ person, lastMessage }) {
     chatItem.appendChild(chatItemStatusDiv);
     chatItem.appendChild(chatItemTimeDiv);
 
-    // переход к чату
     chatItem.addEventListener('click', () => {
         markReceivedMessagesAsRead(person.id);
-        window.location.href = `chat.html?id=${person.id}`;
+        window.location.href = `chat.html?id=${person.id}`;  // to be refactored in spa
     });
 
     return chatItem;
 }
 
-// статус сообщения
 function createStatusBadge(lastMessage){
 
     let statusBadge = null;
@@ -83,7 +80,6 @@ function createStatusBadge(lastMessage){
     return statusBadge;
 }
 
-// аватарка
 function createChatItemPhotoDiv(person){
     const chatItemPhotoDiv = document.createElement('div');
     chatItemPhotoDiv.classList.add('chat-item-photo');
@@ -95,7 +91,6 @@ function createChatItemPhotoDiv(person){
     return chatItemPhotoDiv;
 }
 
-// имя + текст сообщения
 function createChatItemInfoDiv(person, lastMessage){
     const lastMessageText = lastMessage ? lastMessage.text : '';
 
@@ -119,7 +114,6 @@ function createChatItemInfoDiv(person, lastMessage){
     return chatItemInfoDiv
 }
 
-//контейнер статуса чата
 function createChatItemStatusDiv(statusBadge){
     const chatItemStatusDiv = document.createElement('div');
     chatItemStatusDiv.classList.add('chat-item-status');
@@ -130,7 +124,6 @@ function createChatItemStatusDiv(statusBadge){
     return chatItemStatusDiv;
 }
 
-// время сообщения
 function createChatItemTimeDiv(lastMessage){
     const lastMessageTime = lastMessage
         ? new Date(lastMessage.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })

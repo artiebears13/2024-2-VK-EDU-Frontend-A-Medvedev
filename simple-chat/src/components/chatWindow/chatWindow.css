@@ -1,14 +1,10 @@
-/* src/components/chatWindow/chatWindow.css */
-
-/* Chat Container */
 .chat-container {
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 60px); /* Adjust based on header height */
+    height: calc(100vh - 60px);
     justify-content: flex-end;
 }
 
-/* Messages Container */
 .messages-container {
     flex-grow: 1;
     padding: 20px;
@@ -17,7 +13,6 @@
     position: relative;
 }
 
-/* Messages List */
 .messages-list {
     list-style-type: none;
     padding: 0;
@@ -26,7 +21,6 @@
     flex-direction: column;
 }
 
-/* Message Item */
 .message-item {
     background-color: lightblue;
     max-width: 60%;
@@ -42,15 +36,14 @@
 
 .message-item.sent {
     align-self: flex-end;
-    background-color: #dcf8c6; /* Light green for sent messages */
+    background-color: #dcf8c6;
 }
 
 .message-item.received {
     align-self: flex-start;
-    background-color: #fff; /* White for received messages */
+    background-color: #fff;
 }
 
-/* Message Tails */
 .message-item::after,
 .message-item::before {
     bottom: -2px;
@@ -89,7 +82,6 @@
     width: 10px;
 }
 
-/* Time and Status */
 .message-item .time {
     font-size: 10px;
     color: #999;
@@ -104,7 +96,6 @@
     margin-left: 5px;
 }
 
-/* Form Container */
 .form-container {
     width: 100%;
     height: 60px;
@@ -115,7 +106,6 @@
     justify-content: center;
 }
 
-/* Form Styles */
 .form {
     display: flex;
     align-items: center;
@@ -140,7 +130,6 @@
     color: #707070;
 }
 
-/* Send Button */
 .send-btn {
     background-color: #4d8de3;
     height: 30px;
@@ -163,7 +152,6 @@
     background-color: #006bbf;
 }
 
-/* Header Styles */
 .header {
     padding: 0 10px;
     width: 100%;

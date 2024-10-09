@@ -1,4 +1,4 @@
-// чтобы в начале не пусто было
+// init placeholder people
 export const initialPeople = [
     {
         id: '1',

@@ -34,7 +34,6 @@ export function initializeChatWindow() {
     }, 5000);
 }
 
-// добавляем в хэдер имя и аватарку
 function fillHeader(chatId) {
     const header = document.querySelector('.header');
     const people = loadPeople();
@@ -46,23 +45,18 @@ function fillHeader(chatId) {
         const receiverDiv = document.createElement('div');
         receiverDiv.classList.add('receiver');
 
-        // кнопка "назад"
         const backButton = document.createElement('button');
         backButton.classList.add('material-symbols-outlined', 'back-button', 'white');
-        // backButton.href = '/';
         backButton.textContent = 'arrow_back_ios';
         backButton.onclick = () => {window.history.back()}
 
-        // имя
         const receiverNameSpan = document.createElement('span');
         receiverNameSpan.classList.add('receiver-name', 'white');
         receiverNameSpan.textContent = person.name;
 
-        // контейнер аватарки
         const receiverPhotoDiv = document.createElement('div');
         receiverPhotoDiv.classList.add('receiver-photo');
 
-        // аватарка
         const receiverPhotoImg = document.createElement('img');
         receiverPhotoImg.classList.add('receiver-photo__image');
         receiverPhotoImg.src = person.photo;
@@ -99,7 +93,7 @@ function loadMessages(chatId, messagesList) {
         }
     }
 
-    markReceivedMessagesAsRead(chatId); // прочитали непрочитанное
+    markReceivedMessagesAsRead(chatId);
 }
 
 // добавляем пузырек сообщения

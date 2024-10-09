@@ -1,6 +1,3 @@
-/* src/index.css */
-
-/* Reset and basic styles */
 html {
     box-sizing: border-box;
 }
@@ -19,7 +16,6 @@ body {
     line-height: 20px;
 }
 
-/* Header styles */
 .header {
     padding: 0 10px;
     width: 100%;
@@ -42,5 +38,3 @@ body {
 .white {
     color: white;
 }
-
-/* Add any other global styles here */

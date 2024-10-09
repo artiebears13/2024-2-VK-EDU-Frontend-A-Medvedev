@@ -1,6 +1,6 @@
-import { initialPeople } from '../data/people.js';
+import { initialPeople } from '../mocks/__mocks__.js';
 
-// берем из localStorage чаты
+// load from localStorage
 export function loadPeople() {
     const storedPeople = JSON.parse(localStorage.getItem('people'));
     if (storedPeople && Array.isArray(storedPeople)) {
@@ -11,7 +11,6 @@ export function loadPeople() {
     }
 }
 
-// последнее сообщение
 export function getLastMessage(personId) {
     const lastMessageId = localStorage.getItem(`${personId}.lastMessageId`);
     if (lastMessageId) {
@@ -20,7 +19,6 @@ export function getLastMessage(personId) {
     return null;
 }
 
-// сделать последнее сообщение прочитанным
 export function markReceivedMessagesAsRead(personId) {
     const lastMessageId = parseInt(localStorage.getItem(`${personId}.lastMessageId`));
     if (lastMessageId) {
@@ -33,7 +31,6 @@ export function markReceivedMessagesAsRead(personId) {
     }
 }
 
-// создание сообщения
 export function createMessageObject(text, direction) {
     const timeStamp = new Date();
 
@@ -46,7 +43,6 @@ export function createMessageObject(text, direction) {
     };
 }
 
-// сохранение в localStorage
 export function saveMessage(chatId, message) {
     let lastMessageId = parseInt(localStorage.getItem(`${chatId}.lastMessageId`)) || 0;
     lastMessageId += 1;

@@ -2,7 +2,7 @@ import './modal.css'
 
 import { loadPeople } from '../../utils/storage.js';
 
-// окно добавления нового чата
+// init new chat modal
 export function initializeModal() {
     const createChatButton = document.querySelector('.create-chat-button');
     const modal = document.getElementById('create-chat-modal');
@@ -24,11 +24,11 @@ export function initializeModal() {
 }
 
 function openModal(modal) {
-    modal.style.display = 'block';  // делаем видимым
+    modal.style.display = 'block';
 }
 
 function closeModal(modal, inputField) {
-    modal.style.display = 'none';  // делаем невидимым
+    modal.style.display = 'none';
     inputField.value = '';
 }
 
@@ -56,9 +56,9 @@ function handleCreateChat(newNameInput, modal) {
 
         closeModal(modal, newNameInput);
 
-        location.reload();  // обновляемся
+        location.reload();
 
-        window.location.href = `chat.html?id=${newPerson.id}`;  // переход в чат
+        window.location.href = `chat.html?id=${newPerson.id}`; // to be refactored in spa
     } else {
         alert('Пожалуйста, введите имя пользователя.');
     }
