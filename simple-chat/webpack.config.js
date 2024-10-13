@@ -11,7 +11,6 @@ module.exports = {
     context: SRC_PATH,
     entry: {
         index: './index.js',
-        chat: './chat/chat.js'
     },
     output: {
         path: BUILD_PATH,
@@ -42,19 +41,20 @@ module.exports = {
                 ],
             },
             {
-                test: /\.css$/i,
+                test: /\.(css|scss)$/i, // Добавляем поддержку scss
                 oneOf: [
                     {
-                        test: /index\.css$/,
+                        test: /index\.(css|scss)$/, // Поддержка index.scss
                         include: SRC_PATH,
                         use: [
                             MiniCSSExtractPlugin.loader,
                             'css-loader',
+                            'sass-loader', // Добавляем sass-loader
                         ],
                     },
                     {
                         include: SRC_PATH,
-                        use: ['style-loader', 'css-loader'],
+                        use: ['style-loader', 'css-loader', 'sass-loader'], // Поддержка для других scss
                     },
                 ],
             },
@@ -69,15 +69,12 @@ module.exports = {
             template: './index.html',
             chunks: ['index']
         }),
-        new HTMLWebpackPlugin({
-            filename: 'chat.html',
-            template: './chat/chat.html',
-            chunks: ['chat'],
-        }),
     ],
     devServer: {
-        contentBase: path.join(__dirname),
-        watchContentBase: true,
+        static: {
+            directory: path.join(__dirname),
+            watch: true,
+        },
         open: true,
     },
     devtool: 'source-map',

@@ -1,8 +1,9 @@
-import './modal.css'
+import './modal.scss'
 
-import { loadPeople } from '../../utils/storage.js';
+import {loadPeople} from '../../utils/storage.js';
+import {openChat} from "../../index";
 
-// init new chat modal
+// window of creating new chat
 export function initializeModal() {
     const createChatButton = document.querySelector('.create-chat-button');
     const modal = document.getElementById('create-chat-modal');
@@ -21,6 +22,12 @@ export function initializeModal() {
     createChatConfirm.addEventListener('click', () => {
         handleCreateChat(newNameInput, modal);
     });
+
+    modal.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            handleCreateChat(newNameInput, modal);
+        }
+    })
 }
 
 function openModal(modal) {
@@ -55,10 +62,8 @@ function handleCreateChat(newNameInput, modal) {
         localStorage.setItem('people', JSON.stringify(people));
 
         closeModal(modal, newNameInput);
+        openChat(newPerson.id);
 
-        location.reload();
-
-        window.location.href = `chat.html?id=${newPerson.id}`; // to be refactored in spa
     } else {
         alert('Пожалуйста, введите имя пользователя.');
     }

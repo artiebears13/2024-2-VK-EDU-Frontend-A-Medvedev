@@ -1,0 +1,69 @@
+@import "../../../variables";
+@import "../../../mixins";
+
+.chat-item {
+  @include flex-center($justify: flex-start);
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid $color-gray;
+  background-color: $color-background;
+
+
+  &:hover {
+    background-color: $color-background-darken;
+  }
+
+  &__photo {
+    margin-right: 10px;
+
+    & img {
+      @include border-radius($border-radius-full);
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+    }
+  }
+
+  &__info {
+    flex-grow: 1;
+  }
+
+  &__name {
+    font-weight: bold;
+    @include flex-center($justify: flex-start);
+  }
+
+  &__last-message {
+    color: $color-text;
+    margin-top: 5px;
+  }
+
+  &__status {
+    margin-left: auto;
+    @include flex-center();
+  }
+
+  &__time {
+    font-size: 12px;
+    color: $color-gray;
+    margin-left: 10px;
+    white-space: nowrap;
+    align-self: flex-start;
+  }
+}
+
+.unread-count {
+  background-color: #808080FF;
+  color: $color-light;
+  @include border-radius($border-radius-full);
+  font-size: 12px;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  @include flex-center();
+}
+
+.message-status-icon {
+  align-self: flex-start;
+}

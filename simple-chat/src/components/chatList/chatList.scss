@@ -1,0 +1,23 @@
+@import '../../mixins';
+@import '../../variables';
+
+#chat-list {
+  padding: 10px;
+  height: 100%;
+}
+
+.chat-list-view {
+  background-color: $color-background;
+}
+
+.material-symbols-outlined {
+  font-size: 18px;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.plus {
+  margin-left: 0;
+}
+
+

@@ -1,0 +1,22 @@
+@import '../../../mixins';
+@import '../../../variables';
+
+.create-chat-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007aff;
+  color: $color-light;
+  border: none;
+  @include border-radius($border-radius-full);
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
+  cursor: pointer;
+  @include box-shadow(0, 4px, 6px, rgba($color-dark, 0.1));
+  @include transition(background-color);
+
+  &:hover {
+    background-color: #0051a8;
+  }
+}

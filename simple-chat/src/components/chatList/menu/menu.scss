@@ -1,0 +1,67 @@
+@use "sass:color";
+@import "../../../mixins";
+@import "../../../variables";
+
+.menu-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent;
+  display: none;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: $color-primary;
+  @include border-radius(0 $border-radius-small $border-radius-small 0);
+  @include box-shadow(0, 4px, 8px, rgba($color-dark, 0.2));
+  z-index: 10;
+  width: 200px;
+  height: 100vh;
+  padding: 20px 0;
+  @include flex-center(column, flex-start, center);
+}
+
+.user-data {
+  @include flex-center(column, flex-start, center);
+}
+
+.userName {
+  color: $color-light;
+}
+
+.menu-item {
+  width: 100%;
+  text-align: start;
+  padding: 10px;
+  color: $color-light;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid $color-primary-darken;
+  @include flex-center(row, flex-start, center);
+  gap: 10px;
+
+  &:hover {
+    background-color: $color-primary-darken;;
+  }
+}
+
+.slide-in-left {
+  @include animation(slide-in-left, $transition-slow, cubic-bezier(0.250, 0.460, 0.450, 0.940));
+}
+
+@include keyframes(slide-in-left) {
+  0% {
+    transform: translateX(-1000px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
