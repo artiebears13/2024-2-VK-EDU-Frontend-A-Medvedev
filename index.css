@@ -1,43 +1,76 @@
+/*!*******************************************************************************************************!*\
+  !*** css ../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./index.scss ***!
+  \*******************************************************************************************************/
+:root {
+  --color-primary: #006bbf;
+  --color-primary-darken: #015da4;
+  --color-secondary: #93b58b;
+  --color-background: #ffffff;
+  --color-background-darken: #f1f1f1;
+  --color-text: #333;
+  --color-light: #fff;
+  --color-dark: #000;
+  --color-gray: #999;
+  --color-received: #fff;
+  --color-sent: #dcf8c6;
+}
+
+[data-theme=dark] {
+  --color-primary: #1a1a1a;
+  --color-primary-darken: #151515;
+  --color-secondary: #333;
+  --color-background: #1e1f22;
+  --color-background-darken: #17181a;
+  --color-text: #e0e0e0;
+  --color-light: #ccc;
+  --color-dark: #fff;
+  --color-gray: #666;
+  --color-received: #1e1f22;
+  --color-sent: #214182;
+}
+
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 *, *::before, *::after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 body {
-    margin: 0;
-    background-color: #fff;
-    color: #333;
-    font-size: 15px;
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    line-height: 20px;
+  margin: 0;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-size: 15px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 20px;
 }
 
 .header {
-    padding: 0 10px;
-    width: 100%;
-    height: 60px;
-    background-color: #006bbf;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  padding: 0 10px;
+  width: 100%;
+  height: 60px;
+  background-color: var(--color-primary);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.back-button{
-    outline: none;
-    border: none;
-    text-decoration: none;
-    background-color: transparent;
-    cursor: pointer;
+.back-button {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
 
+.no-margin {
+  margin: 5px;
 }
 
 .white {
-    color: white;
+  color: var(--color-light);
 }
-
 
 /*# sourceMappingURL=index.css.map*/
