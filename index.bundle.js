@@ -76,9 +76,11 @@ function chatList() {
     var timeB = b.message ? b.message.timestamp : 0;
     return timeB - timeA;
   });
+  var fragment = document.createDocumentFragment();
   sortedChats.forEach(function (chat) {
-    chatListDiv.appendChild((0,_items_chatItem__WEBPACK_IMPORTED_MODULE_2__.chatItem)(chat));
+    fragment.appendChild((0,_items_chatItem__WEBPACK_IMPORTED_MODULE_2__.chatItem)(chat));
   });
+  chatListDiv.appendChild(fragment);
 }
 
 /***/ }),
@@ -98,36 +100,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _createChatButton_createChatButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./createChatButton/createChatButton */ "./components/chatList/createChatButton/createChatButton.js");
 /* harmony import */ var _chatList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./chatList */ "./components/chatList/chatList.js");
 /* harmony import */ var _modal_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modal/modal */ "./components/modal/modal.js");
+/* harmony import */ var _utils_search__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../utils/search */ "./utils/search.js");
+
 
 
 
 
 
 function chatListView(app) {
-  var header = (0,_header_chatListHeader__WEBPACK_IMPORTED_MODULE_0__.chatListHeader)(handleSearch);
-  app.appendChild(header);
+  var fragment = document.createDocumentFragment();
   var chatListView = document.createElement('div');
   chatListView.classList.add('chat-list-view');
   var chatListDiv = document.createElement('div');
   chatListDiv.id = 'chat-list';
-  chatListView.appendChild(chatListDiv);
   var modal = (0,_createChatModal_createChatModal__WEBPACK_IMPORTED_MODULE_1__.createCreateChatModal)();
-  app.appendChild(modal);
   var addChatButton = (0,_createChatButton_createChatButton__WEBPACK_IMPORTED_MODULE_2__.createChatButton)();
-  chatListView.appendChild(addChatButton);
-  app.appendChild(chatListView);
+  chatListView.append(chatListDiv, addChatButton);
+  fragment.append((0,_header_chatListHeader__WEBPACK_IMPORTED_MODULE_0__.chatListHeader)(_utils_search__WEBPACK_IMPORTED_MODULE_5__.handleSearch), (0,_createChatModal_createChatModal__WEBPACK_IMPORTED_MODULE_1__.createCreateChatModal)(), chatListView);
+  app.appendChild(fragment);
   (0,_chatList__WEBPACK_IMPORTED_MODULE_3__.chatList)();
   (0,_modal_modal__WEBPACK_IMPORTED_MODULE_4__.initializeModal)();
   addChatButton.addEventListener('click', function () {
     modal.style.display = 'block';
   });
-}
-var searchTimeout = null;
-function handleSearch(query) {
-  clearTimeout(searchTimeout);
-  searchTimeout = setTimeout(function () {
-    (0,_chatList__WEBPACK_IMPORTED_MODULE_3__.chatList)(query);
-  }, 300);
 }
 
 /***/ }),
@@ -147,11 +142,8 @@ __webpack_require__.r(__webpack_exports__);
 function createChatButton() {
   var chatButton = document.createElement('button');
   chatButton.classList.add('create-chat-button');
-  var addIcon = document.createElement('span');
-  addIcon.classList.add('material-symbols-outlined');
-  addIcon.textContent = 'add';
-  chatButton.appendChild(addIcon);
-  addIcon.classList.add('no-margin');
+  var addIcon = "<span class=\"material-symbols-outlined\" style=\"margin: 0\">add</span>";
+  chatButton.insertAdjacentHTML('afterbegin', addIcon);
   return chatButton;
 }
 
@@ -182,13 +174,19 @@ function createCreateChatModal() {
   input.type = 'text';
   input.id = 'new-person-name';
   input.placeholder = 'Имя пользователя';
+  var fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.id = 'new-person-photo';
+  fileInput.accept = 'image/*';
+  fileInput.style.display = 'none'; // Скрываем поле
+
+  var photoPreview = document.createElement('div');
+  photoPreview.id = 'photo-preview';
+  photoPreview.classList.add('photo-preview');
   var confirmButton = document.createElement('button');
   confirmButton.id = 'create-chat-confirm';
   confirmButton.textContent = 'OK';
-  modalContent.appendChild(closeButton);
-  modalContent.appendChild(heading);
-  modalContent.appendChild(input);
-  modalContent.appendChild(confirmButton);
+  modalContent.append(closeButton, heading, photoPreview, input, confirmButton, fileInput);
   modal.appendChild(modalContent);
   return modal;
 }
@@ -233,8 +231,7 @@ function chatListHeader(onSearch) {
   title.classList.add('white');
   title.textContent = 'Artemgram';
   var searchIcon = document.createElement('button');
-  searchIcon.classList.add('search-button');
-  searchIcon.classList.add('material-symbols-outlined', 'white');
+  searchIcon.classList.add('search-button', 'material-symbols-outlined', 'white');
   searchIcon.textContent = 'search';
   var searchInput = document.createElement('input');
   searchInput.type = 'text';
@@ -258,14 +255,10 @@ function chatListHeader(onSearch) {
   searchInput.addEventListener('focusout', function (e) {
     hideSearchBar(searchInput, title, searchIcon, onSearch);
   });
-  header.appendChild(menuIcon);
-  header.appendChild(title);
-  header.appendChild(searchIcon);
-  header.appendChild(searchInput);
+  header.append(menuIcon, title, searchIcon, searchInput);
   return header;
 }
 function hideSearchBar(searchInput, title, searchIcon, onSearch) {
-  // Определяем обработчик события анимации
   var _handleAnimationEnd = function handleAnimationEnd() {
     searchInput.style.display = 'none';
     searchInput.classList.remove('scale-out-hor-right');
@@ -273,12 +266,8 @@ function hideSearchBar(searchInput, title, searchIcon, onSearch) {
     searchIcon.style.display = 'inline-block';
     searchInput.value = '';
     onSearch('');
-
-    // Удаляем обработчик после завершения анимации
     searchInput.removeEventListener('animationend', _handleAnimationEnd);
   };
-
-  // Добавляем классы анимации и обработчик события
   searchInput.classList.remove('scale-in-hor-right');
   searchInput.classList.add('scale-out-hor-right');
   searchInput.addEventListener('animationend', _handleAnimationEnd);
@@ -298,20 +287,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 function chatInfo(person, lastMessage) {
   var lastMessageText = lastMessage ? lastMessage.text : '';
-  var chatItemInfoDiv = document.createElement('div');
-  chatItemInfoDiv.classList.add('chat-item__info');
-  var chatItemNameDiv = document.createElement('div');
-  chatItemNameDiv.classList.add('chat-item__name');
-  var nameSpan = document.createElement('span');
-  nameSpan.textContent = person.name;
-  var chatItemLastMessageDiv = document.createElement('div');
-  chatItemLastMessageDiv.classList.add('chat-item__last-message');
   var maxLength = 20;
   var displayText = lastMessageText.length > maxLength ? "".concat(lastMessageText.slice(0, maxLength), "...") : lastMessageText;
-  chatItemLastMessageDiv.textContent = displayText;
-  chatItemNameDiv.appendChild(nameSpan);
-  chatItemInfoDiv.appendChild(chatItemNameDiv);
-  chatItemInfoDiv.appendChild(chatItemLastMessageDiv);
+  var chatItemInfoDiv = document.createElement('div');
+  var content = "\n        <div class=\"chat-item__info\">\n            <div class=\"chat-item__name\">".concat(person.name, "</div>\n        </div>\n        <div class=\"chat-item__last-message\">\n            ").concat(displayText, "\n        </div>\n    ");
+  chatItemInfoDiv.insertAdjacentHTML('afterbegin', content);
   return chatItemInfoDiv;
 }
 
@@ -348,15 +328,7 @@ function chatItem(_ref) {
     message = _ref.message;
   var chatItem = document.createElement('div');
   chatItem.classList.add('chat-item');
-  var statusBadge = (0,_statusBadge__WEBPACK_IMPORTED_MODULE_2__.createStatusBadge)(message);
-  var chatItemPhotoDiv = (0,_chatPhoto__WEBPACK_IMPORTED_MODULE_4__.chatPhoto)(person);
-  var chatItemInfoDiv = (0,_chatInfo__WEBPACK_IMPORTED_MODULE_5__.chatInfo)(person, message);
-  var chatItemStatusDiv = (0,_chatStatus__WEBPACK_IMPORTED_MODULE_3__.chatStatus)(statusBadge);
-  var chatItemTimeDiv = (0,_chatTime__WEBPACK_IMPORTED_MODULE_6__.chatTime)(message);
-  chatItem.appendChild(chatItemPhotoDiv);
-  chatItem.appendChild(chatItemInfoDiv);
-  chatItem.appendChild(chatItemStatusDiv);
-  chatItem.appendChild(chatItemTimeDiv);
+  chatItem.append((0,_chatPhoto__WEBPACK_IMPORTED_MODULE_4__.chatPhoto)(person), (0,_chatInfo__WEBPACK_IMPORTED_MODULE_5__.chatInfo)(person, message), (0,_chatStatus__WEBPACK_IMPORTED_MODULE_3__.chatStatus)((0,_statusBadge__WEBPACK_IMPORTED_MODULE_2__.createStatusBadge)(message)), (0,_chatTime__WEBPACK_IMPORTED_MODULE_6__.chatTime)(message));
   chatItem.addEventListener('click', function () {
     (0,_utils_storage__WEBPACK_IMPORTED_MODULE_0__.markReceivedMessagesAsRead)(person.id);
     (0,_index__WEBPACK_IMPORTED_MODULE_1__.openChat)(person.id, message);
@@ -379,10 +351,8 @@ __webpack_require__.r(__webpack_exports__);
 function chatPhoto(person) {
   var chatItemPhotoDiv = document.createElement('div');
   chatItemPhotoDiv.classList.add('chat-item__photo');
-  var img = document.createElement('img');
-  img.src = person.photo;
-  img.alt = person.name;
-  chatItemPhotoDiv.appendChild(img);
+  var img = "<img src=\"".concat(person.photo, "\" alt=\"").concat(person.name, "\">");
+  chatItemPhotoDiv.insertAdjacentHTML('afterbegin', img);
   return chatItemPhotoDiv;
 }
 
@@ -497,8 +467,6 @@ function Menu() {
   });
   var dropdownMenu = document.createElement('div');
   dropdownMenu.classList.add('dropdown-menu');
-
-  // Элементы меню как div
   var user = (0,_utils_storage__WEBPACK_IMPORTED_MODULE_1__.readUserData)();
   var userPhotoItem = (0,_items_chatPhoto__WEBPACK_IMPORTED_MODULE_2__.chatPhoto)(user);
   var userDataContainer = document.createElement('div');
@@ -506,8 +474,7 @@ function Menu() {
   var userNameItem = document.createElement('h2');
   userNameItem.classList.add('userName');
   userNameItem.textContent = user.name;
-  userDataContainer.appendChild(userPhotoItem);
-  userDataContainer.appendChild(userNameItem);
+  userDataContainer.append(userPhotoItem, userNameItem);
   dropdownMenu.append(userDataContainer);
   var categories = [{
     name: 'Сменить тему',
@@ -523,23 +490,16 @@ function Menu() {
     icon: "workspace_premium"
   }];
   categories.forEach(function (category) {});
-  dropdownMenu.appendChild(createMenuItem(categories[0], _utils_themeSwitcher__WEBPACK_IMPORTED_MODULE_3__.ThemeSwitcher));
-  dropdownMenu.appendChild(createMenuItem(categories[1], function () {}));
-  dropdownMenu.appendChild(createMenuItem(categories[2], function () {}));
-  dropdownMenu.appendChild(createMenuItem(categories[3], function () {}));
+  dropdownMenu.append(createMenuItem(categories[0], _utils_themeSwitcher__WEBPACK_IMPORTED_MODULE_3__.ThemeSwitcher), createMenuItem(categories[1], function () {}), createMenuItem(categories[2], function () {}), createMenuItem(categories[3], function () {}));
   menuBackground.appendChild(dropdownMenu);
   return menuBackground;
 }
 function createMenuItem(category, onClick) {
   var menuItem = document.createElement('div');
   menuItem.classList.add('menu-item');
-  var text = document.createElement('span');
-  var icon = document.createElement('span');
-  icon.classList.add('material-symbols-outlined', 'white');
-  icon.textContent = category.icon;
-  text.textContent = category.name;
-  menuItem.appendChild(icon);
-  menuItem.appendChild(text);
+  var text = "<span>".concat(category.name, "</span>");
+  var icon = "<span class=\"material-symbols-outlined white\">".concat(category.icon, "</span>");
+  menuItem.insertAdjacentHTML('afterbegin', "".concat(icon, " ").concat(text));
   menuItem.addEventListener('click', function (e) {
     onClick();
   });
@@ -601,21 +561,10 @@ function fillHeader(chatId) {
     backButton.onclick = function () {
       (0,_index_js__WEBPACK_IMPORTED_MODULE_2__.closeChat)();
     };
-    var receiverNameSpan = document.createElement('span');
-    receiverNameSpan.classList.add('receiver-name', 'white');
-    receiverNameSpan.textContent = person.name;
-    var receiverPhotoDiv = document.createElement('div');
-    receiverPhotoDiv.classList.add('receiver-photo');
-    var receiverPhotoImg = document.createElement('img');
-    receiverPhotoImg.classList.add('receiver-photo__image');
-    receiverPhotoImg.src = person.photo;
-    receiverPhotoImg.width = 50;
-    receiverPhotoImg.height = 50;
-    receiverPhotoImg.alt = 'profile photo';
-    receiverPhotoDiv.appendChild(receiverPhotoImg);
+    var receiverNameSpan = "<span class=\"receiver-name white\">".concat(person.name, "</span>");
+    var receiverPhotoDiv = "<div class=\"receiver-photo\"><img \n            class=\"receiver-photo__image\" \n            src=\"".concat(person.photo, "\" \n            width=\"50px\" \n            height=\"50px\" \n            alt=\"profile\"\n        /></div>");
     receiverDiv.appendChild(backButton);
-    receiverDiv.appendChild(receiverNameSpan);
-    receiverDiv.appendChild(receiverPhotoDiv);
+    receiverDiv.insertAdjacentHTML("beforeend", "".concat(receiverNameSpan, " ").concat(receiverPhotoDiv));
     header.appendChild(receiverDiv);
   } else {
     console.error('Пользователь не найден для chatId:', chatId);
@@ -702,19 +651,16 @@ __webpack_require__.r(__webpack_exports__);
 
 function chatWindowView(app, chatId) {
   var header = document.createElement('div');
+  var fragment = document.createDocumentFragment();
   header.classList.add('header');
-  app.appendChild(header);
   var chatContainer = document.createElement('div');
   chatContainer.classList.add('chat-container');
   var messagesContainer = document.createElement('div');
   messagesContainer.classList.add('messages-container');
   var backgroundImages = document.createElement('div');
   backgroundImages.classList.add('background-images');
-  messagesContainer.appendChild(backgroundImages);
   var messagesList = document.createElement('ul');
   messagesList.classList.add('messages-list');
-  messagesContainer.appendChild(messagesList);
-  chatContainer.appendChild(messagesContainer);
   var formContainer = document.createElement('div');
   formContainer.classList.add('form-container');
   var form = document.createElement('form');
@@ -732,11 +678,12 @@ function chatWindowView(app, chatId) {
   sendIcon.classList.add('material-symbols-outlined', 'white');
   sendIcon.textContent = 'send';
   sendButton.appendChild(sendIcon);
-  form.appendChild(input);
-  form.appendChild(sendButton);
+  form.append(input, sendButton);
   formContainer.appendChild(form);
-  chatContainer.appendChild(formContainer);
-  app.appendChild(chatContainer);
+  messagesContainer.append(backgroundImages, messagesList);
+  chatContainer.append(messagesContainer, formContainer);
+  fragment.append(header, chatContainer);
+  app.appendChild(fragment);
   (0,_chatWindow__WEBPACK_IMPORTED_MODULE_0__.initializeChatWindow)(chatId, form, input, messagesList);
 }
 
@@ -766,6 +713,8 @@ function initializeModal() {
   var closeButton = document.querySelector('.close-button');
   var createChatConfirm = document.getElementById('create-chat-confirm');
   var newNameInput = document.getElementById('new-person-name');
+  var photoPreview = modal.querySelector('#photo-preview');
+  var fileInput = modal.querySelector('#new-person-photo');
   createChatButton.addEventListener('click', function () {
     return openModal(modal);
   });
@@ -774,7 +723,7 @@ function initializeModal() {
   });
   window.addEventListener('click', function (event) {
     if (event.target === modal) {
-      closeModal(modal, newNameInput);
+      closeModal(modal);
     }
   });
   createChatConfirm.addEventListener('click', function () {
@@ -785,36 +734,78 @@ function initializeModal() {
       handleCreateChat(newNameInput, modal);
     }
   });
+  photoPreview.addEventListener('click', function () {
+    fileInput.click();
+  });
+  fileInput.addEventListener('change', function (event) {
+    if (fileInput.files && fileInput.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        photoPreview.style.backgroundImage = "url(".concat(e.target.result, ")");
+        photoPreview.classList.add('has-image');
+      };
+      reader.readAsDataURL(fileInput.files[0]);
+    }
+  });
 }
 function openModal(modal) {
   modal.style.display = 'block';
 }
-function closeModal(modal, inputField) {
+function closeModal(modal) {
   modal.style.display = 'none';
-  inputField.value = '';
+  var inputs = modal.querySelectorAll('input');
+  inputs.forEach(function (input) {
+    return input.value = '';
+  });
+  var photoPreview = modal.querySelector('#photo-preview');
+  photoPreview.style.backgroundImage = '';
+  photoPreview.classList.remove('has-image');
+  var fileInput = modal.querySelector('#new-person-photo');
+  fileInput.value = '';
 }
 function handleCreateChat(newNameInput, modal) {
   var newPersonName = newNameInput.value.trim();
+  var fileInput = document.getElementById('new-person-photo');
+  var selectedFile = fileInput.files[0]; // Получаем выбранный файл
   var people = (0,_utils_storage_js__WEBPACK_IMPORTED_MODULE_1__.loadPeople)();
-  if (newPersonName !== '') {
-    var existingPerson = people.find(function (person) {
-      return person.name.toLowerCase() === newPersonName.toLowerCase();
-    });
-    if (existingPerson) {
-      alert('Пользователь с таким именем уже существует.');
-      return;
-    }
+  if (newPersonName === '') {
+    alert('Пожалуйста, введите имя пользователя.');
+    return;
+  }
+  var existingPerson = people.find(function (person) {
+    return person.name.toLowerCase() === newPersonName.toLowerCase();
+  });
+  if (existingPerson) {
+    alert('Пользователь с таким именем уже существует.');
+    return;
+  }
+  var createNewPerson = function createNewPerson(photoUrl) {
     var newPerson = {
       id: Date.now().toString(),
       name: newPersonName,
-      photo: 'https://picsum.photos/50/50'
+      photo: photoUrl
     };
     people.push(newPerson);
-    localStorage.setItem('people', JSON.stringify(people));
+    try {
+      localStorage.setItem('people', JSON.stringify(people));
+    } catch (e) {
+      if (e.code === 22) {
+        alert('Локальное хранилище заполнено. Невозможно сохранить данные.');
+        return;
+      }
+    }
     closeModal(modal, newNameInput);
     (0,_index__WEBPACK_IMPORTED_MODULE_2__.openChat)(newPerson.id);
+  };
+  if (selectedFile) {
+    var reader = new FileReader();
+    reader.onload = function (event) {
+      createNewPerson(event.target.result);
+    };
+    reader.readAsDataURL(selectedFile);
   } else {
-    alert('Пожалуйста, введите имя пользователя.');
+    // default pic
+    createNewPerson('https://picsum.photos/50/50?random=2');
   }
 }
 
@@ -897,6 +888,28 @@ function userData() {
     name: 'Super User',
     photo: 'https://picsum.photos/50/50?random=3'
   };
+}
+
+/***/ }),
+
+/***/ "./utils/search.js":
+/*!*************************!*\
+  !*** ./utils/search.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   handleSearch: () => (/* binding */ handleSearch)
+/* harmony export */ });
+/* harmony import */ var _components_chatList_chatList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/chatList/chatList */ "./components/chatList/chatList.js");
+
+var searchTimeout = null;
+function handleSearch(query) {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(function () {
+    (0,_components_chatList_chatList__WEBPACK_IMPORTED_MODULE_0__.chatList)(query);
+  }, 300);
 }
 
 /***/ }),
@@ -1083,7 +1096,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.create-chat-button {
 }
 .create-chat-button:hover {
   background-color: #0051a8;
-}`, "",{"version":3,"sources":["webpack://./components/chatList/createChatButton/createChatButton.scss","webpack://./variables.scss","webpack://./mixins.scss"],"names":[],"mappings":"AAGA;EACE,eAAA;EACA,YAAA;EACA,WAAA;EACA,yBAAA;EACA,yBCFY;EDGZ,YAAA;EEMA,kBDKmB;EDTnB,WAAA;EACA,YAAA;EACA,eAAA;EACA,eAAA;EEKA,kDAAA;EAIA,sCAAA;AFTF;AAIE;EACE,yBAAA;AAFJ","sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./components/chatList/createChatButton/createChatButton.scss","webpack://./variables.scss","webpack://./mixins.scss"],"names":[],"mappings":"AAGA;EACE,eAAA;EACA,YAAA;EACA,WAAA;EACA,yBAAA;EACA,yBCFY;EDGZ,YAAA;EEMA,kBDMmB;EDVnB,WAAA;EACA,YAAA;EACA,eAAA;EACA,eAAA;EEKA,kDAAA;EAIA,sCAAA;AFTF;AAIE;EACE,yBAAA;AAFJ","sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1266,7 +1279,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.chat-item {
 
 .message-status-icon {
   align-self: flex-start;
-}`, "",{"version":3,"sources":["webpack://./components/chatList/items/chatItem.scss","webpack://./mixins.scss","webpack://./variables.scss"],"names":[],"mappings":"AAGA;ECFE,aAAA;EACA,mBAF6B;EAG7B,2BDC+B;ECA/B,mBAJ4D;EDK5D,mBAAA;EACA,aAAA;EACA,eAAA;EACA,0CAAA;EACA,yCENiB;AFOnB;AAEE;EACE,gDETsB;AFS1B;AAGE;EACE,kBAAA;AADJ;AAGI;ECJF,kBCKmB;EFCf,WAAA;EACA,YAAA;EACA,iBAAA;AADN;AAKE;EACE,YAAA;AAHJ;AAME;EACE,iBAAA;EC/BF,aAAA;EACA,mBAF6B;EAG7B,2BD8BiC;EC7BjC,mBAJ4D;ADgC9D;AAIE;EACE,wBEhCS;EFiCT,eAAA;AAFJ;AAKE;EACE,iBAAA;ECzCF,aAAA;EACA,mBAF6B;EAG7B,uBAH4C;EAI5C,mBAJ4D;AD2C9D;AAGE;EACE,eAAA;EACA,wBExCS;EFyCT,iBAAA;EACA,mBAAA;EACA,sBAAA;AADJ;;AAKA;EACE,sBAAA;EACA,yBEnDY;EDSZ,kBCKmB;EFuCnB,eAAA;EACA,YAAA;EACA,WAAA;EACA,kBAAA;EC7DA,aAAA;EACA,mBAF6B;EAG7B,uBAH4C;EAI5C,mBAJ4D;ADgE9D;;AAEA;EACE,sBAAA;AACF","sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./components/chatList/items/chatItem.scss","webpack://./mixins.scss","webpack://./variables.scss"],"names":[],"mappings":"AAGA;ECFE,aAAA;EACA,mBAF6B;EAG7B,2BDC+B;ECA/B,mBAJ4D;EDK5D,mBAAA;EACA,aAAA;EACA,eAAA;EACA,0CAAA;EACA,yCENiB;AFOnB;AAEE;EACE,gDETsB;AFS1B;AAGE;EACE,kBAAA;AADJ;AAGI;ECJF,kBCMmB;EFAf,WAAA;EACA,YAAA;EACA,iBAAA;AADN;AAKE;EACE,YAAA;AAHJ;AAME;EACE,iBAAA;EC/BF,aAAA;EACA,mBAF6B;EAG7B,2BD8BiC;EC7BjC,mBAJ4D;ADgC9D;AAIE;EACE,wBEhCS;EFiCT,eAAA;AAFJ;AAKE;EACE,iBAAA;ECzCF,aAAA;EACA,mBAF6B;EAG7B,uBAH4C;EAI5C,mBAJ4D;AD2C9D;AAGE;EACE,eAAA;EACA,wBExCS;EFyCT,iBAAA;EACA,mBAAA;EACA,sBAAA;AADJ;;AAKA;EACE,sBAAA;EACA,yBEnDY;EDSZ,kBCMmB;EFsCnB,eAAA;EACA,YAAA;EACA,WAAA;EACA,kBAAA;EC7DA,aAAA;EACA,mBAF6B;EAG7B,uBAH4C;EAI5C,mBAJ4D;ADgE9D;;AAEA;EACE,sBAAA;AACF","sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1398,6 +1411,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `:root {
   --color-light: #fff;
   --color-dark: #000;
   --color-gray: #999;
+  --color-gray-darken: #858585;
   --color-received: #fff;
   --color-sent: #dcf8c6;
 }
@@ -1412,6 +1426,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `:root {
   --color-light: #ccc;
   --color-dark: #fff;
   --color-gray: #666;
+  --color-gray-darken: #5d5c5c;
   --color-received: #1e1f22;
   --color-sent: #214182;
 }
@@ -1611,7 +1626,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `:root {
     transform: scale(1);
     opacity: 1;
   }
-}`, "",{"version":3,"sources":["webpack://./themes.scss","webpack://./components/chatWindow/chatWindow.scss","webpack://./mixins.scss","webpack://./variables.scss"],"names":[],"mappings":"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","sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./themes.scss","webpack://./components/chatWindow/chatWindow.scss","webpack://./mixins.scss","webpack://./variables.scss"],"names":[],"mappings":"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","sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1637,7 +1652,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, `.modal {
+___CSS_LOADER_EXPORT___.push([module.id, `@charset "UTF-8";
+.modal {
   display: none;
   position: fixed;
   z-index: 1000;
@@ -1657,12 +1673,53 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.modal {
   max-width: 400px;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .modal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 20px;
   color: #000;
+}
+
+.photo-preview {
+  color: var(--color-text);
+  width: 100px;
+  height: 100px;
+  background-color: var(--color-gray-darken);
+  border-radius: 50%;
+  margin: 0 auto 20px auto;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.photo-preview:hover {
+  opacity: 1;
+}
+
+.photo-preview::after {
+  content: "Выберите фото";
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+}
+
+.photo-preview.has-image::after {
+  content: "";
 }
 
 .close-button {
@@ -1716,7 +1773,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.modal {
     margin: 50px auto;
     width: 90%;
   }
-}`, "",{"version":3,"sources":["webpack://./components/modal/modal.scss","webpack://./variables.scss"],"names":[],"mappings":"AAGA;EACE,aAAA;EACA,eAAA;EACA,aAAA;EACA,OAAA;EACA,MAAA;EACA,WAAA;EACA,YAAA;EACA,cAAA;EACA,oCAAA;AAFF;AAIE;EACE,yCCZe;EDaf,kBAAA;EACA,kBAAA;EACA,mBAAA;EACA,UAAA;EACA,gBAAA;EACA,yCAAA;EACA,kBAAA;AAFJ;AAKE;EACE,eAAA;EACA,gBAAA;EACA,mBAAA;EACA,WAAA;AAHJ;;AAOA;EACE,kBAAA;EACA,SAAA;EACA,WAAA;EACA,WAAA;EACA,eAAA;EACA,iBAAA;EACA,eAAA;AAJF;;AAOA;;EAEE,WAAA;AAJF;;AAQA;EACE,WAAA;EACA,kBAAA;EACA,mBAAA;EACA,eAAA;EACA,yBAAA;EACA,kBAAA;EACA,aAAA;EACA,wBCpDW;EDqDX,yCCvDiB;ADkDnB;;AAQA;EACE,qBAAA;AALF;;AAQA;EACE,yBAAA;EACA,WAAA;EACA,YAAA;EACA,kBAAA;EACA,eAAA;EACA,eAAA;EACA,kBAAA;EACA,WAAA;AALF;;AAQA;EACE,yBAAA;AALF;;AAQA;EACE;IACE,iBAAA;IACA,UAAA;EALF;AACF","sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./components/modal/modal.scss","webpack://./variables.scss","webpack://./mixins.scss"],"names":[],"mappings":"AAAA,gBAAgB;AAGhB;EACE,aAAA;EACA,eAAA;EACA,aAAA;EACA,OAAA;EACA,MAAA;EACA,WAAA;EACA,YAAA;EACA,cAAA;EACA,oCAAA;AADF;AAGE;EACE,yCCZe;EDaf,kBAAA;EACA,kBAAA;EACA,mBAAA;EACA,UAAA;EACA,gBAAA;EACA,yCAAA;EACA,kBAAA;EErBF,aAAA;EACA,sBFqBuB;EEpBvB,uBAH4C;EAI5C,mBAJ4D;AFyB9D;AACE;EEzBA,aAAA;EACA,mBFyBuB;EExBvB,uBAH4C;EAI5C,mBAJ4D;EF4B1D,kBAAA;EACA,eAAA;EACA,gBAAA;EACA,mBAAA;EACA,WAAA;AAIJ;;AAAA;EACE,wBChCW;EDiCX,YAAA;EACA,aAAA;EACA,0CC/BkB;EDgClB,kBAAA;EACA,wBAAA;EACA,sBAAA;EACA,2BAAA;EACA,eAAA;EACA,YAAA;EACA,wBAAA;AAGF;;AAAA;EACE,UAAA;AAGF;;AACA;EACE,wBAAA;EEvDA,aAAA;EACA,sBFuDqB;EEtDrB,uBAH4C;EAI5C,mBAJ4D;EF0D5D,YAAA;EACA,kBAAA;AAKF;;AAFA;EACE,WAAA;AAKF;;AAFA;EACE,kBAAA;EACA,SAAA;EACA,WAAA;EACA,WAAA;EACA,eAAA;EACA,iBAAA;EACA,eAAA;AAKF;;AAFA;;EAEE,WAAA;AAKF;;AADA;EACE,WAAA;EACA,kBAAA;EACA,mBAAA;EACA,eAAA;EACA,yBAAA;EACA,kBAAA;EACA,aAAA;EACA,wBCrFW;EDsFX,yCCxFiB;AD4FnB;;AADA;EACE,qBAAA;AAIF;;AADA;EACE,yBAAA;EACA,WAAA;EACA,YAAA;EACA,kBAAA;EACA,eAAA;EACA,eAAA;EACA,kBAAA;EACA,WAAA;AAIF;;AADA;EACE,yBAAA;AAIF;;AADA;EACE;IACE,iBAAA;IACA,UAAA;EAIF;AACF","sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
