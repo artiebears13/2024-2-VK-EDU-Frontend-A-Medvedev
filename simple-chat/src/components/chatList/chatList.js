@@ -68,8 +68,9 @@ export function chatList(searchQuery = '') {
         return timeB - timeA;
     });
 
-
+    const fragment = document.createDocumentFragment();
     sortedChats.forEach(chat => {
-        chatListDiv.appendChild(chatItem(chat));
+        fragment.appendChild(chatItem(chat));
     });
+    chatListDiv.appendChild(fragment);
 }

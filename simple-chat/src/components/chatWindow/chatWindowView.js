@@ -2,8 +2,8 @@ import {initializeChatWindow} from "./chatWindow";
 
 export function chatWindowView(app, chatId) {
     const header = document.createElement('div');
+    const fragment = document.createDocumentFragment();
     header.classList.add('header');
-    app.appendChild(header);
 
     const chatContainer = document.createElement('div');
     chatContainer.classList.add('chat-container');
@@ -13,13 +13,9 @@ export function chatWindowView(app, chatId) {
 
     const backgroundImages = document.createElement('div');
     backgroundImages.classList.add('background-images');
-    messagesContainer.appendChild(backgroundImages);
 
     const messagesList = document.createElement('ul');
     messagesList.classList.add('messages-list');
-    messagesContainer.appendChild(messagesList);
-
-    chatContainer.appendChild(messagesContainer);
 
     const formContainer = document.createElement('div');
     formContainer.classList.add('form-container');
@@ -43,12 +39,13 @@ export function chatWindowView(app, chatId) {
     sendIcon.textContent = 'send';
     sendButton.appendChild(sendIcon);
 
-    form.appendChild(input);
-    form.appendChild(sendButton);
+    form.append(input, sendButton);
     formContainer.appendChild(form);
-    chatContainer.appendChild(formContainer);
+    messagesContainer.append(backgroundImages, messagesList);
+    chatContainer.append(messagesContainer, formContainer);
+    fragment.append(header, chatContainer);
 
-    app.appendChild(chatContainer);
+    app.appendChild(fragment);
 
     initializeChatWindow(chatId, form, input, messagesList);
 }

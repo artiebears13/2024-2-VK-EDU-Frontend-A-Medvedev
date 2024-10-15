@@ -11,16 +11,12 @@ export function chatItem({person, message}) {
     const chatItem = document.createElement('div');
     chatItem.classList.add('chat-item');
 
-    const statusBadge = createStatusBadge(message);
-    const chatItemPhotoDiv = chatPhoto(person);
-    const chatItemInfoDiv = chatInfo(person, message);
-    const chatItemStatusDiv = chatStatus(statusBadge);
-    const chatItemTimeDiv = chatTime(message);
-
-    chatItem.appendChild(chatItemPhotoDiv);
-    chatItem.appendChild(chatItemInfoDiv);
-    chatItem.appendChild(chatItemStatusDiv);
-    chatItem.appendChild(chatItemTimeDiv);
+    chatItem.append(
+        chatPhoto(person),
+        chatInfo(person, message),
+        chatStatus(createStatusBadge(message)),
+        chatTime(message)
+    );
 
     chatItem.addEventListener('click', () => {
         markReceivedMessagesAsRead(person.id);

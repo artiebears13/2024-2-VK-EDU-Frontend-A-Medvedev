@@ -30,8 +30,7 @@ export function chatListHeader(onSearch) {
     title.textContent = 'Artemgram';
 
     const searchIcon = document.createElement('button');
-    searchIcon.classList.add('search-button');
-    searchIcon.classList.add('material-symbols-outlined', 'white');
+    searchIcon.classList.add('search-button', 'material-symbols-outlined', 'white');
     searchIcon.textContent = 'search';
 
     const searchInput = document.createElement('input');
@@ -61,16 +60,12 @@ export function chatListHeader(onSearch) {
 
     });
 
-    header.appendChild(menuIcon);
-    header.appendChild(title);
-    header.appendChild(searchIcon);
-    header.appendChild(searchInput);
+    header.append(menuIcon, title, searchIcon, searchInput);
 
     return header;
 }
 
 function hideSearchBar(searchInput, title, searchIcon, onSearch) {
-    // Определяем обработчик события анимации
     const handleAnimationEnd = () => {
         searchInput.style.display = 'none';
         searchInput.classList.remove('scale-out-hor-right');
@@ -79,11 +74,9 @@ function hideSearchBar(searchInput, title, searchIcon, onSearch) {
         searchInput.value = '';
         onSearch('');
 
-        // Удаляем обработчик после завершения анимации
         searchInput.removeEventListener('animationend', handleAnimationEnd);
     };
 
-    // Добавляем классы анимации и обработчик события
     searchInput.classList.remove('scale-in-hor-right');
     searchInput.classList.add('scale-out-hor-right');
     searchInput.addEventListener('animationend', handleAnimationEnd);

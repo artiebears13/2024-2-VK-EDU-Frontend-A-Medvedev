@@ -19,7 +19,6 @@ export function Menu() {
     const dropdownMenu = document.createElement('div');
     dropdownMenu.classList.add('dropdown-menu');
 
-    // Элементы меню как div
     const user = readUserData();
 
     const userPhotoItem = chatPhoto(user);
@@ -28,8 +27,7 @@ export function Menu() {
     const userNameItem = document.createElement('h2');
     userNameItem.classList.add('userName');
     userNameItem.textContent = user.name;
-    userDataContainer.appendChild(userPhotoItem);
-    userDataContainer.appendChild(userNameItem);
+    userDataContainer.append(userPhotoItem, userNameItem);
     dropdownMenu.append(userDataContainer);
 
 
@@ -45,13 +43,11 @@ export function Menu() {
 
     });
 
-    dropdownMenu.appendChild(createMenuItem(categories[0], ThemeSwitcher));
-    dropdownMenu.appendChild(createMenuItem(categories[1], () => {
-    }));
-    dropdownMenu.appendChild(createMenuItem(categories[2], () => {
-    }));
-    dropdownMenu.appendChild(createMenuItem(categories[3], () => {
-    }));
+    dropdownMenu.append(createMenuItem(categories[0], ThemeSwitcher),
+        createMenuItem(categories[1], () => {}),
+        createMenuItem(categories[2], () => {}),
+        createMenuItem(categories[3], () => {})
+    );
 
     menuBackground.appendChild(dropdownMenu);
     return menuBackground;
@@ -60,13 +56,9 @@ export function Menu() {
 function createMenuItem(category, onClick) {
     const menuItem = document.createElement('div');
     menuItem.classList.add('menu-item');
-    const text = document.createElement('span');
-    const icon = document.createElement('span');
-    icon.classList.add('material-symbols-outlined', 'white');
-    icon.textContent = category.icon;
-    text.textContent = category.name;
-    menuItem.appendChild(icon);
-    menuItem.appendChild(text);
+    const text = `<span>${category.name}</span>`;
+    const icon = `<span class="material-symbols-outlined white">${category.icon}</span>`;
+    menuItem.insertAdjacentHTML('afterbegin', `${icon} ${text}`);
     menuItem.addEventListener('click', (e) => {
         onClick()
     })

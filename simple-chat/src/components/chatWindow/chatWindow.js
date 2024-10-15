@@ -43,24 +43,18 @@ function fillHeader(chatId) {
             closeChat();
         };
 
-        const receiverNameSpan = document.createElement('span');
-        receiverNameSpan.classList.add('receiver-name', 'white');
-        receiverNameSpan.textContent = person.name;
+        const receiverNameSpan = `<span class="receiver-name white">${person.name}</span>`;
 
-        const receiverPhotoDiv = document.createElement('div');
-        receiverPhotoDiv.classList.add('receiver-photo');
+        const receiverPhotoDiv = `<div class="receiver-photo"><img 
+            class="receiver-photo__image" 
+            src="${person.photo}" 
+            width="50px" 
+            height="50px" 
+            alt="profile"
+        /></div>`
 
-        const receiverPhotoImg = document.createElement('img');
-        receiverPhotoImg.classList.add('receiver-photo__image');
-        receiverPhotoImg.src = person.photo;
-        receiverPhotoImg.width = 50;
-        receiverPhotoImg.height = 50;
-        receiverPhotoImg.alt = 'profile photo';
-
-        receiverPhotoDiv.appendChild(receiverPhotoImg);
-        receiverDiv.appendChild(backButton);
-        receiverDiv.appendChild(receiverNameSpan);
-        receiverDiv.appendChild(receiverPhotoDiv);
+        receiverDiv.appendChild(backButton)
+        receiverDiv.insertAdjacentHTML("beforeend", `${receiverNameSpan} ${receiverPhotoDiv}`);
         header.appendChild(receiverDiv);
     } else {
         console.error('Пользователь не найден для chatId:', chatId);

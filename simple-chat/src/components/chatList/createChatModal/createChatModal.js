@@ -18,14 +18,21 @@ export function createCreateChatModal() {
     input.id = 'new-person-name';
     input.placeholder = 'Имя пользователя';
 
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.id = 'new-person-photo';
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none'; // Скрываем поле
+
+    const photoPreview = document.createElement('div');
+    photoPreview.id = 'photo-preview';
+    photoPreview.classList.add('photo-preview');
+
     const confirmButton = document.createElement('button');
     confirmButton.id = 'create-chat-confirm';
     confirmButton.textContent = 'OK';
 
-    modalContent.appendChild(closeButton);
-    modalContent.appendChild(heading);
-    modalContent.appendChild(input);
-    modalContent.appendChild(confirmButton);
+    modalContent.append(closeButton, heading, photoPreview, input, confirmButton, fileInput);
     modal.appendChild(modalContent);
 
     return modal;

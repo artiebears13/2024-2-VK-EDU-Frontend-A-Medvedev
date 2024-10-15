@@ -5,10 +5,7 @@ export function createChatButton() {
     const chatButton = document.createElement('button');
     chatButton.classList.add('create-chat-button');
 
-    const addIcon = document.createElement('span');
-    addIcon.classList.add('material-symbols-outlined');
-    addIcon.textContent = 'add';
-    chatButton.appendChild(addIcon);
-    addIcon.classList.add('no-margin');
+    const addIcon = `<span class="material-symbols-outlined" style="margin: 0">add</span>`;
+    chatButton.insertAdjacentHTML('afterbegin', addIcon);
     return chatButton;
 }

@@ -3,24 +3,27 @@ import {createCreateChatModal} from "./createChatModal/createChatModal";
 import {createChatButton} from "./createChatButton/createChatButton";
 import {chatList} from "./chatList";
 import {initializeModal} from "../modal/modal";
+import {handleSearch} from "../../utils/search";
 
 export function chatListView(app) {
-    const header = chatListHeader(handleSearch);
-    app.appendChild(header);
+    const fragment = document.createDocumentFragment();
 
     const chatListView = document.createElement('div');
     chatListView.classList.add('chat-list-view');
 
     const chatListDiv = document.createElement('div');
     chatListDiv.id = 'chat-list';
-    chatListView.appendChild(chatListDiv);
 
     const modal = createCreateChatModal();
-    app.appendChild(modal);
     const addChatButton = createChatButton();
-    chatListView.appendChild(addChatButton);
 
-    app.appendChild(chatListView);
+    chatListView.append(chatListDiv, addChatButton);
+    fragment.append(
+        chatListHeader(handleSearch),
+        createCreateChatModal(),
+        chatListView
+    );
+    app.appendChild(fragment)
 
     chatList();
     initializeModal();
@@ -30,11 +33,5 @@ export function chatListView(app) {
     });
 }
 
-let searchTimeout = null;
 
-function handleSearch(query) {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
-        chatList(query);
-    }, 300);
-}
+
