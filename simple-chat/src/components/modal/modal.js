@@ -112,6 +112,6 @@ function handleCreateChat(newNameInput, modal) {
         reader.readAsDataURL(selectedFile);
     } else {
         // default pic
-        createNewPerson('https://picsum.photos/50/50?random=2');
+        createNewPerson('https://avatar.iran.liara.run/public');
     }
 }

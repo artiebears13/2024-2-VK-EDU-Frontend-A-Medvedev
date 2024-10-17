@@ -3,12 +3,12 @@ export const initialPeople = [
     {
         id: '1',
         name: 'John Doe',
-        photo: 'https://picsum.photos/50/50?random=1',
+        photo: 'https://avatar.iran.liara.run/public',
     },
     {
         id: '2',
         name: 'Jane Smith',
-        photo: 'https://picsum.photos/50/50?random=2',
+        photo: 'https://avatar.iran.liara.run/public',
     },
 ];
 
@@ -41,6 +41,6 @@ export function userData() {
     return {
         id: 'me',
         name: 'Super User',
-        photo: 'https://picsum.photos/50/50?random=3',
+        photo: 'https://avatar.iran.liara.run/public',
     }
 }
