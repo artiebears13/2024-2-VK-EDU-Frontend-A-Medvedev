@@ -1048,12 +1048,11 @@ ___CSS_LOADER_EXPORT___.push([module.id, `#chat-list {
 .material-symbols-outlined {
   font-size: 18px;
   vertical-align: middle;
-  margin-left: 5px;
 }
 
 .plus {
   margin-left: 0;
-}`, "",{"version":3,"sources":["webpack://./components/chatList/chatList.scss","webpack://./variables.scss"],"names":[],"mappings":"AAGA;EACE,aAAA;EACA,YAAA;AAFF;;AAKA;EACE,yCCNiB;ADInB;;AAKA;EACE,eAAA;EACA,sBAAA;EACA,gBAAA;AAFF;;AAKA;EACE,cAAA;AAFF","sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./components/chatList/chatList.scss","webpack://./variables.scss"],"names":[],"mappings":"AAGA;EACE,aAAA;EACA,YAAA;AAFF;;AAKA;EACE,yCCNiB;ADInB;;AAKA;EACE,eAAA;EACA,sBAAA;AAFF;;AAKA;EACE,cAAA;AAFF","sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
