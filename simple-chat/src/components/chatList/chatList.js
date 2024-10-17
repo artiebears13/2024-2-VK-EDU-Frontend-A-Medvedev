@@ -1,137 +1,76 @@
-import './chatList.css'
+import './chatList.scss';
+import {loadPeople, getLastMessage, getAllMessages} from '../../utils/storage.js';
+import {chatItem} from "./items/chatItem";
 
-import { loadPeople, getLastMessage, markReceivedMessagesAsRead } from '../../utils/storage.js';
-
-export function renderChatList() {
-    let people = loadPeople();
-
+export function chatList(searchQuery = '') {
+    const people = loadPeople();
     const chatListDiv = document.getElementById('chat-list');
     chatListDiv.innerHTML = '';
 
-    // get last message
-    const chatsWithLastMessage = people.map(person => {
-        const lastMessage = getLastMessage(person.id);
-        return {
-            person,
-            lastMessage,
-        };
-    });
+    let filteredChats = [];
 
-    // sort by time
-    chatsWithLastMessage.sort((a, b) => {
-        const timeA = a.lastMessage ? a.lastMessage.timestamp : 0;
-        const timeB = b.lastMessage ? b.lastMessage.timestamp : 0;
+    if (searchQuery === '') {
+        const chatsWithLastMessage = people.map(person => {
+            const lastMessage = getLastMessage(person.id);
+            return {
+                person,
+                message: lastMessage,
+            };
+        });
+        filteredChats = chatsWithLastMessage;
+    } else {
+        const chatsWithAllMessages = people.map(person => {
+            const allMessages = getAllMessages(person.id);
+            return {
+                person,
+                messages: allMessages,
+            };
+        });
+
+        const query = searchQuery.toLowerCase();
+
+        filteredChats = chatsWithAllMessages
+            .map(chat => {
+                // return last message if matches with name or last matched message or null
+                const nameMatch = chat.person.name.toLowerCase().includes(query);
+
+                const matchingMessages = chat.messages.filter(message =>
+                    message.text.toLowerCase().includes(query)
+                );
+
+                if (nameMatch) {
+                    const lastMessage = getLastMessage(chat.person.id);
+                    return {
+                        person: chat.person,
+                        lastMessage,
+                    };
+                } else if (matchingMessages.length > 0) {
+                    const lastMatchingMessage = matchingMessages.reduce((latest, current) => {
+                        return (!latest || current.timestamp > latest.timestamp) ? current : latest;
+                    }, null);
+
+                    return {
+                        person: chat.person,
+                        message: lastMatchingMessage,
+                    };
+                } else {
+                    return null;
+                }
+            })
+            .filter(chat => chat !== null);
+    }
+
+    // sort by time descending
+    const sortedChats = filteredChats.sort((a, b) => {
+
+        const timeA = a.message ? a.message.timestamp : 0;
+        const timeB = b.message ? b.message.timestamp : 0;
         return timeB - timeA;
     });
 
-    // add messages
-    chatsWithLastMessage.forEach(chat => {
-        const chatItem = createChatItem(chat);
-        chatListDiv.appendChild(chatItem);
+    const fragment = document.createDocumentFragment();
+    sortedChats.forEach(chat => {
+        fragment.appendChild(chatItem(chat));
     });
-}
-
-function createChatItem({ person, lastMessage }) {
-    const chatItem = document.createElement('div');
-    chatItem.classList.add('chat-item');
-
-    const statusBadge = createStatusBadge(lastMessage);
-    const chatItemPhotoDiv = createChatItemPhotoDiv(person);
-    const chatItemInfoDiv = createChatItemInfoDiv(person, lastMessage);
-    const chatItemStatusDiv = createChatItemStatusDiv(statusBadge);
-    const chatItemTimeDiv = createChatItemTimeDiv(lastMessage)
-
-    chatItem.appendChild(chatItemPhotoDiv);
-    chatItem.appendChild(chatItemInfoDiv);
-    chatItem.appendChild(chatItemStatusDiv);
-    chatItem.appendChild(chatItemTimeDiv);
-
-    chatItem.addEventListener('click', () => {
-        markReceivedMessagesAsRead(person.id);
-        window.location.href = `chat.html?id=${person.id}`;  // to be refactored in spa
-    });
-
-    return chatItem;
-}
-
-function createStatusBadge(lastMessage){
-
-    let statusBadge = null;
-
-    if (lastMessage) {
-        if (lastMessage.direction === 'received' && lastMessage.readStatus === 'unread') {
-            const unreadCountDiv = document.createElement('div');
-            unreadCountDiv.classList.add('unread-count');
-            unreadCountDiv.textContent = '1';
-            statusBadge = unreadCountDiv;
-        } else if (lastMessage.direction === 'sent') {
-            const statusIconSpan = document.createElement('span');
-            statusIconSpan.classList.add('material-symbols-outlined');
-            if (lastMessage.readStatus === 'unread') {
-                statusIconSpan.classList.add('message-status-icon');
-                statusIconSpan.textContent = 'check';
-            } else if (lastMessage.readStatus === 'read') {
-                statusIconSpan.textContent = 'done_all';
-            }
-            statusBadge = statusIconSpan;
-        }
-
-    }
-    return statusBadge;
-}
-
-function createChatItemPhotoDiv(person){
-    const chatItemPhotoDiv = document.createElement('div');
-    chatItemPhotoDiv.classList.add('chat-item-photo');
-    const img = document.createElement('img');
-    img.src = person.photo;
-    img.alt = person.name;
-    chatItemPhotoDiv.appendChild(img);
-
-    return chatItemPhotoDiv;
-}
-
-function createChatItemInfoDiv(person, lastMessage){
-    const lastMessageText = lastMessage ? lastMessage.text : '';
-
-    const chatItemInfoDiv = document.createElement('div');
-    chatItemInfoDiv.classList.add('chat-item-info');
-
-    const chatItemNameDiv = document.createElement('div');
-    chatItemNameDiv.classList.add('chat-item-name');
-
-    const nameSpan = document.createElement('span');
-    nameSpan.textContent = person.name;
-
-    const chatItemLastMessageDiv = document.createElement('div');
-    chatItemLastMessageDiv.classList.add('chat-item-last-message');
-    chatItemLastMessageDiv.textContent = lastMessageText;
-
-    chatItemNameDiv.appendChild(nameSpan);
-    chatItemInfoDiv.appendChild(chatItemNameDiv);
-    chatItemInfoDiv.appendChild(chatItemLastMessageDiv);
-
-    return chatItemInfoDiv
-}
-
-function createChatItemStatusDiv(statusBadge){
-    const chatItemStatusDiv = document.createElement('div');
-    chatItemStatusDiv.classList.add('chat-item-status');
-    if (statusBadge) {
-        chatItemStatusDiv.appendChild(statusBadge);
-    }
-
-    return chatItemStatusDiv;
-}
-
-function createChatItemTimeDiv(lastMessage){
-    const lastMessageTime = lastMessage
-        ? new Date(lastMessage.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        : '';
-
-    const chatItemTimeDiv = document.createElement('div');
-    chatItemTimeDiv.classList.add('chat-item-time');
-    chatItemTimeDiv.textContent = lastMessageTime;
-
-    return chatItemTimeDiv;
+    chatListDiv.appendChild(fragment);
 }
