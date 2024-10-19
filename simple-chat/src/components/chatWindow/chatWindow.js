@@ -1,21 +1,14 @@
-import './chatWindow.css'
+// components/chatWindow/chatWindow.js
 
-
+import './chatWindow.scss';
 import {createMessageObject, saveMessage, markReceivedMessagesAsRead, loadPeople} from '../../utils/storage.js';
+import {closeChat} from '../../index.js';
+import {answerMock} from "../../mocks/__mocks__";
 
-
-export function initializeChatWindow() {
-    // парсим URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const chatId = urlParams.get('id');
-
-    const form = document.querySelector('.form');
-    const input = document.querySelector('.form-input');
-    const messagesList = document.querySelector('.messages-list');
-
+export function initializeChatWindow(chatId, form, input, messagesList) {
     fillHeader(chatId);
 
-    document.addEventListener('DOMContentLoaded', () => loadMessages(chatId, messagesList));
+    loadMessages(chatId, messagesList);
 
     form.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -24,14 +17,14 @@ export function initializeChatWindow() {
         if (messageText) {
             const message = createMessageObject(messageText, 'sent');
             saveMessage(chatId, message);
-            addMessageToUI(message, messagesList);
+            addMessageToUI(message, messagesList, true);
             input.value = '';
+            setTimeout(() => {
+                const randomMessage = Math.floor(Math.random() * 100 / 10);
+                simulateReceivedMessage(chatId, answerMock[randomMessage], messagesList);
+            }, 2000);
         }
     });
-
-    setTimeout(() => {
-        simulateReceivedMessage(chatId, 'Привет) как дела?', messagesList);
-    }, 5000);
 }
 
 function fillHeader(chatId) {
@@ -40,34 +33,28 @@ function fillHeader(chatId) {
     const person = people.find(p => p.id === chatId);
 
     if (person) {
-        header.innerHTML = '';
-
         const receiverDiv = document.createElement('div');
         receiverDiv.classList.add('receiver');
 
         const backButton = document.createElement('button');
         backButton.classList.add('material-symbols-outlined', 'back-button', 'white');
         backButton.textContent = 'arrow_back_ios';
-        backButton.onclick = () => {window.history.back()}
+        backButton.onclick = () => {
+            closeChat();
+        };
 
-        const receiverNameSpan = document.createElement('span');
-        receiverNameSpan.classList.add('receiver-name', 'white');
-        receiverNameSpan.textContent = person.name;
+        const receiverNameSpan = `<span class="receiver-name white">${person.name}</span>`;
 
-        const receiverPhotoDiv = document.createElement('div');
-        receiverPhotoDiv.classList.add('receiver-photo');
+        const receiverPhotoDiv = `<div class="receiver-photo"><img 
+            class="receiver-photo__image" 
+            src="${person.photo}" 
+            width="50px" 
+            height="50px" 
+            alt="profile"
+        /></div>`
 
-        const receiverPhotoImg = document.createElement('img');
-        receiverPhotoImg.classList.add('receiver-photo__image');
-        receiverPhotoImg.src = person.photo;
-        receiverPhotoImg.width = 50;
-        receiverPhotoImg.height = 50;
-        receiverPhotoImg.alt = 'profile photo';
-
-        receiverPhotoDiv.appendChild(receiverPhotoImg);
-        receiverDiv.appendChild(backButton);
-        receiverDiv.appendChild(receiverNameSpan);
-        receiverDiv.appendChild(receiverPhotoDiv);
+        receiverDiv.appendChild(backButton)
+        receiverDiv.insertAdjacentHTML("beforeend", `${receiverNameSpan} ${receiverPhotoDiv}`);
         header.appendChild(receiverDiv);
     } else {
         console.error('Пользователь не найден для chatId:', chatId);
@@ -78,7 +65,6 @@ function getMessageId(chatId, id) {
     return `${chatId}.message_${id}`;
 }
 
-// подгрузка сообщений
 function loadMessages(chatId, messagesList) {
     let lastMessageId = 0;
     if (localStorage.getItem(`${chatId}.lastMessageId`) !== null) {
@@ -94,12 +80,22 @@ function loadMessages(chatId, messagesList) {
     }
 
     markReceivedMessagesAsRead(chatId);
+
+    const element = document.querySelector('.foundMessage');
+    if (element) {
+        element.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
 }
 
-// добавляем пузырек сообщения
-function addMessageToUI(message, messagesList) {
+function addMessageToUI(message, messagesList, animate = false) {
     const messageItem = document.createElement('li');
     messageItem.classList.add('message-item', message.direction);
+    if (animate) {
+        messageItem.classList.add('scale-in-center')
+    }
+    if (message.messageId === +localStorage.getItem('to_message')) {
+        messageItem.classList.add("foundMessage");
+    }
 
     const timeSpan = document.createElement('span');
     timeSpan.classList.add('time');
@@ -116,15 +112,20 @@ function addMessageToUI(message, messagesList) {
         }
     }
 
-    messageItem.textContent = message.text;
+    const messageText = document.createElement('span');
+    messageText.textContent = message.text;
+
+    messageItem.appendChild(messageText);
     if (statusIcon) messageItem.appendChild(statusIcon);
     messageItem.appendChild(timeSpan);
 
     messagesList.appendChild(messageItem);
+
+    messagesList.parentElement.scrollTop = messagesList.parentElement.scrollHeight;
 }
 
 function simulateReceivedMessage(chatId, text, messagesList) {
     const message = createMessageObject(text, 'received');
     saveMessage(chatId, message);
-    addMessageToUI(message, messagesList);
+    addMessageToUI(message, messagesList, true);
 }

@@ -1,6 +1,5 @@
-import { initialPeople } from '../mocks/__mocks__.js';
+import {initialPeople, userData} from '../mocks/__mocks__.js';
 
-// load from localStorage
 export function loadPeople() {
     const storedPeople = JSON.parse(localStorage.getItem('people'));
     if (storedPeople && Array.isArray(storedPeople)) {
@@ -39,13 +38,35 @@ export function createMessageObject(text, direction) {
         text,
         timestamp: timeStamp.getTime(),
         direction,
-        readStatus: 'unread'
+        readStatus: 'unread',
     };
 }
 
+// to localStorage
 export function saveMessage(chatId, message) {
     let lastMessageId = parseInt(localStorage.getItem(`${chatId}.lastMessageId`)) || 0;
     lastMessageId += 1;
+    message.messageId = lastMessageId;
     localStorage.setItem(`${chatId}.message_${lastMessageId}`, JSON.stringify(message));
     localStorage.setItem(`${chatId}.lastMessageId`, `${lastMessageId}`);
+}
+
+// all messages from chat with personId
+export function getAllMessages(personId) {
+    const messages = [];
+    const prefix = `${personId}.message_`;
+
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith(prefix)) {
+            const message = JSON.parse(localStorage.getItem(key));
+            messages.push(message);
+        }
+    }
+
+    return messages;
+}
+
+export function readUserData() {
+    return userData();
 }
