@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MenuButton } from './MenuButton/index.js';
 import { Title } from './Title/index.js';
 import { SearchBar } from './SearchBar/SearchBar.jsx';
-import './header.scss';
+import './ChatListHeader.scss';
 
 export const ChatListHeader = ({handleSearch, onMenuShow}) => {
     const [isSearchOpen, setSearchOpen] = useState(false);
