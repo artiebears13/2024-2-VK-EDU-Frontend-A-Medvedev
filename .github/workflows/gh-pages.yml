@@ -21,7 +21,7 @@ jobs:
       - name: LS 2
         run: ls copy /home/runner/work/2024-2-VK-EDU-Frontend-A-Medvedev/2024-2-VK-EDU-Frontend-A-Medvedev/react-chat
       - name: LS 3
-      - run: ls /home/runner/work/2024-2-VK-EDU-Frontend-A-Medvedev/2024-2-VK-EDU-Frontend-A-Medvedev/react-chat/dist
+        run: ls /home/runner/work/2024-2-VK-EDU-Frontend-A-Medvedev/2024-2-VK-EDU-Frontend-A-Medvedev/react-chat/dist
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
