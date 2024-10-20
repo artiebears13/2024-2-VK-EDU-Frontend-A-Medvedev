@@ -16,7 +16,8 @@ jobs:
         working-directory: ./react-chat
         run: npm run build
       - name: LS
-        run: ll
+        working-directory: ./react-chat
+        run: ls
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
