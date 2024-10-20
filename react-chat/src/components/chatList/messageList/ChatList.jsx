@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import { ChatContext } from '../../../context/ChatContext';
 import { ChatItem } from './ChatItem';
-import './chatList.scss';
+import './ChatList.scss';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
 export const ChatList = ({ searchQuery = '' }) => {
