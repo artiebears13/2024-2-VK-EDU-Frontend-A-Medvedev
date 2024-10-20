@@ -5,7 +5,7 @@ import { ChatPhoto } from './ChatPhoto';
 import { ChatInfo } from './ChatInfo';
 import { ChatStatus } from './ChatStatus';
 import { ChatTime } from './ChatTime';
-import './chatItem.scss';
+import './ChatItem.scss';
 
 export const ChatItem = ({ person, message, isSearched }) => {
     const navigate = useNavigate();
