@@ -16,4 +16,7 @@ jobs:
         working-directory: ./react-chat
         run: npm run build
       - name: Deploy
-        run: npm run deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./react-chat/dist
