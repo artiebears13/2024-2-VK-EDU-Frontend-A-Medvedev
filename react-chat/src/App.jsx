@@ -13,8 +13,9 @@ function App() {
 
     return (
         <ChatProvider>
+
             {error && <AlertMessage></AlertMessage>}
-            <Router>
+            <Router basename={import.meta.env.PUBLIC_URL || '/'}>
                 <Routes>
                     <Route path="/" element={<ChatListPage/>}/>
                     <Route path="/chat/:chatId" element={<PageChat/>}/>
