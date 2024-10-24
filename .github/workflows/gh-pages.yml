@@ -10,20 +10,13 @@ jobs:
         with:
           node-version: 20
       - name: Install npm deps
-        working-directory: ./react-chat
+        working-directory: ./simple-chat
         run: npm i
       - name: Build app
         working-directory: ./react-chat
         run: npm run build
-      - name: LS
-        working-directory: ./react-chat
-        run: ls
-      - name: LS 2
-        run: ls /home/runner/work/2024-2-VK-EDU-Frontend-A-Medvedev/2024-2-VK-EDU-Frontend-A-Medvedev/react-chat
-      - name: LS 3
-        run: ls /home/runner/work/2024-2-VK-EDU-Frontend-A-Medvedev/2024-2-VK-EDU-Frontend-A-Medvedev/react-chat/dist
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./react-chat/dist/
+          publish_dir: ./react-chat/dist
