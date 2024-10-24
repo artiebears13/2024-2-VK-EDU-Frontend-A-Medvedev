@@ -10,7 +10,7 @@ jobs:
         with:
           node-version: 20
       - name: Install npm deps
-        working-directory: ./simple-chat
+        working-directory: ./react-chat
         run: npm i
       - name: Build app
         working-directory: ./react-chat
