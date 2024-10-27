@@ -12,6 +12,8 @@ $color-gray-darken: var(--color-gray-darken);
 $color-received: var(--color-received);
 $color-sent: var(--color-sent);
 
+$theme: var(--theme);
+
 $font-family-base: Helvetica, Arial, sans-serif;
 $font-size-base: 15px;
 $font-size-small: 10px;
@@ -27,3 +29,9 @@ $transition-medium: 0.3s;
 $transition-slow: 0.5s;
 
 $header-height: 60px;
+
+
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+$breakpoint-large-desktop: 1200px;

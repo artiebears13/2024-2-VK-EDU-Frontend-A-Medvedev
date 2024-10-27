@@ -7,6 +7,7 @@ import {
     readMessage, readUserData
 } from '../utils/storage';
 import {ErrorContext} from "./ErrorContext.jsx";
+import log from "eslint-plugin-react/lib/util/log.js";
 
 export const ChatContext = createContext();
 
@@ -24,6 +25,7 @@ export const ChatProvider = ({ children }) => {
             const loadedPersons = await loadPersons();
             setPersons(loadedPersons);
 
+
             const self = readUserData();
             setSelfPerson(self);
 
@@ -39,21 +41,37 @@ export const ChatProvider = ({ children }) => {
             }, {});
             setMessages(loadedMessages);
         } catch (error) {
-            setError(error)
+            setError(error.message)
             setPersons([]);
             setMessages([]);
         }
     };
         loadData().then();
 
-    }, []);
+    }, [setError]);
+
+
+
+    const editPerson = useCallback((updatedData) => {
+        console.log(updatedData);
+
+
+        setSelfPerson((prevPerson) => {
+            const updatedPerson = { ...prevPerson, ...updatedData };
+            localStorage.setItem('user', JSON.stringify(updatedPerson));
+            return updatedPerson;
+        });
+    }, [setSelfPerson]);
 
     const addMessage = useCallback(async (personId, message) => {
+        console.log('add messages context ', message);
+
         await saveMessage(personId, message);
         setMessages(prevMessages => ({
             ...prevMessages,
             [personId]: [...(prevMessages[personId] || []), message]
         }));
+        console.log('add messages context ', messages);
     }, []);
 
     const markMessageAsRead = useCallback((personId, messageId) => {
@@ -108,6 +126,7 @@ export const ChatProvider = ({ children }) => {
     return (
         <ChatContext.Provider value={{
             selfPerson,
+            editPerson,
             persons,
             messages,
             addMessage,

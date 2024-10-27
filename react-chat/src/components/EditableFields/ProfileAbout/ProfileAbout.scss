@@ -1,0 +1,24 @@
+@use '../../../variables';
+@use '../../../mixins';
+
+.profile-about {
+  &-title {
+    font-size: 12px;
+  }
+  &-text{
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+  }
+  &-input{
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    color: variables.$color-text;
+  }
+}
+
+

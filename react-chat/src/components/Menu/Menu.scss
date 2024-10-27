@@ -27,6 +27,7 @@
 
 .user-data {
   @include mixins.flex-center(column, flex-start, center);
+  cursor: pointer;
 }
 
 .userName {

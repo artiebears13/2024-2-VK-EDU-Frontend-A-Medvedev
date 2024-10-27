@@ -10,6 +10,7 @@ export const MessagesList = memo(({ messages }) => {
 
     useEffect(() => {
         if (ref && ref.current) {
+            console.log("scrolling");
             ref.current.scrollTop = ref.current.scrollHeight;
         }
 

@@ -1,9 +1,10 @@
 import React from 'react';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {HashRouter as Router, Routes, Route} from 'react-router-dom';
 import {ChatProvider} from "./context/ChatContext.jsx";
 import {AlertMessage} from "./components/Modals/AlertMessage/AlertMessage.jsx";
 import {ChatListPage} from "./pages/ChatList/ChatListPage.jsx";
 import {PageChat} from "./pages/PageChat/PageChat.jsx";
+import {ProfilePage} from "./pages/ProfilePage/ProfilePage.jsx";
 
 function App() {
     const theme = localStorage.getItem('theme') || 'light';
@@ -13,10 +14,11 @@ function App() {
         <ChatProvider>
 
             <AlertMessage></AlertMessage>
-            <Router basename={"/2024-2-VK-EDU-Frontend-A-Medvedev"}>
+            <Router>
                 <Routes>
                     <Route path="/" element={<ChatListPage/>}/>
                     <Route path="/chat/:chatId" element={<PageChat/>}/>
+                    <Route path="/profile" element={<ProfilePage/>}/>
                 </Routes>
             </Router>
         </ChatProvider>

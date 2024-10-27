@@ -1,0 +1,6 @@
+@use '../../../mixins';
+@use '../../../variables';
+
+.edit-button{
+    @include mixins.button-reset;
+}

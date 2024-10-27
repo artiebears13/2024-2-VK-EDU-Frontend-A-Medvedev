@@ -40,7 +40,12 @@ export const answerMock = [
 export function userData() {
     return {
         id: 'me',
+        username: '@superuser',
         name: 'Super User',
         photo: 'https://avatar.iran.liara.run/public',
+        about: 'Студент курса ВК "Fullstack/2"',
+        status: 'делаю дз',
+        birthday: '2000-05-04',
+        city: "Москва"
     }
 }

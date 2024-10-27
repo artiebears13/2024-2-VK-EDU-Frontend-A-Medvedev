@@ -1,0 +1,38 @@
+@use '../../mixins';
+@use '../../variables';
+
+.profile-page {
+  @include mixins.flex-center(column);
+  &-container {
+    margin-top: 40px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color: variables.$color-text;
+    border-radius: 15px;
+    background-color: variables.$color-background-darken;
+    width: 320px;
+    @include mixins.media(variables.$breakpoint-mobile){
+      width: 90%;
+    }
+  }
+  &-description{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-bottom: 25px;
+  }
+  &-key{
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  &-field{
+    width: 100%;
+    border-bottom: 1px solid variables.$color-chat-border;
+    padding-top: 10px;
+  }
+}

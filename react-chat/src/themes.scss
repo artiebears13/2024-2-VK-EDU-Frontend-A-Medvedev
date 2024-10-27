@@ -1,5 +1,6 @@
 
 :root {
+  --theme: light;
   --color-primary: #006bbf;
   --color-primary-darken: #015da4;
   --color-secondary: #93b58b;
@@ -16,6 +17,7 @@
 }
 
 [data-theme="dark"] {
+  --theme: dark;
   --color-primary: #1a1a1a;
   --color-primary-darken: #151515;
   --color-secondary: #333;

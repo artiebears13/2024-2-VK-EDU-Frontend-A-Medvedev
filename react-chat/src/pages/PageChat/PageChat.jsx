@@ -30,9 +30,10 @@ export const PageChat = memo(() => {
     }, [messages, chatId, markMessageAsRead]);
 
 
-    const sendMessage = useCallback((messageText) => {
-        if (messageText.trim()) {
-            const message = createMessageObject(messageText, 'sent');
+    const sendMessage = useCallback(({text, image}) => {
+        const messageText = text.trim();
+        if (messageText || image) {
+            const message = createMessageObject(messageText, 'sent', image);
             addMessage(chatId, message);
             // simulations
             setTimeout(() => {

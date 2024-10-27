@@ -6,12 +6,15 @@
   background-color: lightblue;
   max-width: 60%;
   margin-bottom: 10px;
-  padding: 10px 40px 10px 15px;
+  padding: 10px 10px 1px 15px;
   @include mixins.box-shadow();
   position: relative;
   word-wrap: break-word;
   align-self: flex-start;
   @include mixins.border-radius(variables.$border-radius-medium);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   min-width: 60px;
 
   &.sent {
@@ -55,25 +58,41 @@
     }
   }
 
-  &__text{
-    &.found{
+  &__text {
+    margin: 0;
+    &.found {
       animation: blink 1.5s ease-in-out;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    margin-bottom: 10px;
+    @include mixins.flex-center();
+
+    & > img {
+      width: 80%;
     }
   }
 
   & .time {
     font-size: variables.$font-size-small;
     color: variables.$color-gray;
-    position: absolute;
-    bottom: 5px;
-    right: 10px;
+    margin: 0;
   }
 
   &__status {
-    font-size: 16px;
-    vertical-align: middle;
-    margin-left: 5px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+
+    &-item {
+      margin: 0;
+    }
   }
+
 
 }
 
@@ -84,7 +103,6 @@
   height: 16px;
   position: absolute;
 }
-
 
 
 .scale-in-center {

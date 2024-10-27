@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ChatContext } from '../../../context/ChatContext.jsx';
 import { v4 as uuidv4 } from 'uuid';
 import {ErrorContext} from "../../../context/ErrorContext.jsx";
+import {readFileAsDataURL} from "../../../utils/storage.js";
 
 export const CreateChatModal = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
@@ -38,14 +39,7 @@ export const CreateChatModal = ({ isOpen, onClose }) => {
         }
     };
 
-    const readFileAsDataURL = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = (e) => resolve(e.target.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        });
-    };
+
 
     const handleCreateChat = async () => {
         const newPersonName = personName.trim();
