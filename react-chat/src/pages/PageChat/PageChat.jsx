@@ -1,61 +1,54 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect, useCallback, memo } from 'react';
 import { useParams } from 'react-router-dom';
-import { ChatContext } from '../../context/ChatContext';
-import {createMessageObject, getLastMessage} from '../../utils/storage';
-import { answerMock } from '../../mocks/__mocks__';
+import { useChatContext } from '../../context/ChatContext';
 import './PageChat.scss';
-import { Header } from "../../components/PageChat/Header";
-import {MessagesList} from "../../components/PageChat/MessagesList";
-import {MessageInput} from "../../components/PageChat/MessageInput";
+import { PageChatHeader } from "../../components/Headers/PageChatHeader";
+import { MessagesList } from "../../components/MessagesList";
+import { MessageInput } from "../../components/Inputs/MessageInput";
+import {createMessageObject} from "../../utils/storage.js";
+import {answerMock} from "../../mocks/__mocks__.js";
 
-export const PageChat = () => {
+export const PageChat = memo(() => {
     const { chatId } = useParams();
-    const { messages, addMessage, markMessageAsRead, markAllReceivedAsRead } = useContext(ChatContext);
-    const currentMessages = messages[chatId] || [];
+    const {
+        getMessagesByChatId,
+        addMessage,
+        markMessageAsRead,
+        markAllReceivedAsRead,
+        foundMessage,
+        setFoundMessage
+    } = useChatContext();
+    const currentMessages = getMessagesByChatId(chatId);
 
     useEffect(() => {
         if (chatId) {
             markAllReceivedAsRead(chatId);
         }
-
     }, [chatId, markAllReceivedAsRead]);
 
-    useEffect(() => {
-        if (messages[chatId] && messages[chatId].length > 0) {
-            const lastMessage = messages[chatId][messages[chatId].length - 1];
-            if (lastMessage.direction === "received" && lastMessage.readStatus === "unread") {
-                markMessageAsRead(chatId, lastMessage.id);
-            }
-        }
-    }, [messages, chatId, markMessageAsRead]);
-
-
-    const sendMessage = (messageText) => {
+    const sendMessage = useCallback((messageText) => {
         if (messageText.trim()) {
             const message = createMessageObject(messageText, 'sent');
             addMessage(chatId, message);
-            // simulations
-            setTimeout(() => {
-                markMessageAsRead(chatId, message.id);
-            }, 2000);
+            setTimeout(() => markMessageAsRead(chatId, message.id), 2000);
             setTimeout(() => simulateReceivedMessage(chatId), 3000);
         }
-    };
+    }, [chatId, addMessage, markMessageAsRead]);
 
-    const simulateReceivedMessage = () => {
+    const simulateReceivedMessage = useCallback(() => {
         const randomMessageIndex = Math.floor(Math.random() * answerMock.length);
         const receivedMessageText = answerMock[randomMessageIndex];
         const receivedMessage = createMessageObject(receivedMessageText, 'received');
         addMessage(chatId, receivedMessage);
-    };
+    }, [chatId, addMessage]);
 
     return (
         <div className="page-chat">
-            <Header chatId={chatId} />
+            <PageChatHeader chatId={chatId} />
             <div className="chat-container">
-                <MessagesList messages={currentMessages} />
+                <MessagesList messages={currentMessages} foundMessage={foundMessage} setFoundMessage={setFoundMessage} />
                 <MessageInput onSendMessage={sendMessage} />
             </div>
         </div>
     );
-};
+});

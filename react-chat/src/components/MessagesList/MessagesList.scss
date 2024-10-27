@@ -1,0 +1,15 @@
+@use "../../variables";
+
+.messages-container {
+  width: 100%;
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background: variables.$color-secondary;
+  position: relative;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+}
