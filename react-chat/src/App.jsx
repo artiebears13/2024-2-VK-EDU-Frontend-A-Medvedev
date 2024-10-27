@@ -1,9 +1,9 @@
 import React from 'react';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import {ChatListPage} from './pages/ChatList/index.js';
-import {PageChat} from './pages/PageChat/index.js';
 import {ChatProvider} from "./context/ChatContext.jsx";
-import {AlertMessage} from "./components/Modals/AlertMessage";
+import {AlertMessage} from "./components/Modals/AlertMessage/AlertMessage.jsx";
+import {ChatListPage} from "./pages/ChatList/ChatListPage.jsx";
+import {PageChat} from "./pages/PageChat/PageChat.jsx";
 
 function App() {
     const theme = localStorage.getItem('theme') || 'light';

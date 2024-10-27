@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Title } from '../../Title/index.js';
-import { SearchBar } from '../../SearchBar/SearchBar.jsx';
 import './ChatListHeader.scss';
-import {MenuButton} from "../../Buttons/MenuButton/index.js";
+import {MenuButton} from "../../Buttons/MenuButton/MenuButton.jsx";
+import {SearchBar} from "../../SearchBar/SearchBar.jsx";
+import {Title} from "@mui/icons-material";
 
 export const ChatListHeader = ({handleSearch, onMenuShow}) => {
     const [isSearchOpen, setSearchOpen] = useState(false);

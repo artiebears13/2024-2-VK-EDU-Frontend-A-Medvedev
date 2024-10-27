@@ -1,6 +1,4 @@
-// src/components/PageChat/MessagesList/MessagesList.jsx
-
-import React, {useEffect, useRef, useContext, memo} from 'react';
+import React, {useEffect, useRef, useContext, memo, useCallback} from 'react';
 import './MessagesList.scss';
 import { MessageItem } from '../MessageItem/MessageItem.jsx';
 import { ChatContext } from '../../context/ChatContext.jsx';
@@ -27,23 +25,26 @@ export const MessagesList = memo(({ messages }) => {
 
     }, [messages, setFoundMessage]);
 
+
+    const getMessageItems = useCallback((message) => {
+        if (foundMessage && message.id === foundMessage ) {
+            return <MessageItem
+                ref={foundRef}
+                key={message.id || message.timestamp}
+                message={message}
+                isFound={true}
+            />
+        }
+        return <MessageItem
+            key={message.id || message.timestamp}
+            message={message}
+        />
+    });
+
     return (
         <div className="messages-container" ref={ref}>
             <ul className="messages-list">
-                {messages.map((message) => {
-                    if (foundMessage && message.id === foundMessage ) {
-                        return <MessageItem
-                            ref={foundRef}
-                            key={message.id || message.timestamp}
-                            message={message}
-                            isFound={true}
-                        />
-                    }
-                    return <MessageItem
-                        key={message.id || message.timestamp}
-                        message={message}
-                    />
-                })}
+                {messages.map(getMessageItems)}
             </ul>
         </div>
     )});

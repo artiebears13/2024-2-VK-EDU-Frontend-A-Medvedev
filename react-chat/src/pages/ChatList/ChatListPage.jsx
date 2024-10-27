@@ -1,8 +1,8 @@
-import {ChatList} from "../../components/chatList/ChatList.jsx";
-import {ChatListHeader} from "../../components/Headers/ChatListHeader/index.js";
 import React, {useState} from "react";
-import {CreateChatButton} from "../../components/Buttons/CreateChatButton/";
-import {CreateChatModal} from "../../components/Modals/CreateChatModal/";
+import {ChatListHeader} from "../../components/Headers/ChatListHeader/ChatListHeader.jsx";
+import {CreateChatButton} from "../../components/Buttons/CreateChatButton/CreateChatButton.jsx";
+import {CreateChatModal} from "../../components/Modals/CreateChatModal/CreateChatModal.jsx";
+import {ChatList} from "../../components/chatList/ChatList.jsx";
 import {Menu} from "../../components/Menu/Menu.jsx";
 
 export const ChatListPage = () => {
