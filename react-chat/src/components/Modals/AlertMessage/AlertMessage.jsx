@@ -6,7 +6,6 @@ import {ErrorContext} from "../../../context/ErrorContext.jsx";
 export const AlertMessage = () => {
     const {error, setError} = useContext(ErrorContext)
     useEffect(() => {
-        console.log("close error");
         if (error){
             setTimeout(() => setError(false), 4000);
         }
