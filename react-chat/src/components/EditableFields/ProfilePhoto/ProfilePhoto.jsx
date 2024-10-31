@@ -1,16 +1,18 @@
 // ProfilePhoto.jsx
 import React, { useState, useRef, useContext } from 'react';
-import {ChatContext} from "../../../context/ChatContext.jsx";
 import {ErrorContext} from "../../../context/ErrorContext.jsx";
 import './ProfilePhoto.scss'
+import {readFileAsDataURL} from "../../../utils/storage.js";
 
 export const ProfilePhoto = ( {selfPerson, setSelfPerson} ) => {
     const { setError } = useContext(ErrorContext);
     const [photoPreview, setPhotoPreview] = useState(selfPerson.photo || 'https://avatar.iran.liara.run/public');
     const fileInputRef = useRef(null);
 
-    const handleFileChange = (event) => {
+    const handleFileChange = async (event) => {
+        console.log("new photo")
         const file = event.target.files[0];
+        const photoURL = await readFileAsDataURL(file)
         if (file) {
             if (!file.type.startsWith('image/')) {
                 setError('Файл должен быть изображением.');
@@ -21,9 +23,9 @@ export const ProfilePhoto = ( {selfPerson, setSelfPerson} ) => {
                 setPhotoPreview(e.target.result);
                 setSelfPerson((prev) => ({
                     ...prev,
-                    photo: e.target.result,
+                    photo: photoURL,
                 }));
-                localStorage.setItem('selfPerson', JSON.stringify({ ...selfPerson, photo: e.target.result }));
+                localStorage.setItem('user', JSON.stringify({...selfPerson, photo: e.target.result}));
             };
             reader.readAsDataURL(file);
         }
