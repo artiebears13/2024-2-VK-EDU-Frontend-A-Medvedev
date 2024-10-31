@@ -1,0 +1,5 @@
+@use '../../../mixins';
+
+.menu-button {
+  @include mixins.button-reset;
+}
