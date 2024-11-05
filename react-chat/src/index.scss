@@ -28,7 +28,7 @@ body {
   @include mixins.flex-center($justify: space-between);
 }
 
-.back-button {
+.backButton {
   @include mixins.button-reset;
 }
 

@@ -5,7 +5,7 @@ import { ChatPhoto } from './ChatPhoto.jsx';
 import { ChatInfo } from './ChatInfo.jsx';
 import { ChatStatus } from './ChatStatus.jsx';
 import { ChatTime } from './ChatTime.jsx';
-import './ChatItem.scss';
+import styles from './ChatItem.module.scss';
 
 export const ChatItem = ({ person, message, isSearched }) => {
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ export const ChatItem = ({ person, message, isSearched }) => {
     };
 
     return (
-        <div className="chat-item" onClick={handleClick}>
+        <div className={styles.chatItem} onClick={handleClick}>
             <ChatPhoto person={person} />
             <ChatInfo person={person} message={message} />
             <ChatStatus message={message} />

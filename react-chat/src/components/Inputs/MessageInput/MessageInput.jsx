@@ -1,12 +1,12 @@
 import React, {useState, useContext, useRef} from 'react';
-import './MessageInput.scss';
+import styles from './MessageInput.module.scss';
 import SendIcon from '@mui/icons-material/Send';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import CloseIcon from '@mui/icons-material/Close';
 import {readFileAsDataURL} from "../../../utils/storage.js";
 import {ErrorContext} from "../../../context/ErrorContext.jsx";
 
-export const MessageInput = ({onSendMessage}) => {
+export const MessageInput = ({onSendMessage, active}) => {
     const attachedImageInputRef = useRef(null);
     const [messageText, setMessageText] = useState('');
     const [attachedImage, setAttachedImage] = useState(null);
@@ -42,17 +42,17 @@ export const MessageInput = ({onSendMessage}) => {
     }
 
     return (
-        <div className="input-container">
+        <div className={styles.inputContainer}>
             {
                 attachedImage && (
-                    <div className="input-container__attachment">
+                    <div className={styles.inputContainerAttachment}>
                         <img src={attachedImage} alt="" />
-                        <button className="input-container__attachment-close" onClick={deleteAttachment}><CloseIcon sx={{ fontSize: 10 }}/></button>
+                        <button className={styles.inputContainerAttachmentClose} onClick={deleteAttachment}><CloseIcon sx={{ fontSize: 10 }}/></button>
                     </div>
                 )
             }
-            <div className="form-container">
-                <form className="form" onSubmit={handleSubmit}>
+            <div className={`${styles.formContainer} ${active ? '' : 'disabled'}`}>
+                <form className={styles.form} onSubmit={handleSubmit}>
                     <input
                         ref={attachedImageInputRef}
                         accept="image/*"
@@ -60,28 +60,31 @@ export const MessageInput = ({onSendMessage}) => {
                         id="attachment-input"
                         type="file"
                         onChange={handleAttachmentChange}
+                        disabled={!active}
                     />
                     <label htmlFor="attachment-input">
                         <button
                             type="button"
-                            className="attachment-btn"
+                            className={styles.attachmentBtn}
                             aria-label="Attach Image"
                             onClick={() => attachedImageInputRef.current.click()}
+                            disabled={!active}
                         >
                             <AttachmentIcon className="attachment-icon"/>
                         </button>
                     </label>
                     <input
-                        className="form-input"
+                        className={styles.formInput}
                         type="text"
                         value={messageText}
                         onChange={(e) => setMessageText(e.target.value)}
                         placeholder="Введите сообщение"
                         aria-label="Message input"
+                        disabled={!active}
                     />
 
-                    <button className="send-btn" type="submit" aria-label="Send Message">
-                        <SendIcon className="send-icon white" fontSize={"small"}/>
+                    <button className={styles.sendBtn} type="submit" aria-label="Send Message" disabled={!active}>
+                        <SendIcon className={`${styles.sendIcon} ${styles.white}`} fontSize={"medium"}/>
                     </button>
                 </form>
             </div>

@@ -1,13 +1,12 @@
 import AddIcon from '@mui/icons-material/Add';
-import './createChatButton.scss'
-
+import styles from './createChatButton.module.scss';
 
 export const CreateChatButton = ({openCreateChatModal}) => {
     return (
-        <button className='create-chat-button' onClick={openCreateChatModal}>
-            <div className='create-chat-button__content'>
+        <button className={styles.createChatButton} onClick={openCreateChatModal}>
+            <div className={styles.createChatButtonContent}>
                 <AddIcon/>
             </div>
         </button>
-    )
-}
+    );
+};

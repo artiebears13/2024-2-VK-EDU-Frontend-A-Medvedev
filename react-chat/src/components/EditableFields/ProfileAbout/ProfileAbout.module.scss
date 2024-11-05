@@ -1,17 +1,18 @@
 @use '../../../variables';
 @use '../../../mixins';
+@import "../../../pages/ProfilePage/ProfilePage.module.scss";
 
-.profile-about {
-  &-title {
+.profileAbout {
+  &Title {
     font-size: 12px;
   }
-  &-text{
+  &Text{
     white-space: pre-wrap;
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-all;
   }
-  &-input{
+  &Input{
     width: 100%;
     background-color: transparent;
     border: none;

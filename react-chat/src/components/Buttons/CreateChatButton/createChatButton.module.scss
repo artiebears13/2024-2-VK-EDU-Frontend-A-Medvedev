@@ -1,7 +1,7 @@
 @use '../../../mixins';
 @use '../../../variables';
 
-.create-chat-button {
+.createChatButton  {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -20,7 +20,7 @@
     background-color: #0051a8;
   }
 
-  &__content{
+  &Content {
     display: flex;
     @include mixins.flex-center();
   }

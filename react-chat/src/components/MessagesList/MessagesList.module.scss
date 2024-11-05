@@ -1,6 +1,7 @@
 @use "../../variables";
+@use "../../mixins";
 
-.messages-container {
+.messagesContainer {
   width: 100%;
   flex-grow: 1;
   padding: 20px;
@@ -12,4 +13,10 @@
     display: none;
   }
   -ms-overflow-style: none;
+}
+.messagesList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  @include mixins.flex-center(column);
 }

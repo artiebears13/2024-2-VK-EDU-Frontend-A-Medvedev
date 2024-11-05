@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import './ProfileBirthday.scss';
+import React, {useState, useEffect} from 'react';
+import styles from './ProfileBirthday.module.scss'
 
-export const ProfileBirthday = ({ birthday, setBirthday, isEdit }) => {
+export const ProfileBirthday = ({birthday, setBirthday, isEdit}) => {
     const [newBirthday, setNewBirthday] = useState('');
 
     useEffect(() => {
         if (!isEdit) {
             setNewBirthday('');
-        } else {
-            // Инициализируем newBirthday текущей датой рождения в формате 'YYYY-MM-DD'
-            if (birthday) {
-                const date = new Date(birthday);
-                const year = date.getFullYear();
-                const month = ('0' + (date.getMonth() + 1)).slice(-2);
-                const day = ('0' + date.getDate()).slice(-2);
-                setNewBirthday(`${year}-${month}-${day}`);
-            }
+            return;
+        }
+        // Инициализируем newBirthday текущей датой рождения в формате 'YYYY-MM-DD'
+        if (birthday) {
+            const date = new Date(birthday);
+            const year = date.getFullYear();
+            const month = ('0' + (date.getMonth() + 1)).slice(-2);
+            const day = ('0' + date.getDate()).slice(-2);
+            setNewBirthday(`${year}-${month}-${day}`);
+
         }
     }, [isEdit, birthday]);
 
@@ -60,15 +61,15 @@ export const ProfileBirthday = ({ birthday, setBirthday, isEdit }) => {
     const age = calculateAge(birthday);
 
     return (
-        <div className="profile-birthday-date profile-page-field">
-            <p className="profile-page-key">День рождения:</p>
+        <div className={`profile-birthday-date ${styles.ProfilePageField}`}>
+            <p className={styles.ProfilePageKey}>День рождения:</p>
             {!isEdit ? (
                 <>
                     {formatBirthday(birthday)} ({age} {getYearWord(age)})
                 </>
             ) : (
                 <input
-                    className="profile-birthday-input"
+                    className={styles.ProfileBirthdayInput}
                     type="date"
                     value={newBirthday}
                     onChange={(e) => onChange(e.target.value)}

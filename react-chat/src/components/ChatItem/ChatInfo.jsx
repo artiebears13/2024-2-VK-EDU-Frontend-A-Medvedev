@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './ChatItem.module.scss'
 
 export const ChatInfo = ({ person, message }) => {
     const lastMessageText = message ? message.text : '';
@@ -9,9 +10,9 @@ export const ChatInfo = ({ person, message }) => {
         : lastMessageText;
 
     return (
-        <div className="chat-item__info">
-            <div className="chat-item__name">{person.name}</div>
-            <div className="chat-item__last-message">{displayText}</div>
+        <div className={styles.chatItemInfo}>
+            <div className={styles.chatItemName}>{person.name}</div>
+            <div className={styles.chatItemLastMessage}>{displayText}</div>
         </div>
     );
 };

@@ -9,7 +9,6 @@ export function Menu() {
     menuBackground.classList.add('menu-background', 'slide-in-left');
     menuBackground.style.display = 'none';
     menuBackground.addEventListener('click', (e) => {
-        console.log(e.target.className);
         if (e.target.classList.contains('menu-background')) {
             menuBackground.style.display = 'none';
         }

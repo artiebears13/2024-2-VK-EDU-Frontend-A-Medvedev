@@ -1,5 +1,5 @@
 import React from 'react';
-import {HashRouter as Router, Routes, Route} from 'react-router-dom';
+import {HashRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import {ChatProvider} from "./context/ChatContext.jsx";
 import {AlertMessage} from "./components/Modals/AlertMessage/AlertMessage.jsx";
 import {ChatListPage} from "./pages/ChatList/ChatListPage.jsx";
@@ -19,6 +19,7 @@ function App() {
                     <Route path="/" element={<ChatListPage/>}/>
                     <Route path="/chat/:chatId" element={<PageChat/>}/>
                     <Route path="/profile" element={<ProfilePage/>}/>
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Router>
         </ChatProvider>

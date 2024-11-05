@@ -7,7 +7,6 @@ import {
     readMessage, readUserData
 } from '../utils/storage';
 import {ErrorContext} from "./ErrorContext.jsx";
-import log from "eslint-plugin-react/lib/util/log.js";
 
 export const ChatContext = createContext();
 
@@ -27,6 +26,7 @@ export const ChatProvider = ({ children }) => {
 
 
             const self = readUserData();
+            console.log('context: ', self);
             setSelfPerson(self);
 
 
@@ -52,10 +52,7 @@ export const ChatProvider = ({ children }) => {
 
 
 
-    const editPerson = useCallback((updatedData) => {
-        console.log(updatedData);
-
-
+    const editSelfPerson = useCallback((updatedData) => {
         setSelfPerson((prevPerson) => {
             const updatedPerson = { ...prevPerson, ...updatedData };
             localStorage.setItem('user', JSON.stringify(updatedPerson));
@@ -63,15 +60,23 @@ export const ChatProvider = ({ children }) => {
         });
     }, [setSelfPerson]);
 
+    const editPersonInPersons = useCallback((personId, updatedData) => {
+        setPersons(prevPersons => {
+            const updatedPersons = prevPersons.map(person =>
+                person.id === personId ? { ...person, ...updatedData } : person
+            );
+            localStorage.setItem('people', JSON.stringify(updatedPersons));
+            return updatedPersons;
+        });
+    }, []);
+
     const addMessage = useCallback(async (personId, message) => {
-        console.log('add messages context ', message);
 
         await saveMessage(personId, message);
         setMessages(prevMessages => ({
             ...prevMessages,
             [personId]: [...(prevMessages[personId] || []), message]
         }));
-        console.log('add messages context ', messages);
     }, []);
 
     const markMessageAsRead = useCallback((personId, messageId) => {
@@ -126,7 +131,8 @@ export const ChatProvider = ({ children }) => {
     return (
         <ChatContext.Provider value={{
             selfPerson,
-            editPerson,
+            editSelfPerson,
+            editPersonInPersons,
             persons,
             messages,
             addMessage,

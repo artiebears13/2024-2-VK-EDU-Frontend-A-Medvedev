@@ -1,15 +1,17 @@
 import React, {useContext, useState, useEffect, useCallback} from 'react';
-import './ProfilePage.scss';
+import styles from './ProfilePage.module.scss';
 import {ProfileHeader} from "../../components/Headers/ProfileHeader/ProfileHeader.jsx";
 import {ProfilePhoto} from "../../components/EditableFields/ProfilePhoto/ProfilePhoto.jsx";
 import {ProfileAbout} from "../../components/EditableFields/ProfileAbout/ProfileAbout.jsx";
 import {ChatContext} from "../../context/ChatContext.jsx";
 import {ProfileBirthday} from "../../components/EditableFields/ProfileBirthday/ProfileBirthday.jsx";
 import {ProfileTextItem} from "../../components/EditableFields/ProfileCity/ProfileTextItem.jsx";
+import CloseIcon from '@mui/icons-material/Close';
+import DoneIcon from '@mui/icons-material/Done';
 
 export const ProfilePage = () => {
-    const {selfPerson, editPerson} = useContext(ChatContext);
-
+    const {selfPerson, editSelfPerson} = useContext(ChatContext);
+    console.log({selfPerson})
 
     const [isEdit, setIsEdit] = useState(false);
     const [name, setName] = useState(selfPerson.name);
@@ -47,7 +49,7 @@ export const ProfilePage = () => {
         }
 
         if (Object.keys(updatedData).length > 0) {
-            editPerson(
+            editSelfPerson(
                 updatedData,
             );
         }
@@ -61,22 +63,30 @@ export const ProfilePage = () => {
     }
 
     return (
-        <div className="profile-page">
+        <div className={styles.ProfilePage}>
             <ProfileHeader
                 username={selfPerson.username}
                 isEdit={isEdit}
-                setIsEdit={setIsEdit}
-                doneHandler={handleUpdateProfile}
-                closeHandler={handleCloseEdit}
             />
-            <div className="profile-page-container">
-                <ProfilePhoto selfPerson={selfPerson} setSelfPerson={editPerson}/>
-                <div className="profile-page-description">
+            <div className={styles.ProfilePageContainer}>
+                <ProfilePhoto person={selfPerson} setPerson={editSelfPerson}/>
+                <div className={styles.ProfilePageDescription}>
                     <ProfileTextItem title={"Имя пользователя"} text={name} setText={setName} isEdit={isEdit}/>
                     <ProfileBirthday birthday={birthday} setBirthday={setBirthday} isEdit={isEdit}/>
                     <ProfileTextItem title={"Город"} text={city} setText={setCity} isEdit={isEdit}/>
                     <ProfileAbout about={about} setAbout={setAbout} isEdit={isEdit}/>
+
                 </div>
+                {!isEdit ?
+                    <button className={styles.ProfilePageEditButton} onClick={() => setIsEdit(true)}>
+                        Изменить
+                    </button>
+                    :
+                    <div className={styles.ProfilePageEditButtonsContainer}>
+                        <button className={styles.ProfilePageEditButtonIcon} onClick={handleUpdateProfile}><DoneIcon /></button>
+                        <button className={styles.ProfilePageEditButtonIcon} onClick={handleCloseEdit}><CloseIcon /></button>
+                    </div>
+                }
             </div>
         </div>
     );

@@ -20,7 +20,6 @@ export function readMessage(personId, messageId) {
     const messagesKey = `messages_${personId}`;
     const messages = JSON.parse(localStorage.getItem(messagesKey)) || [];
     const message = messages.find(msg => msg.id === messageId);
-    console.log('readMessage', message);
     if (message && message.readStatus === 'unread') {
         message.readStatus = 'read';
         localStorage.setItem(messagesKey, JSON.stringify(messages));
@@ -89,7 +88,6 @@ export async function saveMessage(personId, message) {
     const messagesKey = `messages_${personId}`;
     const messages = JSON.parse(localStorage.getItem(messagesKey)) || [];
     messages.push(message);
-    console.log(messages);
     localStorage.setItem(messagesKey, JSON.stringify(messages));
 }
 

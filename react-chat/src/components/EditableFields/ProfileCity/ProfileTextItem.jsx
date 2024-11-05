@@ -1,19 +1,18 @@
 import React from 'react';
-import './ProfileTextItem.scss'
+import styles from './ProfileTextItem.module.scss'
 
 export const ProfileTextItem = ( {title, text, setText, isEdit} ) => {
 
-    console.log({text});
     const onChange = (value) => {
         setText(value);
     }
 
     return (
-        <div className="profile-text-item profile-page-field">
+        <div className={`${styles.ProfilePageField}`}>
             <p className="profile-page-key">{title}:</p>
             {!isEdit? <>{text}</> :
             <input
-                className="profile-text-item-input"
+                className={styles.ProfileTextItemInput}
                 type="text"
                 value={text}
                 onChange={(e) => onChange(e.target.value)}

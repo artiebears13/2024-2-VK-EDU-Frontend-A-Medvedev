@@ -1,5 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import './AlertMessage.scss'
+import styles from './AlertMessage.module.scss'
 import {useContext, useEffect} from "react";
 import {ErrorContext} from "../../../context/ErrorContext.jsx";
 
@@ -14,15 +14,15 @@ export const AlertMessage = () => {
     return (
         <>
             {error &&
-                <div className='alert-container slide-in-top'>
+                <div className={`${styles.alertContainer} ${styles.slideInTop}`}>
                 <button
-                    className='alert-close-button'
+                    className={styles.alertCloseButton}
                     onClick={() => setError('')}
                 >
-                    <CloseIcon className="white" fontSize={"small"}/>
+                    <CloseIcon className={styles.white} fontSize={"small"}/>
                 </button>
-                <h1 className='alert-header'>Упс...</h1>
-                <div className='alert-text'>
+                <h1 className={styles.alertHeader}>Упс...</h1>
+                <div className={styles.alertText}>
                     {error}
                 </div>
             </div>}

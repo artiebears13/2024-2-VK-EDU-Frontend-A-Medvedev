@@ -1,23 +1,18 @@
 import React from 'react';
-import './ProfileAbout.scss'
+import styles from './ProfileAbout.module.scss'
 
 export const ProfileAbout = ({ about, setAbout, isEdit }) => {
 
-
-    const onChange = (value) => {
-        setAbout(value);
-    }
-
     return (
-            <div className="profile-about-description profile-page-field">
-                <p className="profile-page-key"> О себе: </p>
-                {!isEdit ? <p className="profile-about-text">{about}</p> :
+            <div className={`${styles.ProfilePageDescription} ${styles.ProfilePageField}`}>
+                <p className={styles.ProfilePageKey}> О себе: </p>
+                {!isEdit ? <p className={styles.profileAboutText}>{about}</p> :
                     <textarea
-                        className="profile-about-input"
+                        className={styles.profileAboutInput}
                         rows="10"
                         value={about}
                         placeholder={about}
-                        onChange={(e) => onChange(e.target.value)}
+                        onChange={(e) => setAbout(e.target.value)}
                     >
                     </textarea>
                 }

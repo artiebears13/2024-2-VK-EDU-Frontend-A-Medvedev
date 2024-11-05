@@ -1,7 +1,9 @@
 @use '../../../variables';
 @use '../../../mixins';
+@import "../../../pages/ProfilePage/ProfilePage.module.scss";
 
-.profile-text-item-input{
+
+.ProfileTextItemInput{
   background-color: transparent;
   border: none;
   box-shadow: none;

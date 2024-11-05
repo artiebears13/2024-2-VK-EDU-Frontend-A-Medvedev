@@ -15,7 +15,8 @@ export const ChatListPage = () => {
         setCreateChatModalOpen(true)
     };
     const closeCreateChatModal = () => {
-        setCreateChatModalOpen(false)
+        console.log("here");
+        setCreateChatModalOpen(false);
     };
 
     const onMenuShow = () => {

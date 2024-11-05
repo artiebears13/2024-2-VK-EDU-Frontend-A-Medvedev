@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
-import './CreateChatModal.scss';
+import styles from './CreateChatModal.module.scss';
 import { useNavigate } from "react-router-dom";
 import { ChatContext } from '../../../context/ChatContext.jsx';
 import { v4 as uuidv4 } from 'uuid';
@@ -89,12 +89,12 @@ export const CreateChatModal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
     return (
-        <div className={`modal ${isOpen ? 'show' : ''}`}>
-            <div className="modal-content">
-                <span className="close-button" onClick={onClose}>&times;</span>
+        <div className={`${styles.modal}`} onClick={onClose}>
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                <span className={styles.closeButton} onClick={onClose}>&times;</span>
                 <h2>Создать новый чат</h2>
 
-                <div className="photo-preview" onClick={() => fileInputRef.current.click()}>
+                <div className={styles.photoPreview} onClick={() => fileInputRef.current.click()}>
                     {photoPreview ? (
                         <img src={photoPreview} alt="Превью фотографии" />
                     ) : (
@@ -106,7 +106,7 @@ export const CreateChatModal = ({ isOpen, onClose }) => {
                 <input
                     ref={fileInputRef}
                     type="file"
-                    className="new-person-photo"
+                    className={styles.newPersonPhoto}
                     accept="image/*"
                     onChange={handleFileChange}
                     style={{ display: 'none' }}
@@ -114,14 +114,14 @@ export const CreateChatModal = ({ isOpen, onClose }) => {
 
                 <input
                     type="text"
-                    className="new-person-name"
+                    className={styles.newPersonName}
                     value={personName}
                     onChange={(e) => setPersonName(e.target.value)}
                     placeholder="Имя пользователя"
                 />
 
 
-                <button id="create-chat-confirm" onClick={handleCreateChat}>
+                <button className={styles.createChatConfirm} onClick={handleCreateChat}>
                     OK
                 </button>
             </div>

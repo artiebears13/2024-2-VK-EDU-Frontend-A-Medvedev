@@ -2,7 +2,7 @@
 @use "../../mixins";
 @use "../../variables";
 
-.menu-background {
+.menuBackground {
   position: absolute;
   top: 0;
   left: 0;
@@ -11,7 +11,7 @@
   background-color: transparent;
 }
 
-.dropdown-menu {
+.dropdownMenu {
   position: absolute;
   top: 0;
   left: 0;
@@ -21,20 +21,24 @@
   z-index: 10;
   width: 200px;
   height: 100vh;
-  padding: 20px 0;
   @include mixins.flex-center(column, flex-start, center);
 }
 
-.user-data {
+.userData {
   @include mixins.flex-center(column, flex-start, center);
   cursor: pointer;
+  padding: 20px 0;
+  width: 100%;
+  &:hover{
+    background-color: variables.$color-primary-darken;
+  }
 }
 
 .userName {
   color: variables.$color-light;
 }
 
-.menu-item {
+.menuItem {
   width: 100%;
   text-align: start;
   padding: 10px;
@@ -57,11 +61,11 @@
   }
 }
 
-.slide-in-left {
-  @include mixins.animation(slide-in-left, variables.$transition-slow, cubic-bezier(0.250, 0.460, 0.450, 0.940));
+.slideInLeft {
+  @include mixins.animation(slideInLeft, variables.$transition-slow, cubic-bezier(0.250, 0.460, 0.450, 0.940));
 }
 
-@include mixins.keyframes(slide-in-left) {
+@include mixins.keyframes(slideInLeft) {
   0% {
     transform: translateX(-1000px);
     opacity: 0;
