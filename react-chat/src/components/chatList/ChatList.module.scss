@@ -1,15 +1,15 @@
 @use '../../variables';
-@use '../../mixins';
+@use '../../mixins' as mixins;
 
-#chat-list {
+.chatList  {
   height: 100%;
 }
 
-.chat-list-view {
+.chatListView  {
   background-color: variables.$color-background;
 }
 
-.material-symbols-outlined {
+.materialSymbolsOutlined {
   font-size: 18px;
   vertical-align: middle;
 }
@@ -18,7 +18,7 @@
   margin-left: 0;
 }
 
-.not-found-message{
+.notFoundMessage {
   margin-top: 40px;
   @include mixins.flex-center(column);
 }

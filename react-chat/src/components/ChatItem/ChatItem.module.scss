@@ -1,7 +1,7 @@
 @use "../../variables";
 @use "../../mixins";
 
-.chat-item {
+.chatItem  {
   @include mixins.flex-center($justify: flex-start);
   align-items: center;
   padding: 10px;
@@ -14,7 +14,7 @@
     background-color: variables.$color-background-darken;
   }
 
-  &__photo {
+  &Photo  {
     margin-right: 10px;
 
     & img {
@@ -25,26 +25,26 @@
     }
   }
 
-  &__info {
+  &Info  {
     flex-grow: 1;
   }
 
-  &__name {
+  &Name  {
     font-weight: bold;
     @include mixins.flex-center($justify: flex-start);
   }
 
-  &__last-message {
+  &LastMessage {
     color: variables.$color-text;
     margin-top: 5px;
   }
 
-  &__status {
+  &Status  {
     margin-left: auto;
     @include mixins.flex-center();
   }
 
-  &__time {
+  &Time  {
     font-size: 12px;
     color: variables.$color-gray;
     margin-left: 10px;
@@ -53,7 +53,7 @@
   }
 }
 
-.unread-count {
+.unreadCount  {
   background-color: #808080FF;
   color: variables.$color-light;
   @include mixins.border-radius(variables.$border-radius-full);

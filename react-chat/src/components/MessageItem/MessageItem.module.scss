@@ -2,16 +2,19 @@
 @use '../../mixins';
 
 
-.message-item {
+.messageItem {
   background-color: lightblue;
   max-width: 60%;
   margin-bottom: 10px;
-  padding: 10px 40px 10px 15px;
+  padding: 10px 10px 1px 15px;
   @include mixins.box-shadow();
   position: relative;
   word-wrap: break-word;
   align-self: flex-start;
   @include mixins.border-radius(variables.$border-radius-medium);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   min-width: 60px;
 
   &.sent {
@@ -55,30 +58,46 @@
     }
   }
 
-  &__text{
-    &.found{
+  &Text {
+    margin: 0;
+    &.found {
       animation: blink 1.5s ease-in-out;
+    }
+  }
+
+  &Image {
+    width: 100%;
+    margin-bottom: 10px;
+    @include mixins.flex-center();
+
+    & > img {
+      width: 100%;
     }
   }
 
   & .time {
     font-size: variables.$font-size-small;
     color: variables.$color-gray;
-    position: absolute;
-    bottom: 5px;
-    right: 10px;
+    margin: 0;
   }
 
-  &__status {
-    font-size: 16px;
-    vertical-align: middle;
-    margin-left: 5px;
+  &Status {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+
+    &Item {
+      margin: 0;
+    }
   }
+
 
 }
 
-.message-item::after,
-.message-item::before {
+.messageItem::after,
+.messageItem::before {
   bottom: -2px;
   content: "";
   height: 16px;
@@ -86,12 +105,11 @@
 }
 
 
-
-.scale-in-center {
-  @include mixins.animation(scale-in-center, variables.$transition-medium, cubic-bezier(0.250, 0.460, 0.450, 0.940));
+.scaleInCenter {
+  @include mixins.animation(scaleInCenter, variables.$transition-medium, cubic-bezier(0.250, 0.460, 0.450, 0.940));
 }
 
-@include mixins.keyframes(scale-in-center) {
+@include mixins.keyframes(scaleInCenter) {
   0% {
     transform: scale(0);
     opacity: 1;

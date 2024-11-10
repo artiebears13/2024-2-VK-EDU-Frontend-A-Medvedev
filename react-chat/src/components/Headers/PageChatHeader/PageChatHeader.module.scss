@@ -1,28 +1,25 @@
 @use "../../../variables";
 @use "../../../mixins";
+@import "../../../index";
 
-.header {
-  padding: 0 10px;
-  width: 100%;
-  height: variables.$header-height;
-  background-color: variables.$color-primary;
-  @include mixins.flex-center($justify: space-between);
-}
 .receiver {
   @include mixins.flex-center($justify: space-between);
   width: 100%;
-  &-name {
+  &Name {
     font-size: variables.$font-size-large;
     font-weight: 500;
     color: variables.$color-light;
     flex-grow: 1;
     text-align: center;
+    cursor: pointer;
   }
 
-  &-photo {
+  &Photo {
     @include mixins.flex-center();
+    cursor: pointer;
 
-    &__image {
+
+    &Image {
       @include mixins.border-radius(variables.$border-radius-full);
       object-fit: cover;
       width: 40px;

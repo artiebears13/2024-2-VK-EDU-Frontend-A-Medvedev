@@ -1,5 +1,5 @@
 import React, {memo, useContext, useEffect, useMemo, useState} from 'react';
-import './ChatList.scss';
+import styles from './ChatList.module.scss';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import {ChatItem} from "../ChatItem/ChatItem.jsx";
 import {ChatContext} from "../../context/ChatContext.jsx";
@@ -71,7 +71,7 @@ export const ChatList = memo(({ searchQuery = '' }) => {
     }, [filteredChats]);
 
     return (
-        <div id="chat-list">
+        <div className={styles.chatList}>
             {sortedChats.length > 0 ? (
                 sortedChats.map((chat, index) => (
                     <ChatItem
@@ -82,8 +82,8 @@ export const ChatList = memo(({ searchQuery = '' }) => {
                     />
                 ))
             ) : (
-                <div className='not-found-message'>
-                    <SentimentVeryDissatisfiedIcon />
+                <div className={styles.notFoundMessage}>
+                    <SentimentVeryDissatisfiedIcon/>
                     <p>По запросу "{searchQuery}" ничего не найдено</p>
                 </div>
             )}

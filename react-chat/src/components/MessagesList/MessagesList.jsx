@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useContext, memo, useCallback} from 'react';
-import './MessagesList.scss';
+import styles from './MessagesList.module.scss';
 import { MessageItem } from '../MessageItem/MessageItem.jsx';
 import { ChatContext } from '../../context/ChatContext.jsx';
 
@@ -42,8 +42,8 @@ export const MessagesList = memo(({ messages }) => {
     });
 
     return (
-        <div className="messages-container" ref={ref}>
-            <ul className="messages-list">
+        <div className={styles.messagesContainer} ref={ref}>
+            <ul className={styles.messagesList}>
                 {messages.map(getMessageItems)}
             </ul>
         </div>

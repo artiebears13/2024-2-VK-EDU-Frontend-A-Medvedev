@@ -24,7 +24,9 @@ export const ChatProvider = ({ children }) => {
             const loadedPersons = await loadPersons();
             setPersons(loadedPersons);
 
+
             const self = readUserData();
+            console.log('context: ', self);
             setSelfPerson(self);
 
 
@@ -39,16 +41,37 @@ export const ChatProvider = ({ children }) => {
             }, {});
             setMessages(loadedMessages);
         } catch (error) {
-            setError(error)
+            setError(error.message)
             setPersons([]);
             setMessages([]);
         }
     };
         loadData().then();
 
+    }, [setError]);
+
+
+
+    const editSelfPerson = useCallback((updatedData) => {
+        setSelfPerson((prevPerson) => {
+            const updatedPerson = { ...prevPerson, ...updatedData };
+            localStorage.setItem('user', JSON.stringify(updatedPerson));
+            return updatedPerson;
+        });
+    }, [setSelfPerson]);
+
+    const editPersonInPersons = useCallback((personId, updatedData) => {
+        setPersons(prevPersons => {
+            const updatedPersons = prevPersons.map(person =>
+                person.id === personId ? { ...person, ...updatedData } : person
+            );
+            localStorage.setItem('people', JSON.stringify(updatedPersons));
+            return updatedPersons;
+        });
     }, []);
 
     const addMessage = useCallback(async (personId, message) => {
+
         await saveMessage(personId, message);
         setMessages(prevMessages => ({
             ...prevMessages,
@@ -108,6 +131,8 @@ export const ChatProvider = ({ children }) => {
     return (
         <ChatContext.Provider value={{
             selfPerson,
+            editSelfPerson,
+            editPersonInPersons,
             persons,
             messages,
             addMessage,

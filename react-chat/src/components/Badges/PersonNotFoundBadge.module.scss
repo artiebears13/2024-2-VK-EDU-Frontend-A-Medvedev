@@ -1,0 +1,21 @@
+@use '../../variables';
+
+.personNotFound {
+  &Container {
+    height: 100%;
+    width: 100%;
+    background-color: variables.$color-secondary;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  &Badge{
+    background-color: variables.$color-background-darken;
+    padding: 10px;
+    border-radius: 10px;
+    &Body{
+    text-align: center;
+    }
+  }
+}

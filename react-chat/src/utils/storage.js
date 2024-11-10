@@ -62,15 +62,17 @@ export function markReceivedMessagesAsRead(personId) {
 /**
  * create message to put in storage, creates id and timestamp
  * @param text - text content of message
+ * @param image - attachment image
  * @param direction - received or send
- * @returns {{readStatus: string, id: string, text, timestamp: number, direction}}
+ * @returns {{readStatus: string, id: string, text, image,timestamp: number, direction}}
  */
-export function createMessageObject(text, direction) {
+export function createMessageObject(text, direction, image=null) {
     const timeStamp = new Date();
 
     return {
         id: uuidv4(),
         text,
+        image,
         timestamp: timeStamp.getTime(),
         direction,
         readStatus: 'unread',
@@ -105,5 +107,22 @@ export async function getAllMessages(personId) {
  * @returns {{name: string, photo: string, id: string}}
  */
 export function readUserData() {
-    return userData();
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser && Object.keys(storedUser).length > 0) {
+        return storedUser;
+    }
+    const defaultUser = userData();
+    localStorage.setItem('user', JSON.stringify(defaultUser));
+
+    return defaultUser;
 }
+
+export function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+};
+

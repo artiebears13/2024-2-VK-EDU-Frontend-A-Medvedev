@@ -1,5 +1,6 @@
 @use "../../../variables";
 @use "../../../mixins";
+@import "../../../index";
 
 .modal {
   position: fixed;
@@ -11,7 +12,7 @@
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.3);
 
-  &-content {
+  &Content {
     background-color: variables.$color-background;
     margin: 100px auto;
     padding: 20px 30px;
@@ -23,7 +24,7 @@
     @include mixins.flex-center(column);
   }
 
-  &-header {
+  &Header {
     @include mixins.flex-center(row);
     text-align: center;
     font-size: 20px;
@@ -33,7 +34,7 @@
   }
 }
 
-.photo-preview {
+.photoPreview {
   color: variables.$color-text;
   width: 100px;
   height: 100px;
@@ -59,7 +60,7 @@
   }
 }
 
-.photo-preview:hover {
+.photoPreview:hover {
   opacity: 1;
 }
 
@@ -70,7 +71,7 @@
   text-align: center;
 }
 
-.close-button {
+.closeButton {
   position: absolute;
   top: 15px;
   right: 20px;
@@ -80,33 +81,33 @@
   cursor: pointer;
 }
 
-.close-button:hover,
-.close-button:focus {
+.closeButton:hover,
+.closeButton:focus {
   color: #000;
 }
 
 
-.new-person-name {
-  width: 100%;
-  padding: 12px 16px;
-  margin-bottom: 20px;
-  font-size: 16px;
-  border: 1px solid #ced4da;
-  border-radius: 8px;
-  outline: none;
-  color: variables.$color-text;
-  background-color: variables.$color-background;
+.newPerson {
+  &Name {
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 1px solid variables.$color-gray;
+    border-radius: 8px;
+    outline: none;
+    color: variables.$color-text;
+    background-color: variables.$color-background;
+
+    &:focus {
+    }
+  }
+  &Photo{
+    display: none;
+  }
 }
 
-.new-person-name:focus {
-  border-color: #66afe9;
-}
-
-.new-person-photo{
-  display: none;
-}
-
-#create-chat-confirm {
+.createChatConfirm {
   background-color: #0088cc;
   color: #fff;
   border: none;

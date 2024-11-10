@@ -1,9 +1,9 @@
 import MenuIcon from '@mui/icons-material/Menu';
-import './menuButton.scss'
+import styles from './menuButton.module.scss';
 
 // burger button
 export const MenuButton = ({toggleMenu}) => {
     return (
-        <MenuIcon className={"white menu-button"} onClick={toggleMenu}></MenuIcon>
-    )
-}
+        <MenuIcon className={`${styles.menuButton} white`} onClick={toggleMenu}/>
+    );
+};

@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './ChatItem.module.scss'
 
 export const ChatTime = ({message}) => {
     const lastMessageTime = message
@@ -6,7 +7,7 @@ export const ChatTime = ({message}) => {
         : '';
 
     return (
-        <div className="chat-item__time">
+        <div className={styles.chatItemTime}>
             {lastMessageTime}
         </div>
     );

@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import './SearchBar.scss';
+import React, {useEffect, useRef, useState} from 'react';
+import styles from './SearchBar.module.scss';
 import SearchIcon from '@mui/icons-material/Search';
 
-export const SearchBar = ({ onSearch, isSearchOpen, setSearchOpen }) => {
+export const SearchBar = ({onSearch, isSearchOpen, setSearchOpen}) => {
     const [isAnimating, setIsAnimating] = useState(false); // Для контроля анимации
     const [searchQuery, setSearchQuery] = useState('');
     const inputRef = useRef(null);
@@ -53,10 +53,10 @@ export const SearchBar = ({ onSearch, isSearchOpen, setSearchOpen }) => {
         <>
             {!isSearchOpen && !isAnimating && (
                 <button
-                    className="search-button white"
+                    className={`${styles.searchButton} ${styles.white}`}
                     onClick={handleSearchIconClick}
                 >
-                    <SearchIcon />
+                    <SearchIcon/>
                 </button>
             )}
 
@@ -65,7 +65,7 @@ export const SearchBar = ({ onSearch, isSearchOpen, setSearchOpen }) => {
                     ref={inputRef}
                     type="text"
                     placeholder="Поиск..."
-                    className={`search-input ${isSearchOpen ? 'scale-in-hor-right' : ''} ${isAnimating ? 'scale-out-hor-right' : ''}`}
+                    className={`${styles.searchInput} ${isSearchOpen ? styles.scaleInHorRight : ''} ${isAnimating ? styles.scaleOutHorRight : ''}`}
                     value={searchQuery}
                     onChange={handleSearchInputChange}
                     onBlur={handleSearchInputBlur}
