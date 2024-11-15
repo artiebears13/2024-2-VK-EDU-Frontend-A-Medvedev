@@ -19,10 +19,12 @@
       border-radius: 10px;
       outline: none;
       border: none;
+      background-color: variables.$color-input;
     }
     &Button{
       width: 200px;
-      background-color: variables.$color-light;
+      background-color: variables.$color-primary;
+      color: white;
       outline: none;
       border: none;
       border-radius: 10px;
