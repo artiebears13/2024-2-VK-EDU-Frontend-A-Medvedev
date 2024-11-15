@@ -49,7 +49,7 @@ function LoginPage() {
                 <button type="submit" className={classes.loginFormButton}>Войти</button>
             </form>
             <p>
-                Нет аккаунта? <a href="/register">Зарегистрироваться</a>
+                Нет аккаунта? <a onClick={() => navigate("/register")}>Зарегистрироваться</a>
             </p>
         </div>
     );

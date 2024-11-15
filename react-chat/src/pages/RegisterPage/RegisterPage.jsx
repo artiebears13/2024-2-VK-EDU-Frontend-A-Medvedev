@@ -101,7 +101,7 @@ function RegisterPage() {
                 <button type="submit" className={classes.registerFormButton}>Зарегистрироваться</button>
             </form>
             <p>
-                Уже есть аккаунт? <a href="/#/login">Войти</a>
+                Уже есть аккаунт? <a onClick={()=>navigate("/login")}>Войти</a>
             </p>
         </div>
     );
