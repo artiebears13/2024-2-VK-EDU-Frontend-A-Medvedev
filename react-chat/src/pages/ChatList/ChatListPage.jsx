@@ -2,10 +2,10 @@ import React, {useContext, useState} from 'react';
 import { ChatListHeader } from '../../components/Headers/ChatListHeader/ChatListHeader.jsx';
 import { CreateChatButton } from '../../components/Buttons/CreateChatButton/CreateChatButton.jsx';
 import { CreatePersonalChatModal } from '../../components/Modals/CreateChatModal/CreatePersonalChatModal.jsx';
-import { ChatList } from '../../components/ChatList/ChatList.jsx';
 import { Menu } from '../../components/Menu/Menu.jsx';
-import {ChatContext} from "../../context/ChatContext.jsx";
 import {CreateGroupChatModal} from "../../components/Modals/CreateChatModal/CreateGroupChatModal.jsx";
+import {ChatList} from "../../components/chatList/ChatList.jsx";
+import {ChatContext} from "../../context/ChatContext.jsx";
 
 export const ChatListPage = () => {
     const { searchChats } = useContext(ChatContext);
