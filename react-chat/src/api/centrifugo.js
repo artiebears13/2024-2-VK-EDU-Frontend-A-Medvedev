@@ -33,7 +33,7 @@ export function connectToCentrifugo(userId, onMessageReceived) {
     const subscription = centrifuge.newSubscription(userId.toString(), {
         getToken: (ctx) =>
             // fetch(`${import.meta.env.MODE === 'development' ? 'http://localhost:8080' : 'https://vkedu-fullstack-div2.ru'}/api/centrifugo/subscribe/`, {
-            fetch(`https://vkedu-fullstack-div2.ru'}/api/centrifugo/subscribe/`, {
+            fetch(`https://vkedu-fullstack-div2.ru/api/centrifugo/subscribe/`, {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify(ctx),
