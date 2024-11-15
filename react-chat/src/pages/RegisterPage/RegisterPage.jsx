@@ -1,7 +1,7 @@
 // src/pages/RegisterPage/RegisterPage.jsx
 
 import React, {useRef, useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { register } from '../../api/api';
 import classes from './RegisterPage.module.scss'
 import {ProfilePhoto} from "../../components/EditableFields/ProfilePhoto/ProfilePhoto.jsx";
@@ -101,7 +101,7 @@ function RegisterPage() {
                 <button type="submit" className={classes.registerFormButton}>Зарегистрироваться</button>
             </form>
             <p>
-                Уже есть аккаунт? <a onClick={()=>navigate("/login")}>Войти</a>
+                Уже есть аккаунт? <Link to={"/login"}>Войти</Link>
             </p>
         </div>
     );

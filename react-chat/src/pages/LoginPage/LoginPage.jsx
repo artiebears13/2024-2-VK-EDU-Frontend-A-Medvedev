@@ -1,7 +1,7 @@
 // src/pages/LoginPage/LoginPage.jsx
 
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { login as apiLogin } from '../../api/api';
 import { ChatContext } from '../../context/ChatContext.jsx';
 import classes from './LoginPage.module.scss';
@@ -49,7 +49,7 @@ function LoginPage() {
                 <button type="submit" className={classes.loginFormButton}>Войти</button>
             </form>
             <p>
-                Нет аккаунта? <a onClick={() => navigate("/register")}>Зарегистрироваться</a>
+                Нет аккаунта? <Link to={"/register"}>Зарегистрироваться</Link>
             </p>
         </div>
     );
