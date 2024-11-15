@@ -1,87 +1,80 @@
-import React, {memo, useCallback, useContext, useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import {ChatContext} from '../../context/ChatContext';
-import {createMessageObject} from '../../utils/storage';
-import {answerMock} from '../../mocks/__mocks__';
+// src/pages/PageChat/PageChat.jsx
+
+import React, { memo, useCallback, useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { ChatContext } from '../../context/ChatContext';
 import styles from './PageChat.module.scss';
-import {MessageInput} from "../../components/Inputs/MessageInput/MessageInput.jsx";
-import {MessagesList} from "../../components/MessagesList/MessagesList.jsx";
-import {PageChatHeader} from "../../components/Headers/PageChatHeader/PageChatHeader.jsx";
+import { MessageInput } from "../../components/Inputs/MessageInput/MessageInput.jsx";
+import { MessagesList } from "../../components/MessagesList/MessagesList.jsx";
+import { PageChatHeader } from "../../components/Headers/PageChatHeader/PageChatHeader.jsx";
+import { EditPersonModal } from "../../components/Modals/EditPersonModal/EditPersonModal.jsx";
 import {PersonNotFoundBadge} from "../../components/Badges/PersonNotFoundBadge.jsx";
-import {EditPersonModal} from "../../components/Modals/EditPersonModal/EditPersonModal.jsx";
+import {getChat} from "../../api/chats.js"; // Если есть
 
 export const PageChat = memo(() => {
-    const {chatId} = useParams();
-    const [editPersonModal, setEditPersonModal] = useState(false);
-    const {messages, addMessage, markMessageAsRead, markAllReceivedAsRead, persons, editPersonInPersons} = useContext(ChatContext);
-    const currentMessages = messages[chatId] || [];
-    const personFound = persons.some(person => person.id === chatId);
-    const person = persons.find(person => person.id === chatId) || {};
+    const { chatId } = useParams();
+    const { user, chats, messages, loadMessages, addMessage } = useContext(ChatContext);
+    const [editChatModal, setEditChatModal] = useState(false);
+    const [currentChat, setCurrentChat] = useState(null);
+    const [chatFound, setChatFound] = useState(true);
+
+    const [currentMessages, setCurrentMessages] = useState([]);
 
     useEffect(() => {
+    getChat(chatId).then(res => setCurrentChat(res)).catch(() => setChatFound(false));
         if (chatId) {
-            markAllReceivedAsRead(chatId);
+            loadMessages(chatId);
         }
-
-    }, [chatId, markAllReceivedAsRead]);
+    }, [chatId]);
 
     useEffect(() => {
-        if (messages[chatId] && messages[chatId].length > 0) {
-            const lastMessage = messages[chatId][messages[chatId].length - 1];
-            if (lastMessage.direction === "received" && lastMessage.readStatus === "unread") {
-                markMessageAsRead(chatId, lastMessage.id);
+        setCurrentMessages(messages[chatId] || []);
+    }, [messages, setCurrentMessages, chatId]);
+
+    const openEditChatModal = () => {
+        setEditChatModal(true);
+    }
+
+    const closeEditChatModal = () => {
+        setEditChatModal(false);
+    }
+
+    const editChatInfo = useCallback(({ name, photo }) => {
+        // editChatInChats(chatId, { name, photo });
+    }, [chatId]);
+
+
+
+    const sendMessage = useCallback(async ({ text, files }) => {
+        const messageText = text.trim();
+        if (messageText || (files && files.length > 0)) {
+            try {
+                await addMessage(chatId, {
+                    text: messageText,
+                    files: files,
+                });
+            } catch (error) {
+                console.error('Ошибка при отправке сообщения:', error);
             }
         }
-    }, [messages, chatId, markMessageAsRead]);
+    }, [chatId, addMessage]);
 
-    const openEditPersonModal = () => {
-        setEditPersonModal(true);
-    }
-
-    const closeEditPersonModal = () => {
-        setEditPersonModal(false);
-    }
-
-    const editPersonInfo = useCallback(({name, photo}) => {
-        console.log({ name, photo });
-        editPersonInPersons(chatId, {name, photo});
-    })
-
-    const sendMessage = useCallback(({text, image}) => {
-        const messageText = text.trim();
-        if (messageText || image) {
-            const message = createMessageObject(messageText, 'sent', image);
-            addMessage(chatId, message);
-            // simulations
-            setTimeout(() => {
-                markMessageAsRead(chatId, message.id);
-            }, 2000);
-            setTimeout(() => simulateReceivedMessage(chatId), 3000);
-        }
-    });
-
-    const simulateReceivedMessage = useCallback(() => {
-        const randomMessageIndex = Math.floor(Math.random() * answerMock.length);
-        const receivedMessageText = answerMock[randomMessageIndex];
-        const receivedMessage = createMessageObject(receivedMessageText, 'received');
-        addMessage(chatId, receivedMessage);
-    });
 
     return (
         <div>
-            <PageChatHeader chatId={chatId} openEditPersonModal={openEditPersonModal} />
-            {editPersonModal &&
+            <PageChatHeader chat={currentChat} openEditChatModal={openEditChatModal} />
+            {editChatModal &&
                 <EditPersonModal
-                    onClose={closeEditPersonModal}
-                    person={person}
-                    updatePerson={editPersonInfo}
+                    onClose={closeEditChatModal}
+                    chat={chatId}
+                    updateChat={editChatInfo}
                 />}
             <div className={styles.chatContainer}>
-                {personFound ?
-                    <MessagesList messages={currentMessages}/>
-                    :
-                    <PersonNotFoundBadge/>}
-                <MessageInput onSendMessage={sendMessage} active={personFound}/>
+                {/*{chatFound ?*/}
+                    <MessagesList messages={currentMessages} />
+                    {/*:*/}
+                    {/*<PersonNotFoundBadge />}*/}
+                <MessageInput onSendMessage={sendMessage} active={chatFound} />
             </div>
         </div>
     );

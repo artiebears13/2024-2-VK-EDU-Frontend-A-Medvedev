@@ -8,23 +8,30 @@ import {ProfileBirthday} from "../../components/EditableFields/ProfileBirthday/P
 import {ProfileTextItem} from "../../components/EditableFields/ProfileCity/ProfileTextItem.jsx";
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
+import {updateUserInfo} from "../../api/users.js";
 
 export const ProfilePage = () => {
-    const {selfPerson, editSelfPerson} = useContext(ChatContext);
-    console.log({selfPerson})
+    const {user, updateProfile} = useContext(ChatContext);
+    if (!user) return
 
     const [isEdit, setIsEdit] = useState(false);
-    const [name, setName] = useState(selfPerson.name);
-    const [birthday, setBirthday] = useState(selfPerson.birthday);
-    const [city, setCity] = useState(selfPerson.city);
-    const [about, setAbout] = useState(selfPerson.about);
+    const [name, setName] = useState(user.first_name);
+    // const [birthday, setBirthday] = useState(user.birthday);
+    // const [city, setCity] = useState(user.city);
+    const [userInfo, setUserInfo] = useState({
+        bio: user.bio,
+        avatar: user.avatar,
+    });
 
     const loadData = useCallback(() => {
-        setName(selfPerson.name);
-        setBirthday(selfPerson.birthday);
-        setCity(selfPerson.city);
-        setAbout(selfPerson.about);
-    }, [selfPerson]);
+        setName(user.first_name);
+        // setBirthday(selfPerson.birthday);
+        // setCity(selfPerson.city);
+        setUserInfo(prev => ({
+            ...prev,
+            bio: user.bio,
+        }));
+    }, [user]);
 
 
     useEffect(() => {
@@ -35,46 +42,48 @@ export const ProfilePage = () => {
     const handleUpdateProfile = () => {
         const updatedData = {};
 
-        if (name && name !== selfPerson.name) {
-            updatedData.name = name;
-        }
-        if (birthday && birthday !== selfPerson.birthday) {
-            updatedData.birthday = birthday;
-        }
-        if (city && city !== selfPerson.city) {
-            updatedData.city = city;
-        }
-        if (about && about !== selfPerson.about) {
-            updatedData.about = about;
+
+        if (userInfo.bio && userInfo.bio !== user.bio) {
+            updatedData.bio = userInfo.bio;
         }
 
         if (Object.keys(updatedData).length > 0) {
-            editSelfPerson(
-                updatedData,
-            );
+            updateProfile(
+                updatedData
+            ).then();
         }
 
         setIsEdit(false);
         loadData();
     };
+
+    const editAvatar = (data) => {
+        updateProfile(data)
+    }
     const handleCloseEdit = () => {
         loadData();
         setIsEdit(false);
     }
 
+    const setAbout = (bio) => {
+        setUserInfo(prevState => ({
+            ...prevState,
+            bio: bio
+        }))
+    }
+
     return (
         <div className={styles.ProfilePage}>
             <ProfileHeader
-                username={selfPerson.username}
-                isEdit={isEdit}
+                username={user.username}
             />
             <div className={styles.ProfilePageContainer}>
-                <ProfilePhoto person={selfPerson} setPerson={editSelfPerson}/>
+                <ProfilePhoto person={user} setPerson={editAvatar}/>
                 <div className={styles.ProfilePageDescription}>
                     <ProfileTextItem title={"Имя пользователя"} text={name} setText={setName} isEdit={isEdit}/>
-                    <ProfileBirthday birthday={birthday} setBirthday={setBirthday} isEdit={isEdit}/>
-                    <ProfileTextItem title={"Город"} text={city} setText={setCity} isEdit={isEdit}/>
-                    <ProfileAbout about={about} setAbout={setAbout} isEdit={isEdit}/>
+                    {/*<ProfileBirthday birthday={birthday} setBirthday={setBirthday} isEdit={isEdit}/>*/}
+                    {/*<ProfileTextItem title={"Город"} text={city} setText={setCity} isEdit={isEdit}/>*/}
+                    <ProfileAbout about={userInfo.bio} setAbout={setAbout} isEdit={isEdit}/>
 
                 </div>
                 {!isEdit ?
@@ -83,8 +92,10 @@ export const ProfilePage = () => {
                     </button>
                     :
                     <div className={styles.ProfilePageEditButtonsContainer}>
-                        <button className={styles.ProfilePageEditButtonIcon} onClick={handleUpdateProfile}><DoneIcon /></button>
-                        <button className={styles.ProfilePageEditButtonIcon} onClick={handleCloseEdit}><CloseIcon /></button>
+                        <button className={styles.ProfilePageEditButtonIcon} onClick={handleUpdateProfile}><DoneIcon/>
+                        </button>
+                        <button className={styles.ProfilePageEditButtonIcon} onClick={handleCloseEdit}><CloseIcon/>
+                        </button>
                     </div>
                 }
             </div>

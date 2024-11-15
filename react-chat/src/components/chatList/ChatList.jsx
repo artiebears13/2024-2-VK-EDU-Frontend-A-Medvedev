@@ -1,71 +1,75 @@
 import React, {memo, useContext, useEffect, useMemo, useState} from 'react';
 import styles from './ChatList.module.scss';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import {ChatItem} from "../ChatItem/ChatItem.jsx";
-import {ChatContext} from "../../context/ChatContext.jsx";
+import {ChatItem} from '../ChatItem/ChatItem.jsx';
+import {ChatContext} from '../../context/ChatContext.jsx';
 
-export const ChatList = memo(({ searchQuery = '' }) => {
-    const {persons, messages, setFoundMessage } = useContext(ChatContext);
+export const ChatList = memo(({searchQuery = ''}) => {
+    const {chats, messages, setFoundMessage} = useContext(ChatContext);
     const [filteredChats, setFilteredChats] = useState([]);
 
     useEffect(() => {
         if (searchQuery === '') {
-            // return last message
-            const chatsWithLastMessage = persons.map(person => {
-                const personMessages = messages[person.id] || [];
-                const lastMessage = personMessages.length > 0
-                    ? personMessages[personMessages.length - 1]
-                    : null;
+            // Возвращаем чаты с последним сообщением
+            const chatsWithLastMessage = chats.map(chat => {
+                const chatMessages = messages[chat.id] || [];
+                const lastMessage = chat.last_message || null;
+
                 return {
-                    person,
+                    chat,
                     message: lastMessage,
                 };
             });
             setFilteredChats(chatsWithLastMessage);
         } else {
             const query = searchQuery.toLowerCase();
-            const filtered = persons.map(person => {
-                const personMessages = messages[person.id] || [];
-                const nameMatch = person.name.toLowerCase().includes(query);
-                const matchingMessages = personMessages.filter(message =>
-                    message.text.toLowerCase().includes(query)
-                );
+            const filtered = chats
+                .map(chat => {
+                    const chatMessages = messages[chat.id] || [];
+                    const chatTitle = chat.title || '';
+                    const nameMatch = chatTitle.toLowerCase().includes(query);
 
-                if (nameMatch) {
-                    // if query is name return it first
-                    const lastMessage = personMessages.length > 0
-                        ? personMessages[personMessages.length - 1]
-                        : null;
-                    return {
-                        person,
-                        message: lastMessage,
-                    };
-                } else if (matchingMessages.length > 0) {
-                    // not found messages
-                    const lastMatchingMessage = matchingMessages.reduce((latest, current) => {
-                        return (!latest || current.timestamp > latest.timestamp) ? current : latest;
-                    }, null);
-                    // if found return last found
-                    setFoundMessage(lastMatchingMessage.id);
+                    const matchingMessages = chatMessages.filter(message =>
+                        (message.text || '').toLowerCase().includes(query)
+                    );
 
-                    return {
-                        person,
-                        message: lastMatchingMessage,
-                    };
-                } else {
-                    return null;
-                }
-            }).filter(chat => chat !== null);
+                    if (nameMatch) {
+                        // Если совпадает название чата
+                        const lastMessage = chat.last_message || null;
+                        return {
+                            chat,
+                            message: lastMessage,
+                        };
+                    } else if (matchingMessages.length > 0) {
+                        // Если есть сообщения, совпадающие с запросом
+                        const lastMatchingMessage = matchingMessages.reduce(
+                            (latest, current) => {
+                                const latestTime = new Date(latest.created_at).getTime();
+                                const currentTime = new Date(current.created_at).getTime();
+                                return currentTime > latestTime ? current : latest;
+                            }
+                        );
+                        setFoundMessage(lastMatchingMessage.id);
+
+                        return {
+                            chat,
+                            message: lastMatchingMessage,
+                        };
+                    } else {
+                        return null;
+                    }
+                })
+                .filter(chat => chat !== null);
 
             setFilteredChats(filtered);
         }
-    }, [searchQuery, persons, messages]);
+    }, [searchQuery, chats, messages, setFoundMessage]);
 
-    // cached
+    // Кэшируем и сортируем чаты по времени последнего сообщения
     const sortedChats = useMemo(() => {
         return [...filteredChats].sort((a, b) => {
-            const timeA = a.message ? a.message.timestamp : 0;
-            const timeB = b.message ? b.message.timestamp : 0;
+            const timeA = a.message ? new Date(a.message.created_at).getTime() : 0;
+            const timeB = b.message ? new Date(b.message.created_at).getTime() : 0;
             return timeB - timeA;
         });
     }, [filteredChats]);
@@ -73,20 +77,27 @@ export const ChatList = memo(({ searchQuery = '' }) => {
     return (
         <div className={styles.chatList}>
             {sortedChats.length > 0 ? (
-                sortedChats.map((chat, index) => (
-                    <ChatItem
-                        key={chat.person.id}
-                        person={chat.person}
-                        message={chat.message}
-                        isSearched={searchQuery !== ''}
-                    />
-                ))
-            ) : (
-                <div className={styles.notFoundMessage}>
+                sortedChats.map(chatItem => {
+                        return (<ChatItem
+                            key={chatItem.chat.id}
+                            chat={chatItem.chat}
+                            message={chatItem.message}
+                            isSearched={searchQuery !== ''}
+                        />)
+                    }
+                )
+            ) : (searchQuery === "" ?
+                (<div className={styles.notFoundMessage}>
+                    <SentimentVeryDissatisfiedIcon/>
+                    <p>Вы еще не создали чат</p>
+                </div>)
+                :
+                (<div className={styles.notFoundMessage}>
                     <SentimentVeryDissatisfiedIcon/>
                     <p>По запросу "{searchQuery}" ничего не найдено</p>
                 </div>
-            )}
+                )
+                )}
         </div>
     );
 });

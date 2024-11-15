@@ -1,144 +1,194 @@
-import React, {createContext, useState, useEffect, useCallback, useContext} from 'react';
-import {
-    loadPersons,
-    getAllMessages,
-    saveMessage,
-    markReceivedMessagesAsRead,
-    readMessage, readUserData
-} from '../utils/storage';
-import {ErrorContext} from "./ErrorContext.jsx";
+// src/context/ChatContext.jsx
+
+import React, { createContext, useState, useEffect, useCallback, useContext, useRef } from 'react';
+
+import { connectToCentrifugo } from '../api/centrifugo';
+import { ErrorContext } from './ErrorContext.jsx';
+import {getCurrentUser, getUsers, updateUserInfo} from "../api/users.js";
+import {getChats} from "../api/chats.js";
+import {getMessage, getMessages, sendMessage} from "../api/messages.js";
+import {useNavigate} from "react-router-dom";
 
 export const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
-    const {setError} = useContext(ErrorContext);
-    const [selfPerson, setSelfPerson] = useState({});
-    const [persons, setPersons] = useState([]);
-    const [messages, setMessages] = useState({}); // { personId: [messages] }
+    const navigate = useNavigate();
+    const { setError } = useContext(ErrorContext);
+    const [user, setUser] = useState(null);
+    const [centrifuge, setCentrifuge] = useState(false);
+    const [chats, setChats] = useState([]);
+    const [messages, setMessages] = useState({}); // { chatId: [messages] }
     const [foundMessage, setFoundMessage] = useState(''); // Для поиска сообщений
 
-    // initialize from localStorage
-    useEffect(() => {
-        const loadData = async () => {
+    // Ref для хранения экземпляра Centrifuge
+    const centrifugeRef = useRef(null);
+
+    // Проверка наличия токенов в localStorage
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    const logout = useCallback(() => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        setUser(null);
+        navigate('/login');
+    }, []);
+
+    const loadCurrentUser = useCallback(async () => {
         try {
-            const loadedPersons = await loadPersons();
-            setPersons(loadedPersons);
-
-
-            const self = readUserData();
-            console.log('context: ', self);
-            setSelfPerson(self);
-
-
-            const messagesPromises = loadedPersons.map(person =>
-                getAllMessages(person.id).then(messages => ({ id: person.id, messages }))
-            );
-
-            const results = await Promise.all(messagesPromises);
-            const loadedMessages = results.reduce((acc, { id, messages }) => {
-                acc[id] = messages;
-                return acc;
-            }, {});
-            setMessages(loadedMessages);
+            const userData = await getCurrentUser();
+            setUser(userData);
         } catch (error) {
-            setError(error.message)
-            setPersons([]);
-            setMessages([]);
+            console.error('Ошибка при загрузке пользователя:', error);
+            logout();
         }
-    };
-        loadData().then();
+    }, [logout, setUser]);
 
+    useEffect(() => {
+        if (accessToken && refreshToken) {
+            loadCurrentUser().then().catch((err) => {
+                throw new Error(`не получилось загрузить юзера: ${err}`)
+            });
+        } else {
+            logout();
+        }
+    }, [accessToken, refreshToken, loadCurrentUser, logout]);
+
+    const login = useCallback(async (access, refresh) => {
+        localStorage.setItem('accessToken', access);
+        localStorage.setItem('refreshToken', refresh);
+
+        try {
+            await loadCurrentUser();
+        } catch (error) {
+            console.error('Ошибка при загрузке пользователя после входа:', error);
+            logout();
+        }
+    }, [loadCurrentUser, logout]);
+
+    const loadChats = useCallback(async () => {
+        try {
+            const chatsData = await getChats();
+            setChats(chatsData.results || chatsData);
+
+        } catch (error) {
+            console.error('Ошибка при загрузке чатов:', error);
+            setError('Ошибка при загрузке чатов');
+        }
     }, [setError]);
 
+    const searchChats = useCallback(async (query) => {
+        try {
+            const chatsData = await getChats(1, 10, query);
+            setChats(chatsData.results || chatsData);
+        } catch (error) {
+            console.error('Ошибка при загрузке чатов:', error);
+            setError('Ошибка при загрузке чатов');
+        }
+    }, [setError]);
 
+    useEffect(() => {
+        if (user) {
+            loadChats().then().catch((err) => {
+                throw new Error(`не получилось загрузить чаты: ${err}`)
+            });
+        }
+    }, [user, loadChats, messages]);
 
-    const editSelfPerson = useCallback((updatedData) => {
-        setSelfPerson((prevPerson) => {
-            const updatedPerson = { ...prevPerson, ...updatedData };
-            localStorage.setItem('user', JSON.stringify(updatedPerson));
-            return updatedPerson;
-        });
-    }, [setSelfPerson]);
-
-    const editPersonInPersons = useCallback((personId, updatedData) => {
-        setPersons(prevPersons => {
-            const updatedPersons = prevPersons.map(person =>
-                person.id === personId ? { ...person, ...updatedData } : person
-            );
-            localStorage.setItem('people', JSON.stringify(updatedPersons));
-            return updatedPersons;
-        });
-    }, []);
-
-    const addMessage = useCallback(async (personId, message) => {
-
-        await saveMessage(personId, message);
-        setMessages(prevMessages => ({
-            ...prevMessages,
-            [personId]: [...(prevMessages[personId] || []), message]
-        }));
-    }, []);
-
-    const markMessageAsRead = useCallback((personId, messageId) => {
-        readMessage(personId, messageId);
-        setMessages(prevMessages => ({
-            ...prevMessages,
-            [personId]: (prevMessages[personId] || []).map(msg =>
-                msg.id === messageId ? { ...msg, readStatus: 'read' } : msg
-            )
-        }));
-    }, []);
-
-    const markAllReceivedAsRead = useCallback((personId) => {
-        setMessages(prevMessages => {
-            const currentMessages = prevMessages[personId];
-
-            if (!currentMessages || currentMessages.length === 0) {
-                return prevMessages; // Возвращаем предыдущее состояние без изменений
-            }
-
-            const hasUnreadReceived = currentMessages.some(msg =>
-                msg.direction === 'received' && msg.readStatus === 'unread'
-            );
-
-            if (!hasUnreadReceived) {
-                return prevMessages; // Возвращаем предыдущее состояние без изменений
-            }
-
-            markReceivedMessagesAsRead(personId);
-
-            const updatedMessages = currentMessages.map(msg =>
-                (msg.direction === 'received' && msg.readStatus === 'unread')
-                    ? { ...msg, readStatus: 'read' }
-                    : msg
-            );
-
-            return {
+    // Стабилизируем обработчик сообщений
+    const handleCentrifugoMessage = useCallback((event, message) => {
+        if (event === 'create') {
+            console.log('message', getMessage(message.id).then(res => console.log("res", res)))
+            setMessages(prevMessages => ({
                 ...prevMessages,
-                [personId]: updatedMessages
-            };
-        });
+                [message.chat]: [message, ...(prevMessages[message.chat] || [])],
+            }));
+        } else if (event === 'update') {
+            setMessages(prevMessages => ({
+                ...prevMessages,
+                [message.chat]: prevMessages[message.chat].map(msg =>
+                    msg.id === message.id ? message : msg
+                ),
+            }));
+        } else if (event === 'delete') {
+            setMessages(prevMessages => ({
+                ...prevMessages,
+                [message.chat]: prevMessages[message.chat].filter(msg => msg.id !== message.id),
+            }));
+        }
     }, []);
 
-    const addPerson = useCallback((newPerson) => {
-        setPersons(prevPersons => {
-            const updatedPersons = [...prevPersons, newPerson];
-            localStorage.setItem('people', JSON.stringify(updatedPersons));
-            return updatedPersons;
-        });
-    }, []);
+    // Подключение к Centrifugo
+    useEffect(() => {
+        if (user && !centrifuge) {
+            const centrifuge = connectToCentrifugo(user.id, handleCentrifugoMessage);
+            centrifugeRef.current = centrifuge;
+            setCentrifuge(true);
+            return () => {
+                if (centrifugeRef.current) {
+                    centrifugeRef.current.disconnect();
+                    centrifugeRef.current = null;
+                    setCentrifuge(false);
+                }
+            };
+        }
+    }, [user]);
+
+    const loadMessages = useCallback(async (chatId) => {
+        try {
+            const messagesData = await getMessages(chatId, {page_size:20, page: 1});
+            setMessages(prevMessages => ({
+                ...prevMessages,
+                [chatId]: messagesData.results || messagesData,
+            }));
+        } catch (error) {
+            console.error(`Ошибка при загрузке сообщений чата ${chatId}:`, error);
+            setError(`Ошибка при загрузке сообщений чата ${chatId}`);
+        }
+    }, [setError]);
+
+    const addMessage = useCallback(async (chatId, messageData) => {
+        try {
+            const newMessage = await sendMessage({
+                chatId,
+                text: messageData.text,
+                files: messageData.files,
+                voice: messageData.voice,
+            });
+            // setMessages(prevMessages => ({
+            //     ...prevMessages,
+            //     [chatId]: [...(prevMessages[chatId] || []), newMessage],
+            // }));
+        } catch (error) {
+            console.error('Ошибка при отправке сообщения:', error);
+            setError('Ошибка при отправке сообщения');
+        }
+    }, [setError]);
+
+    const updateProfile = useCallback(async (updateData) => {
+        try {
+            const newUser = await updateUserInfo(updateData);
+            setUser(newUser);
+        }catch (e) {
+            console.error('Ошибка при обновлении пользователя:', e);
+            setError('Ошибка при обновлении пользователя:')
+        }
+
+    }, [setUser, setError]);
+
 
     return (
         <ChatContext.Provider value={{
-            selfPerson,
-            editSelfPerson,
-            editPersonInPersons,
-            persons,
+            user,
+            setUser,
+            chats,
             messages,
+            searchChats,
+            login,
+            logout,
+            loadMessages,
+            updateProfile,
             addMessage,
-            markMessageAsRead,
-            markAllReceivedAsRead,
-            addPerson,
             foundMessage,
             setFoundMessage,
         }}>

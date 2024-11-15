@@ -7,25 +7,27 @@ import { ChatStatus } from './ChatStatus.jsx';
 import { ChatTime } from './ChatTime.jsx';
 import styles from './ChatItem.module.scss';
 
-export const ChatItem = ({ person, message, isSearched }) => {
+export const ChatItem = ({ chat, message, isSearched }) => {
     const navigate = useNavigate();
-    const { markAllReceivedAsRead, chatId, setChatId } = useContext(ChatContext);
+    const { markAllReceivedAsRead, user } = useContext(ChatContext);
 
     const handleClick = () => {
-        markAllReceivedAsRead(person.id);
-        localStorage.setItem('currentChatId', person.id);
+        // markAllReceivedAsRead(chat.id);
+        localStorage.setItem('currentChatId', chat.id);
         if (message && isSearched) {
-            localStorage.setItem('found_message', message.id || '');
+            localStorage.setItem('found_message', chat.id || '');
         }
-        navigate(`/chat/${person.id}`);
+        navigate(`/chat/${chat.id}`);
     };
+    const person = chat.members.find(member => member.id !== user.id);
+    const title = chat.title;
 
     return (
         <div className={styles.chatItem} onClick={handleClick}>
             <ChatPhoto person={person} />
-            <ChatInfo person={person} message={message} />
+            <ChatInfo title={title} message={message} />
             <ChatStatus message={message} />
-            <ChatTime message={message} />
+            <ChatTime time={chat.updated_at} />
         </div>
     );
 };

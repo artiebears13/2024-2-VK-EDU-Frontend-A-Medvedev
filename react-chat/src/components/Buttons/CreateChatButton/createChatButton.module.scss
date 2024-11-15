@@ -2,9 +2,7 @@
 @use '../../../variables';
 
 .createChatButton  {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
+
   background-color: #007aff;
   color: variables.$color-light;
   border: none;
@@ -23,5 +21,10 @@
   &Content {
     display: flex;
     @include mixins.flex-center();
+  }
+  &Container{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
   }
 }

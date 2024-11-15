@@ -8,10 +8,6 @@ import {useNavigate} from "react-router-dom";
 export const ProfileHeader = ( {username} ) => {
     const navigate = useNavigate();
 
-    const {selfPerson} = useContext(ChatContext);
-
-    if (!selfPerson) return null;
-
     return (
         <div className={styles.header}>
 

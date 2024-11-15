@@ -4,11 +4,9 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {ChatContext} from "../../../context/ChatContext.jsx";
 import {useNavigate} from "react-router-dom";
 
-export const PageChatHeader = ({ chatId, openEditPersonModal }) => {
+export const PageChatHeader = ({ chat, openEditChatModal }) => {
     const navigate = useNavigate();
-    const { persons } = useContext(ChatContext);
 
-    const person = persons.find(p => p.id === chatId);
 
     return (
         <div className={styles.header}>
@@ -16,9 +14,9 @@ export const PageChatHeader = ({ chatId, openEditPersonModal }) => {
                 <ArrowBackIosIcon className={styles.white}>arrow_back_ios</ArrowBackIosIcon>
             </button>
             <div className={styles.receiver}>
-                <span className={styles.receiverName} onClick={openEditPersonModal}>{person? person.name : "Не найдено"}</span>
-                <div className={styles.receiverPhoto} onClick={openEditPersonModal}>
-                    {person && <img src={person.photo} alt={person.name} className={styles.receiverPhotoImage} />}
+                <span className={styles.receiverName} onClick={openEditChatModal}>{chat? chat.title : "Не найдено"}</span>
+                <div className={styles.receiverPhoto} onClick={openEditChatModal}>
+                    {chat && <img src={chat.avatar} alt={chat.title} className={styles.receiverPhotoImage} />}
                 </div>
             </div>
         </div>

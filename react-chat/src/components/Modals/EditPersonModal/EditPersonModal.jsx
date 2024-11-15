@@ -6,7 +6,6 @@ export const EditPersonModal = ({onClose, person, updatePerson}) => {
     const [newPersonInfo, setNewPersonInfo] = useState(person);
 
     const editPersonPhoto = (data) => {
-        console.log(data);
         setNewPersonInfo(prev => ({ ...prev, photo: data.photo }));
     };
 
