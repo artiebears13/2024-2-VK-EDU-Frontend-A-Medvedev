@@ -1,7 +1,7 @@
-export const API_BASE_URL ='https://vkedu-fullstack-div2.ru';
-    // import.meta.env.MODE === 'development'
-    //     ? ''
-    //     : 'https://vkedu-fullstack-div2.ru';
+export const API_BASE_URL = //'https://vkedu-fullstack-div2.ru';
+    import.meta.env.MODE === 'development'
+        ? ''
+        : 'https://vkedu-fullstack-div2.ru';
 
 export async function fetchWithAuth(url, options = {}) {
     let accessToken = localStorage.getItem('accessToken');

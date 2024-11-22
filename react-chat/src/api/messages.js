@@ -99,3 +99,24 @@ export async function deleteMessage(messageId) {
     return await response.json();
 }
 
+export async function readMessage(messageId) {
+    const url = `${API_BASE_URL}/api/message/${messageId}/read/`;
+
+    const response = await fetchWithAuth(url, {
+        method: 'POST',
+    });
+
+    if (!response.ok) {
+        let errorMessage = 'Не удалось удалить сообщение';
+        try {
+            const errorData = await response.json();
+            errorMessage = errorData.detail || errorMessage;
+        } catch (e) {
+            throw new Error(e)
+        }
+        throw new Error(errorMessage);
+    }
+
+    return await response.json();
+}
+

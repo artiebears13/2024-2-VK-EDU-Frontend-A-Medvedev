@@ -125,3 +125,64 @@
     }
   }
 }
+
+.mapAttachment{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &Container{
+    @include mixins.flex-center(column);
+    gap: 20px;
+    background-color: variables.$color-background;
+    padding: 40px;
+    border-radius: 20px;
+  }
+
+  &Button{
+    background-color: variables.$color-primary;
+    padding: 10px;
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    height: 40px;
+
+  }
+}
+
+.voiceBtn{
+  margin-left: 10px;
+  background-color: #4d8de3;
+  height: 30px;
+  width: 30px;
+  border: none;
+  padding: 10px;
+  @include mixins.border-radius(variables.$border-radius-full);
+  cursor: pointer;
+  @include mixins.flex-center();
+  @include mixins.transition(background-color);
+  opacity: 1;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  & .materialSymbolsOutlined {
+    font-size: 20px;
+    color: variables.$color-light;
+  }
+  &:disabled{
+    @include mixins.disabled();
+    &:hover{
+      background-color: #4d8de3;
+
+    }
+  }
+}

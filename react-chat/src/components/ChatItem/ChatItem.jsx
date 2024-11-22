@@ -9,10 +9,10 @@ import styles from './ChatItem.module.scss';
 
 export const ChatItem = ({ chat, message, isSearched }) => {
     const navigate = useNavigate();
-    const { markAllReceivedAsRead, user } = useContext(ChatContext);
+    const { user } = useContext(ChatContext);
 
     const handleClick = () => {
-        // markAllReceivedAsRead(chat.id);
+
         localStorage.setItem('currentChatId', chat.id);
         if (message && isSearched) {
             localStorage.setItem('found_message', chat.id || '');
@@ -26,7 +26,7 @@ export const ChatItem = ({ chat, message, isSearched }) => {
         <div className={styles.chatItem} onClick={handleClick}>
             <ChatPhoto person={person} />
             <ChatInfo title={title} message={message} />
-            <ChatStatus message={message} />
+            <ChatStatus message={message} received={message.sender.id !== user.id} />
             <ChatTime time={chat.updated_at} />
         </div>
     );

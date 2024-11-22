@@ -3,6 +3,7 @@ import styles from './MessageItem.module.scss';
 import CheckIcon from '@mui/icons-material/Check';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import {ChatContext} from "../../context/ChatContext.jsx";
+import {GeoPreview} from "../GeoPreview/GeoPreview.jsx";
 
 export const MessageItem = memo(forwardRef(({message, isFound = false}, ref) => {
     const {user} = useContext(ChatContext);
@@ -16,14 +17,19 @@ export const MessageItem = memo(forwardRef(({message, isFound = false}, ref) => 
                     <img src={message.files[0].item} alt={"image"}/>
                 </div>
             }
+
+            {message.text && message.text.startsWith(`type:geolocation`)?
+            <GeoPreview width={200} href={200} href={message.text.split('___')[1]}  />
+                :
             <p className={`${styles.messageItemText} ${isFound ? styles.found : ''}`}>{message.text}</p>
+            }
             <div className={styles.messageItemStatus}>
                 <p className={styles.messageItemStatusItem}>
-                    {direction === 'sent' && (
-                        message.readStatus === 'unread' ?
+                    {
+                        message.was_read_by.length === 0 ?
                             <CheckIcon fontSize="small"/> :
                             <DoneAllIcon fontSize="small"/>
-                    )}
+                    }
                 </p>
                 <p className={styles.time}>
                     {new Date(message.created_at).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}

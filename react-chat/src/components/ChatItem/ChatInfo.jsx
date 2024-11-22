@@ -4,6 +4,9 @@ import log from "eslint-plugin-react/lib/util/log.js";
 
 export const ChatInfo = ({ title, message }) => {
     let lastMessageText = message.text ? message.text : 'файл';
+    if (lastMessageText.startsWith("type:geolocation")) {
+        lastMessageText = 'Геопозиция';
+    }
 
     const maxLength = 20;
     const displayText = lastMessageText.length > maxLength
