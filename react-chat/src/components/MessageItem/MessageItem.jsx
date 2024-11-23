@@ -1,4 +1,4 @@
-import React, {forwardRef, memo, useContext} from 'react';
+import React, {forwardRef, memo, useContext, useEffect, useRef} from 'react';
 import styles from './MessageItem.module.scss';
 import CheckIcon from '@mui/icons-material/Check';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
@@ -7,7 +7,16 @@ import {GeoPreview} from "../GeoPreview/GeoPreview.jsx";
 
 export const MessageItem = memo(forwardRef(({message, isFound = false}, ref) => {
     const {user} = useContext(ChatContext);
+    const audioRef = useRef(null);
     if (!user) {return }
+
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.load();
+            console.log('load',audioRef.current);
+        }
+    }, [message.voice]);
+
     const direction = message.sender.id === user.id ? 'sent' : 'received';
     return (
         <li className={`${styles.messageItem} ${direction === 'received' ? styles.received : styles.sent} ${styles.scaleInCenter}`}
@@ -23,6 +32,7 @@ export const MessageItem = memo(forwardRef(({message, isFound = false}, ref) => 
                 :
             <p className={`${styles.messageItemText} ${isFound ? styles.found : ''}`}>{message.text}</p>
             }
+            {message.voice && <audio ref={audioRef} src={message.voice} controls />}
             <div className={styles.messageItemStatus}>
                 <p className={styles.messageItemStatusItem}>
                     {

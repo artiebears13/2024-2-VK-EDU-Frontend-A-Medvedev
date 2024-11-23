@@ -115,8 +115,12 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
                     };
                     mediaRecorderRef.current.onstop = () => {
                         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-                        console.log(audioBlob);
-                        onSendVoice(audioBlob);
+                        const audioFile = new File([audioBlob], 'recording.wav', {
+                            type: 'audio/wav',
+                            lastModified: Date.now(),
+                        });
+                        console.log(audioFile);
+                        onSendVoice(audioFile);
                     };
                     mediaRecorderRef.current.start();
                     setRecording(true);
