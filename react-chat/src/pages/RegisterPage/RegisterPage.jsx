@@ -1,10 +1,11 @@
 // src/pages/RegisterPage/RegisterPage.jsx
 
-import React, {useRef, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import { register } from '../../api/api';
+import {login as apiLogin, register} from '../../api/api';
 import classes from './RegisterPage.module.scss'
 import {ProfilePhoto} from "../../components/EditableFields/ProfilePhoto/ProfilePhoto.jsx";
+import {ChatContext} from "../../context/ChatContext.jsx";
 
 function RegisterPage() {
     const [formData, setFormData] = useState({
@@ -16,6 +17,8 @@ function RegisterPage() {
         avatar: null,
     });
     const [error, setError] = useState(null);
+    const { login } = useContext(ChatContext);
+
     const navigate = useNavigate();
     const avatarInputRef = useRef(null);
 
@@ -34,7 +37,9 @@ function RegisterPage() {
         try {
             await register(formData);
             // После успешной регистрации перенаправляем на страницу входа
-            navigate('/login');
+            const { access, refresh } = await apiLogin(formData.username, formData.password);
+            await login(access, refresh);
+            navigate('/');
         } catch (err) {
             setError('Ошибка при регистрации. Пожалуйста, попробуйте снова.');
             console.error('Ошибка при регистрации:', err);
