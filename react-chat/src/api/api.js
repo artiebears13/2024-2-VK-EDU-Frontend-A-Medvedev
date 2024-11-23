@@ -1,7 +1,4 @@
 export const API_BASE_URL ='https://vkedu-fullstack-div2.ru';
-    // import.meta.env.MODE === 'development'
-    //     ? ''
-    //     : 'https://vkedu-fullstack-div2.ru';
 
 export async function fetchWithAuth(url, options = {}) {
     let accessToken = localStorage.getItem('accessToken');
@@ -82,7 +79,7 @@ export async function login(username, password) {
         throw new Error(errorData.detail || 'Ошибка при авторизации');
     }
 
-    return await response.json(); // Возвращает { access, refresh }
+    return await response.json(); // return { access, refresh }
 }
 
 export async function refreshToken(refresh) {
@@ -102,5 +99,5 @@ export async function refreshToken(refresh) {
         throw new Error('Не удалось обновить токен');
     }
 
-    return await response.json(); // Возвращает { access, refresh }
+    return await response.json(); // return { access, refresh }
 }

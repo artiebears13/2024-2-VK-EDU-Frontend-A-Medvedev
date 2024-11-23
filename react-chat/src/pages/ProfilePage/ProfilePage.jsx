@@ -4,11 +4,9 @@ import {ProfileHeader} from "../../components/Headers/ProfileHeader/ProfileHeade
 import {ProfilePhoto} from "../../components/EditableFields/ProfilePhoto/ProfilePhoto.jsx";
 import {ProfileAbout} from "../../components/EditableFields/ProfileAbout/ProfileAbout.jsx";
 import {ChatContext} from "../../context/ChatContext.jsx";
-import {ProfileBirthday} from "../../components/EditableFields/ProfileBirthday/ProfileBirthday.jsx";
 import {ProfileTextItem} from "../../components/EditableFields/ProfileCity/ProfileTextItem.jsx";
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
-import {updateUserInfo} from "../../api/users.js";
 
 export const ProfilePage = () => {
     const {user, updateProfile} = useContext(ChatContext);
@@ -16,8 +14,6 @@ export const ProfilePage = () => {
 
     const [isEdit, setIsEdit] = useState(false);
     const [name, setName] = useState(user.first_name);
-    // const [birthday, setBirthday] = useState(user.birthday);
-    // const [city, setCity] = useState(user.city);
     const [userInfo, setUserInfo] = useState({
         bio: user.bio,
         avatar: user.avatar,
@@ -25,8 +21,6 @@ export const ProfilePage = () => {
 
     const loadData = useCallback(() => {
         setName(user.first_name);
-        // setBirthday(selfPerson.birthday);
-        // setCity(selfPerson.city);
         setUserInfo(prev => ({
             ...prev,
             bio: user.bio,
@@ -81,8 +75,6 @@ export const ProfilePage = () => {
                 <ProfilePhoto person={user} setPerson={editAvatar}/>
                 <div className={styles.ProfilePageDescription}>
                     <ProfileTextItem title={"Имя пользователя"} text={name} setText={setName} isEdit={isEdit}/>
-                    {/*<ProfileBirthday birthday={birthday} setBirthday={setBirthday} isEdit={isEdit}/>*/}
-                    {/*<ProfileTextItem title={"Город"} text={city} setText={setCity} isEdit={isEdit}/>*/}
                     <ProfileAbout about={userInfo.bio} setAbout={setAbout} isEdit={isEdit}/>
 
                 </div>
