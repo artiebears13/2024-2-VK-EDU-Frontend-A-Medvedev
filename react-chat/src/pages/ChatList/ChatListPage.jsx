@@ -8,7 +8,7 @@ import {ChatList} from "../../components/chatList/ChatList.jsx";
 import {ChatContext} from "../../context/ChatContext.jsx";
 
 export const ChatListPage = () => {
-    const { searchChats } = useContext(ChatContext);
+    const { searchChats, chats } = useContext(ChatContext);
     const [searchQuery, setSearchQuery] = useState('');
     const [menuOpen, setMenuOpen] = useState(false);
     const [chatModal, setChatModal] = useState('none');
@@ -57,6 +57,7 @@ export const ChatListPage = () => {
             <CreateChatButton
                 onGroupChat={onGroupChat}
                 onPersonalChat={onPersonalChat}
+                animate={chats.length === 0 && searchQuery === ''}
             />
             {ChooseChatModal()}
             {menuOpen && <Menu onMenuHide={onMenuHide} />}
