@@ -2,9 +2,7 @@
 @use '../../../variables';
 
 .createChatButton  {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
+
   background-color: #007aff;
   color: variables.$color-light;
   border: none;
@@ -24,4 +22,26 @@
     display: flex;
     @include mixins.flex-center();
   }
+  &Container{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
 }
+
+.pulseAnimation {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 81, 168, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 20px 10px rgba(0, 81, 168, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 81, 168, 0.8);
+  }
+}
+

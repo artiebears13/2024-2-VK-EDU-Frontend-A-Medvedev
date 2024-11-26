@@ -13,7 +13,7 @@ import {useNavigate} from "react-router-dom";
 
 export const Menu = ({onMenuHide}) => {
     const navigate = useNavigate();
-    const {selfPerson} = useContext(ChatContext);
+    const {user} = useContext(ChatContext);
 
     const toProfile = () => {
         navigate(`/profile`);
@@ -23,8 +23,8 @@ export const Menu = ({onMenuHide}) => {
         <div className={`${styles.menuBackground} ${styles.slideInLeft}`} onClick={onMenuHide}>
             <div className={styles.dropdownMenu}>
                 <div className={styles.userData} onClick={toProfile}>
-                <ChatPhoto person={selfPerson} />
-                    <h2 className={styles.userName}>{selfPerson.name}</h2>
+                <ChatPhoto person={user} />
+                    <h2 className={styles.userName}>{user.first_name}</h2>
                 </div>
                 <div className={styles.menuItem} onClick={ThemeSwitcher}>Сменить тему<ContrastIcon className="white"/></div>
                 <div className={`${styles.menuItem} ${styles.disabled}`} onClick={() => {}}>Настройки<SettingsIcon className="white"/></div>

@@ -4,7 +4,7 @@ import { MessageItem } from '../MessageItem/MessageItem.jsx';
 import { ChatContext } from '../../context/ChatContext.jsx';
 
 export const MessagesList = memo(({ messages }) => {
-    const { foundMessage, setFoundMessage } = useContext(ChatContext);
+    const { foundMessage, setFoundMessage, user } = useContext(ChatContext);
     const foundRef = useRef(null);
     const ref = useRef(null);
 
@@ -33,18 +33,20 @@ export const MessagesList = memo(({ messages }) => {
                 key={message.id || message.timestamp}
                 message={message}
                 isFound={true}
+                // user={user}
             />
         }
         return <MessageItem
             key={message.id || message.timestamp}
             message={message}
+            // user={user}
         />
     });
 
     return (
         <div className={styles.messagesContainer} ref={ref}>
             <ul className={styles.messagesList}>
-                {messages.map(getMessageItems)}
+                {[...messages].reverse().map(getMessageItems)}
             </ul>
         </div>
     )});

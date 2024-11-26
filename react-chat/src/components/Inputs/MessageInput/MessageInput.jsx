@@ -10,15 +10,17 @@ export const MessageInput = ({onSendMessage, active}) => {
     const attachedImageInputRef = useRef(null);
     const [messageText, setMessageText] = useState('');
     const [attachedImage, setAttachedImage] = useState(null);
-    const {setError} = useContext(ErrorContext)
+    const [attachedImageBinary, setAttachedImageBinary] = useState(null);
+    const {setError} = useContext(ErrorContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const trimmedMessage = messageText.trim();
         if (trimmedMessage || attachedImage) {
-            onSendMessage({text: trimmedMessage, image: attachedImage})
+            onSendMessage({text: trimmedMessage, files: [attachedImageBinary]})
             setMessageText('');
             setAttachedImage(null);
+            setAttachedImageBinary(null);
         }
     };
 
@@ -34,11 +36,13 @@ export const MessageInput = ({onSendMessage, active}) => {
         }
         if (file) {
             setAttachedImage(photoUrl);
+            setAttachedImageBinary(file);
         }
     };
 
     const deleteAttachment = () => {
         setAttachedImage(null);
+        setAttachedImageBinary(null);
     }
 
     return (

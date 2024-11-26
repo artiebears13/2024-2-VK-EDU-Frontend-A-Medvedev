@@ -1,16 +1,14 @@
 import React, {useContext} from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import {ChatContext} from "../../../context/ChatContext.jsx";
 import styles from './ProfileHeader.module.scss'
 import {Title} from "../../Title/Title.jsx";
 import {useNavigate} from "react-router-dom";
+import LogoutIcon from '@mui/icons-material/Logout';
+import {ChatContext} from "../../../context/ChatContext.jsx";
 
 export const ProfileHeader = ( {username} ) => {
     const navigate = useNavigate();
-
-    const {selfPerson} = useContext(ChatContext);
-
-    if (!selfPerson) return null;
+    const {logout} = useContext(ChatContext);
 
     return (
         <div className={styles.header}>
@@ -21,7 +19,7 @@ export const ProfileHeader = ( {username} ) => {
 
             <Title text={username}></Title>
             {/* for correct centering*/}
-            <div></div>
+            <div className={styles.logout} onClick={logout}><LogoutIcon className={"white"} /> </div>
         </div>
     );
 };

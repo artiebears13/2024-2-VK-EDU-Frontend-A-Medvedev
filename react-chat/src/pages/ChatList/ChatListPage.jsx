@@ -1,41 +1,66 @@
-import React, {useState} from "react";
-import {ChatListHeader} from "../../components/Headers/ChatListHeader/ChatListHeader.jsx";
-import {CreateChatButton} from "../../components/Buttons/CreateChatButton/CreateChatButton.jsx";
-import {CreateChatModal} from "../../components/Modals/CreateChatModal/CreateChatModal.jsx";
+import React, {useContext, useState} from 'react';
+import { ChatListHeader } from '../../components/Headers/ChatListHeader/ChatListHeader.jsx';
+import { CreateChatButton } from '../../components/Buttons/CreateChatButton/CreateChatButton.jsx';
+import { CreatePersonalChatModal } from '../../components/Modals/CreateChatModal/CreatePersonalChatModal.jsx';
+import { Menu } from '../../components/Menu/Menu.jsx';
+import {CreateGroupChatModal} from "../../components/Modals/CreateChatModal/CreateGroupChatModal.jsx";
 import {ChatList} from "../../components/chatList/ChatList.jsx";
-import {Menu} from "../../components/Menu/Menu.jsx";
+import {ChatContext} from "../../context/ChatContext.jsx";
 
 export const ChatListPage = () => {
-
-    const [searchQuery, setSearchQuery] = useState("");
-    const [createChatModalOpen, setCreateChatModalOpen] = useState(false);
+    const { searchChats, chats } = useContext(ChatContext);
+    const [searchQuery, setSearchQuery] = useState('');
     const [menuOpen, setMenuOpen] = useState(false);
+    const [chatModal, setChatModal] = useState('none');
 
-    const openCreateChatModal = () => {
-        setCreateChatModalOpen(true)
+
+    const onPersonalChat = () => {
+        setChatModal('personal');
     };
-    const closeCreateChatModal = () => {
-        console.log("here");
-        setCreateChatModalOpen(false);
+    const onGroupChat = () => {
+        setChatModal('group');
     };
 
     const onMenuShow = () => {
-        setMenuOpen(true)
-    }
+        setMenuOpen(true);
+    };
     const onMenuHide = () => {
-        setMenuOpen(false)
+        setMenuOpen(false);
+    };
+
+    const handleSearch = (query) => {
+        searchChats(query);
+        setSearchQuery(query);
+    }
+
+    const ChooseChatModal = () => {
+        switch (chatModal) {
+            case 'personal':
+                return <CreatePersonalChatModal
+                    isOpen={chatModal === 'personal'}
+                    onClose={() => setChatModal('none')}
+                />
+            case 'group':
+                return <CreateGroupChatModal
+                    isOpen={chatModal === 'group'}
+                    onClose={() => setChatModal('none')}
+                />
+            default:
+                return
+        }
     }
 
     return (
         <main>
-            <ChatListHeader handleSearch={setSearchQuery} onMenuShow={onMenuShow}/>
-            <ChatList searchQuery={searchQuery}/>
-            <CreateChatButton openCreateChatModal={openCreateChatModal}/>
-            {createChatModalOpen && (<CreateChatModal
-                isOpen={createChatModalOpen}
-                onClose={closeCreateChatModal}
-            />)}
-            {menuOpen && (<Menu onMenuHide={onMenuHide}/>)}
+            <ChatListHeader handleSearch={handleSearch} onMenuShow={onMenuShow} />
+            <ChatList searchQuery={searchQuery} />
+            <CreateChatButton
+                onGroupChat={onGroupChat}
+                onPersonalChat={onPersonalChat}
+                animate={chats.length === 0 && searchQuery === ''}
+            />
+            {ChooseChatModal()}
+            {menuOpen && <Menu onMenuHide={onMenuHide} />}
         </main>
-    )
-}
+    );
+};
