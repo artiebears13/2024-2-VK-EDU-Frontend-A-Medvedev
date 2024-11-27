@@ -3,8 +3,9 @@ import styles from './createChatButton.module.scss';
 import {useState} from "react";
 import {CreatechatOptions} from "../../Modals/CreateChatOptions/CreatechatOptions.jsx";
 
-export const CreateChatButton = ({onGroupChat, onPersonalChat}) => {
+export const CreateChatButton = ({onGroupChat, onPersonalChat, animate}) => {
     const [showOptions, setShowOptions] = useState(false);
+    console.log({animate});
 
 
     const toggleOptions = () => {
@@ -20,7 +21,7 @@ export const CreateChatButton = ({onGroupChat, onPersonalChat}) => {
                     onGroupChat={onGroupChat}
                 />
             }
-            <button className={styles.createChatButton} onClick={toggleOptions}>
+            <button className={`${styles.createChatButton} ${animate && styles.pulseAnimation}`} onClick={toggleOptions}>
                 <div className={styles.createChatButtonContent}>
                     <AddIcon/>
                 </div>

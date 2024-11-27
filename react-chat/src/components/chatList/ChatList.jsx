@@ -88,8 +88,8 @@ export const ChatList = memo(({searchQuery = ''}) => {
                 )
             ) : (searchQuery === "" ?
                 (<div className={styles.notFoundMessage}>
-                    <SentimentVeryDissatisfiedIcon/>
-                    <p>Вы еще не создали чат</p>
+                    {/*<SentimentVeryDissatisfiedIcon/>*/}
+                    <p className={styles.welcomeLabel}>Добро пожаловать! <br />Создайте первый чат!</p>
                 </div>)
                 :
                 (<div className={styles.notFoundMessage}>

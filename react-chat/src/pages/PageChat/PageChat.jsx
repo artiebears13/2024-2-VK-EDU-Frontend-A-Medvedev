@@ -1,15 +1,13 @@
-// src/pages/PageChat/PageChat.jsx
 
-import React, {memo, useCallback, useContext, useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import {ChatContext} from '../../context/ChatContext';
+import React, { memo, useCallback, useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { ChatContext } from '../../context/ChatContext';
 import styles from './PageChat.module.scss';
-import {MessageInput} from "../../components/Inputs/MessageInput/MessageInput.jsx";
-import {MessagesList} from "../../components/MessagesList/MessagesList.jsx";
-import {PageChatHeader} from "../../components/Headers/PageChatHeader/PageChatHeader.jsx";
-import {EditPersonModal} from "../../components/Modals/EditPersonModal/EditPersonModal.jsx";
-import {PersonNotFoundBadge} from "../../components/Badges/PersonNotFoundBadge.jsx";
-import {getChat} from "../../api/chats.js"; // Если есть
+import { MessageInput } from "../../components/Inputs/MessageInput/MessageInput.jsx";
+import { MessagesList } from "../../components/MessagesList/MessagesList.jsx";
+import { PageChatHeader } from "../../components/Headers/PageChatHeader/PageChatHeader.jsx";
+import { EditPersonModal } from "../../components/Modals/EditPersonModal/EditPersonModal.jsx";
+import {getChat} from "../../api/chats.js";
 
 export const PageChat = memo(() => {
     const {chatId} = useParams();
@@ -38,11 +36,6 @@ export const PageChat = memo(() => {
     }, [chatId]);
 
     useEffect(() => {
-        console.log("reading");
-        markMessagesAsRead(chatId);
-    }, [messages, markMessagesAsRead]);
-
-    useEffect(() => {
         setCurrentMessages(messages[chatId] || []);
     }, [messages, setCurrentMessages, chatId]);
 
@@ -54,8 +47,8 @@ export const PageChat = memo(() => {
         setEditChatModal(false);
     }
 
-    const editChatInfo = useCallback(({name, photo}) => {
-        // editChatInChats(chatId, { name, photo });
+    const editChatInfo = useCallback(({ name, photo }) => {
+        // TODO: make chat info editable
     }, [chatId]);
 
 
@@ -86,16 +79,12 @@ export const PageChat = memo(() => {
 
     return (
         <div>
-            <PageChatHeader chat={currentChat} openEditChatModal={openEditChatModal}/>
-            {editChatModal &&
-                <EditPersonModal
-                    onClose={closeEditChatModal}
-                    chat={chatId}
-                    updateChat={editChatInfo}
-                />}
+            <PageChatHeader chat={currentChat} openEditChatModal={openEditChatModal} />
+            {/*TODO: make chat info editable*/}
+            {/*{editChatModal && <EditPersonModal onClose={closeEditChatModal} chat={chatId} updateChat={editChatInfo}/>}*/}
             <div className={styles.chatContainer}>
-                <MessagesList messages={currentMessages}/>
-                <MessageInput onSendMessage={sendMessage} active={chatFound} onSendVoice={sendVoiceMessage}/>
+                    <MessagesList messages={currentMessages} />
+                <MessageInput onSendMessage={sendMessage} active={chatFound} />
             </div>
         </div>
     );
