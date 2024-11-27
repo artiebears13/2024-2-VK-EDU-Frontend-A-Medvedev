@@ -8,14 +8,7 @@ import {GeoPreview} from "../GeoPreview/GeoPreview.jsx";
 export const MessageItem = memo(forwardRef(({message, isFound = false}, ref) => {
     const {user} = useContext(ChatContext);
     const audioRef = useRef(null);
-    if (!user) {return }
-
-    useEffect(() => {
-        if (audioRef.current) {
-            audioRef.current.load();
-            console.log('load',audioRef.current);
-        }
-    }, [message.voice]);
+    if (!user) {return null}
 
     const direction = message.sender.id === user.id ? 'sent' : 'received';
     return (

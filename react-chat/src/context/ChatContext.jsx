@@ -14,6 +14,7 @@ export const ChatContext = createContext();
 export const ChatProvider = ({children}) => {
     const navigate = useNavigate();
     const {setError} = useContext(ErrorContext);
+    const [currentChat, setCurrentChat] = useState(null);
     const [user, setUser] = useState(null);
     const [centrifuge, setCentrifuge] = useState(false);
     const [chats, setChats] = useState([]);
@@ -53,6 +54,13 @@ export const ChatProvider = ({children}) => {
             logout();
         }
     }, [accessToken, refreshToken, loadCurrentUser, logout]);
+
+    useEffect(() => {
+        // Запрашиваем разрешение на отправку уведомлений при монтировании компонента
+        if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+            Notification.requestPermission();
+        }
+    }, []);
 
     const login = useCallback(async (access, refresh) => {
         localStorage.setItem('accessToken', access);
@@ -104,6 +112,23 @@ export const ChatProvider = ({children}) => {
                 ...prevMessages,
                 [message.chat]: [message, ...(prevMessages[message.chat] || [])],
             }));
+            // TODO: обернуть нотификацию в другую функцию и проверять текущий чат
+            if (Notification.permission === 'granted') {
+                // Создаем и отображаем уведомление
+                const notification = new Notification('Новое сообщение', {
+                    body: `У вас новое сообщение от ${message.sender.first_name}`,
+                    icon: 'path/to/icon.png', // Укажите путь к иконке
+                });
+
+                // Воспроизводим звук
+                const audio = new Audio('path/to/sound.mp3'); // Укажите путь к звуковому файлу
+                audio.play();
+
+                // Активируем вибрацию
+                if (navigator.vibrate) {
+                    navigator.vibrate([200, 100, 200]); // Паттерн вибрации
+                }
+            }
         } else if (event === 'update') {
             setMessages(prevMessages => ({
                 ...prevMessages,
@@ -223,6 +248,8 @@ export const ChatProvider = ({children}) => {
             chats,
             messages,
             searchChats,
+            setCurrentChat,
+            currentChat,
             login,
             logout,
             loadMessages,

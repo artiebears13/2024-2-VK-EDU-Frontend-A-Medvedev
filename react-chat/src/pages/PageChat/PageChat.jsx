@@ -13,9 +13,18 @@ import {getChat} from "../../api/chats.js"; // Если есть
 
 export const PageChat = memo(() => {
     const {chatId} = useParams();
-    const {user, chats, messages, loadMessages, addMessage, addVoiceMessage, markMessagesAsRead} = useContext(ChatContext);
+    const {
+        user,
+        chats,
+        messages,
+        loadMessages,
+        addMessage,
+        addVoiceMessage,
+        markMessagesAsRead,
+        currentChat,
+        setCurrentChat
+    } = useContext(ChatContext);
     const [editChatModal, setEditChatModal] = useState(false);
-    const [currentChat, setCurrentChat] = useState(null);
     const [chatFound, setChatFound] = useState(true);
 
     const [currentMessages, setCurrentMessages] = useState([]);
@@ -25,6 +34,7 @@ export const PageChat = memo(() => {
         if (chatId) {
             loadMessages(chatId);
         }
+        return () => {setCurrentChat(null)}
     }, [chatId]);
 
     useEffect(() => {
