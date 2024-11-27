@@ -84,7 +84,7 @@ export const PageChat = memo(() => {
             {/*{editChatModal && <EditPersonModal onClose={closeEditChatModal} chat={chatId} updateChat={editChatInfo}/>}*/}
             <div className={styles.chatContainer}>
                     <MessagesList messages={currentMessages} />
-                <MessageInput onSendMessage={sendMessage} active={chatFound} />
+                <MessageInput onSendMessage={sendMessage} active={chatFound} onSendVoice={sendVoiceMessage}/>
             </div>
         </div>
     );

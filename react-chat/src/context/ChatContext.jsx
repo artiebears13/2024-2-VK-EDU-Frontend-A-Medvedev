@@ -113,22 +113,22 @@ export const ChatProvider = ({children}) => {
                 [message.chat]: [message, ...(prevMessages[message.chat] || [])],
             }));
             // TODO: обернуть нотификацию в другую функцию и проверять текущий чат
-            if (Notification.permission === 'granted') {
-                // Создаем и отображаем уведомление
-                const notification = new Notification('Новое сообщение', {
-                    body: `У вас новое сообщение от ${message.sender.first_name}`,
-                    icon: 'path/to/icon.png', // Укажите путь к иконке
-                });
-
-                // Воспроизводим звук
-                const audio = new Audio('path/to/sound.mp3'); // Укажите путь к звуковому файлу
-                audio.play();
-
-                // Активируем вибрацию
-                if (navigator.vibrate) {
-                    navigator.vibrate([200, 100, 200]); // Паттерн вибрации
-                }
-            }
+            // if (Notification.permission === 'granted') {
+            //     // Создаем и отображаем уведомление
+            //     const notification = new Notification('Новое сообщение', {
+            //         body: `У вас новое сообщение от ${message.sender.first_name}`,
+            //         icon: 'path/to/icon.png', // Укажите путь к иконке
+            //     });
+            //
+            //     // Воспроизводим звук
+            //     const audio = new Audio('path/to/sound.mp3'); // Укажите путь к звуковому файлу
+            //     audio.play();
+            //
+            //     // Активируем вибрацию
+            //     if (navigator.vibrate) {
+            //         navigator.vibrate([200, 100, 200]); // Паттерн вибрации
+            //     }
+            // }
         } else if (event === 'update') {
             setMessages(prevMessages => ({
                 ...prevMessages,
