@@ -36,6 +36,10 @@ export const PageChat = memo(() => {
     }, [chatId]);
 
     useEffect(() => {
+        markMessagesAsRead(chatId);
+    }, [])
+
+    useEffect(() => {
         setCurrentMessages(messages[chatId] || []);
     }, [messages, setCurrentMessages, chatId]);
 

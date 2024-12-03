@@ -221,6 +221,7 @@ export const ChatProvider = ({children}) => {
         if (!user) return;
         if (!messages) return;
         if (!messages[chatId]) return;
+        console.log("reading");
 
         for (const message of messages[chatId]) {
             if (message.sender.id !== user.id && !message.was_read_by.some(readUser => readUser.id === user.id)) {

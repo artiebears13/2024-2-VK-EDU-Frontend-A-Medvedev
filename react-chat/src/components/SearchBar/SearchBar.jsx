@@ -6,6 +6,7 @@ export const SearchBar = ({onSearch, isSearchOpen, setSearchOpen}) => {
     const [isAnimating, setIsAnimating] = useState(false); // Для контроля анимации
     const [searchQuery, setSearchQuery] = useState('');
     const inputRef = useRef(null);
+    const debounceTimer = useRef(null);
 
     useEffect(() => {
         const escapeHandler = (e) => {
@@ -32,7 +33,16 @@ export const SearchBar = ({onSearch, isSearchOpen, setSearchOpen}) => {
     const handleSearchInputChange = (e) => {
         const query = e.target.value;
         setSearchQuery(query);
-        onSearch(query);
+
+        // Очистка предыдущего таймера
+        if (debounceTimer.current) {
+            clearTimeout(debounceTimer.current);
+        }
+
+        // Установка нового таймера
+        debounceTimer.current = setTimeout(() => {
+            onSearch(query);
+        }, 300); // Задержка 300 мс
     };
 
     const handleSearchInputBlur = () => {
@@ -45,7 +55,7 @@ export const SearchBar = ({onSearch, isSearchOpen, setSearchOpen}) => {
             setSearchOpen(false);
             setIsAnimating(false);
             setSearchQuery('');
-            onSearch('');
+            onSearch(''); // Сбрасываем результат поиска
         }, 300);
     };
 

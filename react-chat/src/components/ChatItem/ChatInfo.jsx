@@ -7,7 +7,9 @@ export const ChatInfo = ({ title, message }) => {
     if (lastMessageText.startsWith("type:geolocation")) {
         lastMessageText = 'Геопозиция';
     }
-
+    if (message.voice) {
+        lastMessageText = "Голосовое сообщение";
+    }
     const maxLength = 20;
     const displayText = lastMessageText.length > maxLength
         ? `${lastMessageText.slice(0, maxLength)}...`

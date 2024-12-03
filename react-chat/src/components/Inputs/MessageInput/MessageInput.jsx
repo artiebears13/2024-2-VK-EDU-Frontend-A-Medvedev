@@ -109,6 +109,7 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
             navigator.mediaDevices
                 .getUserMedia({ audio: true })
                 .then(stream => {
+                    audioChunksRef.current = [];
                     mediaRecorderRef.current = new MediaRecorder(stream);
                     mediaRecorderRef.current.ondataavailable = event => {
                         audioChunksRef.current.push(event.data);
