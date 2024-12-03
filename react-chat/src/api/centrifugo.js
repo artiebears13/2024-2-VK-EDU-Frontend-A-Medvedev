@@ -5,7 +5,7 @@ import { Centrifuge } from 'centrifuge';
 export function connectToCentrifugo(userId, onMessageReceived) {
     const accessToken = localStorage.getItem('accessToken');
     const centrifugoUrl = 'wss://vkedu-fullstack-div2.ru/connection/websocket/';
-        // 'ws://localhost:8080/connection/websocket/'  // for local development
+         // 'ws://localhost:8080/connection/websocket/'  // for local development
 
     const headers = {
         'Authorization': `Bearer ${accessToken}`,

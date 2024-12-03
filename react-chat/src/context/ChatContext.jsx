@@ -20,6 +20,7 @@ export const ChatProvider = ({children}) => {
     const [chats, setChats] = useState([]);
     const [messages, setMessages] = useState({}); // { chatId: [messages] }
     const [foundMessage, setFoundMessage] = useState(''); // Для поиска сообщений
+    const currentChatRef = useRef(null);
 
     // Ref для хранения экземпляра Centrifuge
     const centrifugeRef = useRef(null);
@@ -103,32 +104,43 @@ export const ChatProvider = ({children}) => {
         }
     }, [user, loadChats, messages]);
 
+    useEffect(() => {
+        currentChatRef.current = currentChat;
+    }, [currentChat]);
+
+    const notifyOrRead = useCallback((message) => {
+        if (currentChatRef.current && message.chat === currentChatRef.current.id) {
+            readMessage(message.id).then();
+            return null;
+        }
+        // if (message.sender.id === user.id) return null;
+        if (Notification.permission === 'granted') {
+            const notification = new Notification('Новое сообщение', {
+                body: `У вас новое сообщение от ${message.sender.first_name}`,
+                icon: 'assets/notificationIcon', // Укажите путь к иконке
+            });
+
+            // Воспроизводим звук
+            // const audio = new Audio('path/to/sound.mp3'); // Укажите путь к звуковому файлу
+            // audio.play();
+
+            // Активируем вибрацию
+            if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200]); // Паттерн вибрации
+            }
+        }
+    }, [currentChat]);
+
 
     // Стабилизируем обработчик сообщений
     const handleCentrifugoMessage = useCallback((event, message) => {
         if (event === 'create') {
-            console.log('message', getMessage(message.id).then(res => console.log("res", res)))
             setMessages(prevMessages => ({
                 ...prevMessages,
                 [message.chat]: [message, ...(prevMessages[message.chat] || [])],
             }));
-            // TODO: обернуть нотификацию в другую функцию и проверять текущий чат
-            // if (Notification.permission === 'granted') {
-            //     // Создаем и отображаем уведомление
-            //     const notification = new Notification('Новое сообщение', {
-            //         body: `У вас новое сообщение от ${message.sender.first_name}`,
-            //         icon: 'path/to/icon.png', // Укажите путь к иконке
-            //     });
-            //
-            //     // Воспроизводим звук
-            //     const audio = new Audio('path/to/sound.mp3'); // Укажите путь к звуковому файлу
-            //     audio.play();
-            //
-            //     // Активируем вибрацию
-            //     if (navigator.vibrate) {
-            //         navigator.vibrate([200, 100, 200]); // Паттерн вибрации
-            //     }
-            // }
+            notifyOrRead(message);
+
         } else if (event === 'update') {
             setMessages(prevMessages => ({
                 ...prevMessages,
@@ -149,7 +161,7 @@ export const ChatProvider = ({children}) => {
                 [message.chat]: prevMessages[message.chat].filter(msg => msg.id !== message.id),
             }));
         }
-    }, []);
+    }, [notifyOrRead]);
 
     // Подключение к Centrifugo
     useEffect(() => {
@@ -221,7 +233,6 @@ export const ChatProvider = ({children}) => {
         if (!user) return;
         if (!messages) return;
         if (!messages[chatId]) return;
-        console.log("reading");
 
         for (const message of messages[chatId]) {
             if (message.sender.id !== user.id && !message.was_read_by.some(readUser => readUser.id === user.id)) {

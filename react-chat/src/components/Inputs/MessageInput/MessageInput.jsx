@@ -42,7 +42,6 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
         function success(position) {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
-            console.log({latitude, longitude});
 
             const bbox = `${longitude - 0.004},${latitude - 0.002},${longitude + 0.004},${latitude + 0.002}`;
             const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${latitude},${longitude}`;
@@ -120,7 +119,6 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
                             type: 'audio/wav',
                             lastModified: Date.now(),
                         });
-                        console.log(audioFile);
                         onSendVoice(audioFile);
                     };
                     mediaRecorderRef.current.start();

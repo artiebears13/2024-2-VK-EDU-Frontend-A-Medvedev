@@ -28,12 +28,16 @@ export const PageChat = memo(() => {
     const [currentMessages, setCurrentMessages] = useState([]);
 
     useEffect(() => {
-        getChat(chatId).then(res => setCurrentChat(res)).catch(() => setChatFound(false));
+        getChat(chatId).then(res => {
+            setCurrentChat(res);
+        }).catch(() => setChatFound(false));
         if (chatId) {
             loadMessages(chatId);
         }
-        return () => {setCurrentChat(null)}
-    }, [chatId]);
+        return () => {
+            setCurrentChat(null);
+        }
+    }, []);
 
     useEffect(() => {
         markMessagesAsRead(chatId);
@@ -79,6 +83,7 @@ export const PageChat = memo(() => {
             }
         }
     }, [chatId, addMessage]);
+
 
 
     return (
