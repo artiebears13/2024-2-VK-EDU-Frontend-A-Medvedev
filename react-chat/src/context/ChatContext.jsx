@@ -57,9 +57,12 @@ export const ChatProvider = ({children}) => {
     }, [accessToken, refreshToken, loadCurrentUser, logout]);
 
     useEffect(() => {
-        // Запрашиваем разрешение на отправку уведомлений при монтировании компонента
-        if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
-            Notification.requestPermission();
+        if ('Notification' in window) { // Проверяем наличие Notification в глобальном объекте window
+            if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+                Notification.requestPermission();
+            }
+        } else {
+            console.warn('Notifications are not supported in this browser.');
         }
     }, []);
 
