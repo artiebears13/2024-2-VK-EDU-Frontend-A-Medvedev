@@ -36,6 +36,7 @@ export async function getUserInfo(uuid) {
 }
 
 export async function updateUserInfo(updateData) {
+    console.log({updateData});
     const currentUser = await getCurrentUser();
     const uuid = currentUser.id;
 

@@ -50,6 +50,7 @@ export const ProfilePhoto = ({ person, setPerson }) => {
                 setError('Файл должен быть изображением.');
                 return;
             }
+            console.log({file});
             // Update person.avatar with the selected file
             setPerson({
                 ...person,

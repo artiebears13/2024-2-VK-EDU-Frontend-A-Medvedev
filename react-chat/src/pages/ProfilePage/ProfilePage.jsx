@@ -1,17 +1,18 @@
-import React, {useContext, useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from './ProfilePage.module.scss';
-import {ProfileHeader} from "../../components/Headers/ProfileHeader/ProfileHeader.jsx";
-import {ProfilePhoto} from "../../components/EditableFields/ProfilePhoto/ProfilePhoto.jsx";
-import {ProfileAbout} from "../../components/EditableFields/ProfileAbout/ProfileAbout.jsx";
-import {ChatContext} from "../../context/ChatContext.jsx";
-import {ProfileTextItem} from "../../components/EditableFields/ProfileCity/ProfileTextItem.jsx";
+import { ProfileHeader } from "../../components/Headers/ProfileHeader/ProfileHeader.jsx";
+import { ProfilePhoto } from "../../components/EditableFields/ProfilePhoto/ProfilePhoto.jsx";
+import { ProfileAbout } from "../../components/EditableFields/ProfileAbout/ProfileAbout.jsx";
+import { ProfileTextItem } from "../../components/EditableFields/ProfileCity/ProfileTextItem.jsx";
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserProfile } from "../../store/userSlice.js";
 
 export const ProfilePage = () => {
-    const {user, updateProfile} = useContext(ChatContext);
-    if (!user) return
-
+    const user = useSelector((state) => state.user.user);
+    if (!user) return null;
+    const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
     const [name, setName] = useState(user.first_name);
     const [userInfo, setUserInfo] = useState({
@@ -21,50 +22,58 @@ export const ProfilePage = () => {
 
     const loadData = useCallback(() => {
         setName(user.first_name);
-        setUserInfo(prev => ({
-            ...prev,
+        setUserInfo({
             bio: user.bio,
-        }));
+            avatar: user.avatar,
+        });
     }, [user]);
 
-
     useEffect(() => {
-        loadData()
+        loadData();
     }, [loadData]);
 
-
-    const handleUpdateProfile = () => {
+    const handleUpdateProfile = async () => {
         const updatedData = {};
 
+        if (name && name !== user.first_name) {
+            updatedData.first_name = name;
+        }
 
         if (userInfo.bio && userInfo.bio !== user.bio) {
             updatedData.bio = userInfo.bio;
         }
 
         if (Object.keys(updatedData).length > 0) {
-            updateProfile(
-                updatedData
-            ).then();
+            try {
+                await dispatch(updateUserProfile(updatedData)).unwrap();
+            } catch (error) {
+                console.error('Ошибка при обновлении профиля:', error);
+                // Обработка ошибки
+            }
         }
-
         setIsEdit(false);
-        loadData();
     };
 
-    const editAvatar = (data) => {
-        updateProfile(data)
-    }
+    const editAvatar = async (data) => {
+        try {
+            await dispatch(updateUserProfile(data)).unwrap();
+        } catch (error) {
+            console.error('Ошибка при обновлении аватара:', error);
+            // Обработка ошибки
+        }
+    };
+
     const handleCloseEdit = () => {
         loadData();
         setIsEdit(false);
-    }
+    };
 
     const setAbout = (bio) => {
         setUserInfo(prevState => ({
             ...prevState,
             bio: bio
-        }))
-    }
+        }));
+    };
 
     return (
         <div className={styles.ProfilePage}>
@@ -72,11 +81,10 @@ export const ProfilePage = () => {
                 username={user.username}
             />
             <div className={styles.ProfilePageContainer}>
-                <ProfilePhoto person={user} setPerson={editAvatar}/>
+                <ProfilePhoto person={{ ...user, avatar: userInfo.avatar }} setPerson={editAvatar} />
                 <div className={styles.ProfilePageDescription}>
-                    <ProfileTextItem title={"Имя пользователя"} text={name} setText={setName} isEdit={isEdit}/>
-                    <ProfileAbout about={userInfo.bio} setAbout={setAbout} isEdit={isEdit}/>
-
+                    <ProfileTextItem title={"Имя пользователя"} text={name} setText={setName} isEdit={isEdit} />
+                    <ProfileAbout about={userInfo.bio} setAbout={setAbout} isEdit={isEdit} />
                 </div>
                 {!isEdit ?
                     <button className={styles.ProfilePageEditButton} onClick={() => setIsEdit(true)}>
@@ -84,9 +92,9 @@ export const ProfilePage = () => {
                     </button>
                     :
                     <div className={styles.ProfilePageEditButtonsContainer}>
-                        <button className={styles.ProfilePageEditButtonIcon} onClick={handleUpdateProfile}><DoneIcon/>
+                        <button className={styles.ProfilePageEditButtonIcon} onClick={handleUpdateProfile}><DoneIcon />
                         </button>
-                        <button className={styles.ProfilePageEditButtonIcon} onClick={handleCloseEdit}><CloseIcon/>
+                        <button className={styles.ProfilePageEditButtonIcon} onClick={handleCloseEdit}><CloseIcon />
                         </button>
                     </div>
                 }

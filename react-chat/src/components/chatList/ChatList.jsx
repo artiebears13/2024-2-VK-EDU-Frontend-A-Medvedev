@@ -1,11 +1,16 @@
-import React, {memo, useContext, useEffect, useMemo, useState} from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './ChatList.module.scss';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import {ChatItem} from '../ChatItem/ChatItem.jsx';
-import {ChatContext} from '../../context/ChatContext.jsx';
+import { ChatItem } from '../ChatItem/ChatItem.jsx';
+import { setFoundMessage } from '../../store/messageSlice'; // Импортируем действие для установки найденного сообщения
 
-export const ChatList = memo(({searchQuery = ''}) => {
-    const {chats, messages, setFoundMessage} = useContext(ChatContext);
+export const ChatList = memo(({ searchQuery = '' }) => {
+    const dispatch = useDispatch();
+
+    const chats = useSelector((state) => state.chats.chats);
+    const messages = useSelector((state) => state.messages.messages);
+
     const [filteredChats, setFilteredChats] = useState([]);
 
     useEffect(() => {
@@ -49,7 +54,7 @@ export const ChatList = memo(({searchQuery = ''}) => {
                                 return currentTime > latestTime ? current : latest;
                             }
                         );
-                        setFoundMessage(lastMatchingMessage.id);
+                        dispatch(setFoundMessage(lastMatchingMessage.id));
 
                         return {
                             chat,
@@ -63,7 +68,7 @@ export const ChatList = memo(({searchQuery = ''}) => {
 
             setFilteredChats(filtered);
         }
-    }, [searchQuery, chats, messages, setFoundMessage]);
+    }, [searchQuery, chats, messages, dispatch]);
 
     // Кэшируем и сортируем чаты по времени последнего сообщения
     const sortedChats = useMemo(() => {
@@ -77,27 +82,28 @@ export const ChatList = memo(({searchQuery = ''}) => {
     return (
         <div className={styles.chatList}>
             {sortedChats.length > 0 ? (
-                sortedChats.map(chatItem => {
-                        return (<ChatItem
-                            key={chatItem.chat.id}
-                            chat={chatItem.chat}
-                            message={chatItem.message}
-                            isSearched={searchQuery !== ''}
-                        />)
-                    }
-                )
-            ) : (searchQuery === "" ?
-                (<div className={styles.notFoundMessage}>
+                sortedChats.map(chatItem => (
+                    <ChatItem
+                        key={chatItem.chat.id}
+                        chat={chatItem.chat}
+                        message={chatItem.message}
+                        isSearched={searchQuery !== ''}
+                    />
+                ))
+            ) : searchQuery === '' ? (
+                <div className={styles.notFoundMessage}>
                     {/*<SentimentVeryDissatisfiedIcon/>*/}
-                    <p className={styles.welcomeLabel}>Добро пожаловать! <br />Создайте первый чат!</p>
-                </div>)
-                :
-                (<div className={styles.notFoundMessage}>
-                    <SentimentVeryDissatisfiedIcon/>
+                    <p className={styles.welcomeLabel}>
+                        Добро пожаловать! <br />
+                        Создайте первый чат!
+                    </p>
+                </div>
+            ) : (
+                <div className={styles.notFoundMessage}>
+                    <SentimentVeryDissatisfiedIcon />
                     <p>По запросу "{searchQuery}" ничего не найдено</p>
                 </div>
-                )
-                )}
+            )}
         </div>
     );
 });

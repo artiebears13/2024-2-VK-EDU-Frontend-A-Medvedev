@@ -1,11 +1,10 @@
-// src/api/centrifugo.js
 
 import { Centrifuge } from 'centrifuge';
 
 export function connectToCentrifugo(userId, onMessageReceived) {
     const accessToken = localStorage.getItem('accessToken');
-    const centrifugoUrl = 'wss://vkedu-fullstack-div2.ru/connection/websocket/';
-         // 'ws://localhost:8080/connection/websocket/'  // for local development
+    const centrifugoUrl = //'wss://vkedu-fullstack-div2.ru/connection/websocket/';
+         'ws://localhost:8080/connection/websocket/';  // for local development
 
     const headers = {
         'Authorization': `Bearer ${accessToken}`,
@@ -13,8 +12,8 @@ export function connectToCentrifugo(userId, onMessageReceived) {
 
     const centrifuge = new Centrifuge(centrifugoUrl, {
         getToken: (ctx) =>
-            // fetch(`http://localhost:8080/api/centrifugo/connect/`, { //for local dev
-            fetch(`https://vkedu-fullstack-div2.ru/api/centrifugo/connect/`, {
+            fetch(`http://localhost:8080/api/centrifugo/connect/`, { //for local dev
+            // fetch(`https://vkedu-fullstack-div2.ru/api/centrifugo/connect/`, {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify(ctx),
@@ -30,7 +29,7 @@ export function connectToCentrifugo(userId, onMessageReceived) {
 
     const subscription = centrifuge.newSubscription(userId.toString(), {
         getToken: (ctx) =>
-            fetch(`https://vkedu-fullstack-div2.ru/api/centrifugo/subscribe/`, {
+            fetch(`http://localhost:8080/api/centrifugo/subscribe/`, {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify(ctx),
@@ -63,5 +62,7 @@ export function connectToCentrifugo(userId, onMessageReceived) {
 
     subscription.subscribe();
     centrifuge.connect();
+
+    return centrifuge;
 
 }

@@ -4,11 +4,11 @@ import styles from './ProfileHeader.module.scss'
 import {Title} from "../../Title/Title.jsx";
 import {useNavigate} from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
-import {ChatContext} from "../../../context/ChatContext.jsx";
+import {logout} from "../../../store/userSlice.js";
 
 export const ProfileHeader = ( {username} ) => {
     const navigate = useNavigate();
-    const {logout} = useContext(ChatContext);
+
 
     return (
         <div className={styles.header}>
