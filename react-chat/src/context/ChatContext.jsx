@@ -21,6 +21,7 @@ export const ChatProvider = ({children}) => {
     const [messages, setMessages] = useState({}); // { chatId: [messages] }
     const [foundMessage, setFoundMessage] = useState(''); // Для поиска сообщений
     const currentChatRef = useRef(null);
+    const userRef = useRef(null);
 
     // Ref для хранения экземпляра Centrifuge
     const centrifugeRef = useRef(null);
@@ -28,6 +29,11 @@ export const ChatProvider = ({children}) => {
     // Проверка наличия токенов в localStorage
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
+
+
+    useEffect(() => {
+        userRef.current = user;
+    }, [user]);
 
     const logout = useCallback(() => {
         localStorage.removeItem('accessToken');
@@ -113,26 +119,23 @@ export const ChatProvider = ({children}) => {
 
     const notifyOrRead = useCallback((message) => {
         if (currentChatRef.current && message.chat === currentChatRef.current.id) {
+            if (message.sender.id === userRef.current?.id) {
+                return null;
+            }
             readMessage(message.id).then();
             return null;
         }
-        // if (message.sender.id === user.id) return null;
         if (Notification.permission === 'granted') {
             const notification = new Notification('Новое сообщение', {
                 body: `У вас новое сообщение от ${message.sender.first_name}`,
                 icon: 'assets/notificationIcon', // Укажите путь к иконке
             });
 
-            // Воспроизводим звук
-            // const audio = new Audio('path/to/sound.mp3'); // Укажите путь к звуковому файлу
-            // audio.play();
-
-            // Активируем вибрацию
             if (navigator.vibrate) {
                 navigator.vibrate([200, 100, 200]); // Паттерн вибрации
             }
         }
-    }, [currentChat]);
+    }, []);
 
 
     // Стабилизируем обработчик сообщений

@@ -5,6 +5,7 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { ChatContext } from "../../context/ChatContext.jsx";
 import { GeoPreview } from "../GeoPreview/GeoPreview.jsx";
 import {AudioPlayer} from "../AudioPlayer/AudioPlayer.jsx";
+import {getFormattedDate, getFormattedTime} from "../../utils/datetime.js";
 
 export const MessageItem = memo(forwardRef(({ message, isFound = false, currentAudio, setCurrentAudio }, ref) => {
     const { user } = useContext(ChatContext);
@@ -16,6 +17,9 @@ export const MessageItem = memo(forwardRef(({ message, isFound = false, currentA
     }
 
     const direction = message.sender.id === user.id ? 'sent' : 'received';
+
+    const formattedDate = getFormattedDate(message.created_at);
+    const formattedTime = getFormattedTime(message.created_at);
 
     return (
         <li
@@ -51,7 +55,7 @@ export const MessageItem = memo(forwardRef(({ message, isFound = false, currentA
                     )}
                 </p>
                 <p className={styles.time}>
-                    {new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    {formattedDate && formattedTime ? `${formattedDate}, ${formattedTime}` : ''}
                 </p>
             </div>
         </li>
