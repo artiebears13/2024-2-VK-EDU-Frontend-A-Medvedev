@@ -10,20 +10,38 @@ import { EditPersonModal } from "../../components/Modals/EditPersonModal/EditPer
 import {getChat} from "../../api/chats.js";
 
 export const PageChat = memo(() => {
-    const { chatId } = useParams();
-    const { user, chats, messages, loadMessages, addMessage } = useContext(ChatContext);
+    const {chatId} = useParams();
+    const {
+        user,
+        chats,
+        messages,
+        loadMessages,
+        addMessage,
+        addVoiceMessage,
+        markMessagesAsRead,
+        currentChat,
+        setCurrentChat
+    } = useContext(ChatContext);
     const [editChatModal, setEditChatModal] = useState(false);
-    const [currentChat, setCurrentChat] = useState(null);
     const [chatFound, setChatFound] = useState(true);
 
     const [currentMessages, setCurrentMessages] = useState([]);
 
     useEffect(() => {
-    getChat(chatId).then(res => setCurrentChat(res)).catch(() => setChatFound(false));
+        getChat(chatId).then(res => {
+            setCurrentChat(res);
+        }).catch(() => setChatFound(false));
         if (chatId) {
             loadMessages(chatId);
         }
-    }, [chatId]);
+        return () => {
+            setCurrentChat(null);
+        }
+    }, []);
+
+    useEffect(() => {
+        markMessagesAsRead(chatId);
+    }, [])
 
     useEffect(() => {
         setCurrentMessages(messages[chatId] || []);
@@ -42,8 +60,7 @@ export const PageChat = memo(() => {
     }, [chatId]);
 
 
-
-    const sendMessage = useCallback(async ({ text, files }) => {
+    const sendMessage = useCallback(async ({text, files}) => {
         const messageText = text.trim();
         if (messageText || (files && files.length > 0)) {
             try {
@@ -57,6 +74,17 @@ export const PageChat = memo(() => {
         }
     }, [chatId, addMessage]);
 
+    const sendVoiceMessage = useCallback(async (voice) => {
+        if (voice) {
+            try {
+                await addVoiceMessage(chatId, voice);
+            } catch (error) {
+                console.error('Ошибка при отправке сообщения:', error);
+            }
+        }
+    }, [chatId, addMessage]);
+
+
 
     return (
         <div>
@@ -65,7 +93,7 @@ export const PageChat = memo(() => {
             {/*{editChatModal && <EditPersonModal onClose={closeEditChatModal} chat={chatId} updateChat={editChatInfo}/>}*/}
             <div className={styles.chatContainer}>
                     <MessagesList messages={currentMessages} />
-                <MessageInput onSendMessage={sendMessage} active={chatFound} />
+                <MessageInput onSendMessage={sendMessage} active={chatFound} onSendVoice={sendVoiceMessage}/>
             </div>
         </div>
     );
