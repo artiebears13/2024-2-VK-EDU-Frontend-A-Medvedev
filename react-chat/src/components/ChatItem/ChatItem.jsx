@@ -22,6 +22,10 @@ export const ChatItem = ({ chat, message, isSearched }) => {
     const person = chat.members.find(member => member.id !== user.id);
     const title = chat.title;
 
+    if (!message){
+        return null;
+    }
+
     return (
         <div className={styles.chatItem} onClick={handleClick}>
             <ChatPhoto person={person} />
