@@ -9,7 +9,6 @@ export const ProfileBirthday = ({birthday, setBirthday, isEdit}) => {
             setNewBirthday('');
             return;
         }
-        // Инициализируем newBirthday текущей датой рождения в формате 'YYYY-MM-DD'
         if (birthday) {
             const date = new Date(birthday);
             const year = date.getFullYear();

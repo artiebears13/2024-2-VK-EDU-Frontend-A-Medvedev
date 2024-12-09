@@ -19,8 +19,6 @@ function App() {
 
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken');
-        console.log("accessToken is ", accessToken);
-        console.log("getting user");
         if (accessToken) {
             dispatch(fetchCurrentUser());
         }

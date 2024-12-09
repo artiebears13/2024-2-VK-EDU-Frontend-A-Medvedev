@@ -9,7 +9,6 @@ export const ProfilePhoto = ({ person, setPerson }) => {
     // State to hold the image source
     const [imageSrc, setImageSrc] = useState('https://placehold.co/400x400?text=Фото');
 
-    // Effect to update imageSrc whenever person.avatar changes
     useEffect(() => {
         const getImage = async () => {
             if (typeof person.avatar === 'string') {
@@ -50,7 +49,6 @@ export const ProfilePhoto = ({ person, setPerson }) => {
                 setError('Файл должен быть изображением.');
                 return;
             }
-            console.log({file});
             // Update person.avatar with the selected file
             setPerson({
                 ...person,

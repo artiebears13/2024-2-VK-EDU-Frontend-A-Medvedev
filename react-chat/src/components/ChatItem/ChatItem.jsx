@@ -10,7 +10,6 @@ import styles from './ChatItem.module.scss';
 export const ChatItem = ({ chat, message, isSearched }) => {
     const navigate = useNavigate();
     const user = useSelector((state) => state.user.user); // Получаем пользователя из Redux
-    console.log({chat, message, isSearched});
     if (!message) return null;
     const handleClick = () => {
         localStorage.setItem('currentChatId', chat.id);
@@ -20,7 +19,6 @@ export const ChatItem = ({ chat, message, isSearched }) => {
         navigate(`/chat/${chat.id}`);
     };
 
-    // Находим другого участника чата
     const person = chat.members.find(member => member.id !== user?.id);
     const title = chat.title;
 

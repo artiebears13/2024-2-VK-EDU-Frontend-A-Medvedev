@@ -40,7 +40,6 @@ export const MessagesList = memo(({ messages }) => {
                         isFound={true}
                         setCurrentAudio={setCurrentAudio}
                         currentAudio={currentAudio}
-                        // user={user}
                     />
                 );
             }
@@ -50,7 +49,6 @@ export const MessagesList = memo(({ messages }) => {
                     message={message}
                     setCurrentAudio={setCurrentAudio}
                     currentAudio={currentAudio}
-                    // user={user}
                 />
             );
         },

@@ -16,7 +16,6 @@ export const ChatListPage = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [chatModal, setChatModal] = useState('none');
 
-    // Добавляем useEffect для загрузки чатов при монтировании компонента
     useEffect(() => {
         dispatch(fetchChats());
     }, [dispatch]);

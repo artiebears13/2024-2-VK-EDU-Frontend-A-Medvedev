@@ -57,11 +57,9 @@ export const CreateGroupChatModal = ({ isOpen, onClose }) => {
 
     const toggleUser = (user) => {
         if (members.includes(user.id)) {
-            // Remove user from members
             setMembers(prev => prev.filter(member => member !== user.id));
             return;
         }
-        // Add user to members
         setMembers(prev => [...prev, user.id]);
     };
 

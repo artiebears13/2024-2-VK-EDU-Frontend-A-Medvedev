@@ -7,7 +7,6 @@ function PrivateRoute({ children }) {
     const user = useSelector((state) => state.user.user);
     const status = useSelector((state) => state.user.status);
     const accessToken = localStorage.getItem('accessToken');
-    console.log({user, status});
     if (!accessToken) {
         return <Navigate to="/login" replace />;
     }

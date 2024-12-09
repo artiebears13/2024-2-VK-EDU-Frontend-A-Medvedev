@@ -10,7 +10,6 @@ export const notificationMiddleware = (storeAPI) => (next) => (action) => {
         const state = storeAPI.getState();
         const currentChat = state.chats.currentChat;
         const user = state.user.user;
-        console.log({user, message});
         if (user && user.id === message.sender.id) {
             return null;
         }
@@ -18,7 +17,6 @@ export const notificationMiddleware = (storeAPI) => (next) => (action) => {
         if (currentChat && message.chat === currentChat.id) {
             storeAPI.dispatch(markMessageAsRead({ messageId: message.id, chatId: message.chat }));
         } else {
-            // Отправляем уведомление
             if (Notification.permission === 'granted') {
                 new Notification('Новое сообщение', {
                     body: `У вас новое сообщение от ${message.sender.first_name}: ${message.text}`,

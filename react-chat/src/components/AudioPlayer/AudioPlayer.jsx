@@ -4,12 +4,11 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline';
 
 export const AudioPlayer = ({ src, currentAudio, setCurrentAudio }) => {
-    const [audio] = useState(new Audio(src)); // Создаем аудио объект
+    const [audio] = useState(new Audio(src));
     const [playing, setPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
 
-    const totalBars = 20; // Количество столбиков
     const progress = Math.floor((currentTime / duration) * totalBars) || 0;
 
 
@@ -53,7 +52,7 @@ export const AudioPlayer = ({ src, currentAudio, setCurrentAudio }) => {
                 setPlaying(false);
                 setCurrentAudio(null);
             });
-            audio.pause(); // Остановить аудио при размонтировании компонента
+            audio.pause();
         };
     }, [audio, setCurrentAudio]);
 

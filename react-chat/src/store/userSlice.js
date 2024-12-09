@@ -7,7 +7,6 @@ export const fetchCurrentUser = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const userData = await getCurrentUser();
-            console.log({userData});
             return userData;
         } catch (error) {
             return rejectWithValue(error.response.data);
@@ -44,7 +43,6 @@ const userSlice = createSlice({
         logout: (state) => {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
-            console.log("logout");
             state.user = null;
         },
     },

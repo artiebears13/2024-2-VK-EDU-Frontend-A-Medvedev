@@ -15,7 +15,6 @@ export const ChatList = memo(({ searchQuery = '' }) => {
 
     useEffect(() => {
         if (searchQuery === '') {
-            // Возвращаем чаты с последним сообщением
             const chatsWithLastMessage = chats.map(chat => {
                 const chatMessages = messages[chat.id] || [];
                 const lastMessage = chat.last_message || null;
@@ -39,14 +38,12 @@ export const ChatList = memo(({ searchQuery = '' }) => {
                     );
 
                     if (nameMatch) {
-                        // Если совпадает название чата
                         const lastMessage = chat.last_message || null;
                         return {
                             chat,
                             message: lastMessage,
                         };
                     } else if (matchingMessages.length > 0) {
-                        // Если есть сообщения, совпадающие с запросом
                         const lastMatchingMessage = matchingMessages.reduce(
                             (latest, current) => {
                                 const latestTime = new Date(latest.created_at).getTime();
@@ -70,7 +67,6 @@ export const ChatList = memo(({ searchQuery = '' }) => {
         }
     }, [searchQuery, chats, messages, dispatch]);
 
-    // Кэшируем и сортируем чаты по времени последнего сообщения
     const sortedChats = useMemo(() => {
         return [...filteredChats].sort((a, b) => {
             const timeA = a.message ? new Date(a.message.created_at).getTime() : 0;
