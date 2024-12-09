@@ -7,11 +7,12 @@ import { ChatStatus } from './ChatStatus.jsx';
 import { ChatTime } from './ChatTime.jsx';
 import styles from './ChatItem.module.scss';
 
-export const ChatItem = ({ chat, message, isSearched }) => {
+export const ChatItem = ({chat, message, isSearched}) => {
     const navigate = useNavigate();
     const user = useSelector((state) => state.user.user); // Получаем пользователя из Redux
     if (!message) return null;
     const handleClick = () => {
+
         localStorage.setItem('currentChatId', chat.id);
         if (message && isSearched) {
             localStorage.setItem('found_message', chat.id || '');
@@ -26,7 +27,7 @@ export const ChatItem = ({ chat, message, isSearched }) => {
         <div className={styles.chatItem} onClick={handleClick}>
             <ChatPhoto person={person} />
             <ChatInfo title={title} message={message} />
-            {message && user && (
+            {message && message.sender && message.sender.id !== user.id && (
                 <ChatStatus
                     message={message}
                     received={message.sender.id !== user.id}

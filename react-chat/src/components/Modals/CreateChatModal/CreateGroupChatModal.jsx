@@ -40,6 +40,10 @@ export const CreateGroupChatModal = ({ isOpen, onClose }) => {
     }, [isOpen]);
 
     const createGroupChat = () => {
+        if (!newChatInfo.title){
+            setError("Введите название чата");
+            return;
+        }
 
         const params = {
             members,

@@ -11,6 +11,8 @@ import MicIcon from '@mui/icons-material/Mic';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import {GeoPreview} from "../../GeoPreview/GeoPreview.jsx";
 import {VoiceRecordingAnimation} from "../../voiceMessage/VoiceRecordingAnimation.jsx";
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+
 
 export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
     const attachedImageInputRef = useRef(null);
@@ -26,6 +28,7 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
     const open = Boolean(anchorEl);
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
+    const isCancelledRef = useRef(false);
 
 
     const handleClose = () => {
@@ -103,6 +106,26 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
         }
     }
 
+    const stopRecording = () => {
+        if (mediaRecorderRef.current) {
+            isCancelledRef.current = true;
+            mediaRecorderRef.current.stop();
+            mediaRecorderRef.current = null;
+        }
+
+        if (audioChunksRef.current.length > 0) {
+            audioChunksRef.current = [];
+        }
+
+        if (mediaRecorderRef.current?.stream) {
+            mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+        }
+
+        setRecording(false);
+    };
+
+
+
     const startVoiceRecording = () => {
         if (!recording) {
             navigator.mediaDevices
@@ -114,6 +137,10 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
                         audioChunksRef.current.push(event.data);
                     };
                     mediaRecorderRef.current.onstop = () => {
+                        if (isCancelledRef.current) {
+                            isCancelledRef.current = false;
+                            return;
+                        }
                         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
                         const audioFile = new File([audioBlob], 'recording.wav', {
                             type: 'audio/wav',
@@ -219,6 +246,10 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
                         }
                     </form>
                 }
+                {recording &&
+                    <button className={styles.voiceBtn} onClick={stopRecording}>
+                        <StopCircleIcon className={styles.white} fontSize={"medium"} />
+                    </button>}
                 <button
                     className={styles.voiceBtn}
                     type="button"
@@ -226,7 +257,9 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
                     onClick={startVoiceRecording}
                     disabled={!active}
                 >
-                    {recording? <StopCircleIcon className={styles.white} fontSize={"medium"} /> : <MicIcon className={styles.white} fontSize="medium"/>}
+                    {recording?
+                        <ArrowUpwardIcon className={`${styles.sendIcon} ${styles.white}`} fontSize="medium"/>
+                        : <MicIcon className={styles.white} fontSize="medium"/>}
                 </button>
             </div>
         </div>

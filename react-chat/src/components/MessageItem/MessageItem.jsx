@@ -5,6 +5,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { GeoPreview } from '../GeoPreview/GeoPreview.jsx';
 import { AudioPlayer } from '../AudioPlayer/AudioPlayer.jsx';
+import {getFormattedDate, getFormattedTime} from "../../utils/datetime.js";
 
 export const MessageItem = memo(
     forwardRef(({ message, isFound = false, currentAudio, setCurrentAudio }, ref) => {
@@ -17,6 +18,10 @@ export const MessageItem = memo(
         }
 
         const direction = message.sender.id === user.id ? 'sent' : 'received';
+
+    const formattedDate = getFormattedDate(message.created_at);
+    const formattedTime = getFormattedTime(message.created_at);
+
 
         return (
             <li
@@ -47,22 +52,18 @@ export const MessageItem = memo(
                     />
                 )}
 
-                <div className={styles.messageItemStatus}>
-                    <p className={styles.messageItemStatusItem}>
-                        {message.was_read_by && message.was_read_by.length === 0 ? (
-                            <CheckIcon fontSize="small" />
-                        ) : (
-                            <DoneAllIcon fontSize="small" />
-                        )}
-                    </p>
-                    <p className={styles.time}>
-                        {new Date(message.created_at).toLocaleTimeString([], {
-                            hour: '2-digit',
-                            minute: '2-digit',
-                        })}
-                    </p>
-                </div>
-            </li>
-        );
-    })
-);
+            <div className={styles.messageItemStatus}>
+                <p className={styles.messageItemStatusItem}>
+                    {message.was_read_by.length === 0 ? (
+                        <CheckIcon fontSize="small" />
+                    ) : (
+                        <DoneAllIcon fontSize="small" />
+                    )}
+                </p>
+                <p className={styles.time}>
+                    {formattedDate && formattedTime ? `${formattedDate}, ${formattedTime}` : ''}
+                </p>
+            </div>
+        </li>
+    );
+}));
