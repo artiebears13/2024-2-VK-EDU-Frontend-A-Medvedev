@@ -7,6 +7,7 @@ export const fetchCurrentUser = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const userData = await getCurrentUser();
+            console.log({userData});
             return userData;
         } catch (error) {
             return rejectWithValue(error.response.data);
@@ -60,7 +61,6 @@ const userSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.payload;
             })
-            // updateUserProfile
             .addCase(updateUserProfile.fulfilled, (state, action) => {
                 state.user = action.payload;
             });

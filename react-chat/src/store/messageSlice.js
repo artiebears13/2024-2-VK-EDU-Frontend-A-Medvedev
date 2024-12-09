@@ -125,9 +125,6 @@ const messageSlice = createSlice({
                     msg.id === message.id ? message : msg
                 );
             })
-            .addCase(markMessagesAsRead.fulfilled, (state) => {
-                // Additional processing if needed
-            });
     },
 });
 
