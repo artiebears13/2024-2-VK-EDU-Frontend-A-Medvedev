@@ -1,7 +1,6 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styles from './CreateChatModal.module.scss';
 import { useNavigate } from "react-router-dom";
-import { ChatContext } from '../../../context/ChatContext.jsx';
 import {ErrorContext} from "../../../context/ErrorContext.jsx";
 import {RecommendedUser} from "./RecommendedUser.jsx";
 import {getUsers} from "../../../api/users.js";
@@ -10,7 +9,6 @@ import {ProfilePhoto} from "../../EditableFields/ProfilePhoto/ProfilePhoto.jsx";
 
 export const CreateGroupChatModal = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
-    const { persons, user, setChatId } = useContext(ChatContext);
     const [newChatInfo, setNewChatInfo] = useState({
         title: '',
         avatar: undefined

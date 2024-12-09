@@ -1,25 +1,19 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import styles from './CreateChatModal.module.scss';
 import { useNavigate } from "react-router-dom";
-import { ChatContext } from '../../../context/ChatContext.jsx';
-import { v4 as uuidv4 } from 'uuid';
 import {ErrorContext} from "../../../context/ErrorContext.jsx";
-import {readFileAsDataURL} from "../../../utils/storage.js";
 import {RecommendedUser} from "./RecommendedUser.jsx";
 import {getUsers} from "../../../api/users.js";
 import {createChat} from "../../../api/chats.js";
 
 export const CreatePersonalChatModal = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
-    const { persons, user, setChatId } = useContext(ChatContext);
     const [personName, setPersonName] = useState('');
     const [personPhoto, setPersonPhoto] = useState(null);
     const [photoPreview, setPhotoPreview] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [recommendedUsers, setRecommendedUsers] = useState([]);
-    const fileInputRef = useRef(null);
     const {setError} = useContext(ErrorContext)
-    // getUsers(1, 5).then(res => setRecommendedUsers(res.results));
 
 
 

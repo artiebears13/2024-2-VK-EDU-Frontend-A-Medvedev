@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import styles from './ProfileHeader.module.scss'
 import {Title} from "../../Title/Title.jsx";
