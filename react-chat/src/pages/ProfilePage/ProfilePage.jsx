@@ -48,7 +48,6 @@ export const ProfilePage = () => {
                 await dispatch(updateUserProfile(updatedData)).unwrap();
             } catch (error) {
                 console.error('Ошибка при обновлении профиля:', error);
-                // Обработка ошибки
             }
         }
         setIsEdit(false);
@@ -59,7 +58,6 @@ export const ProfilePage = () => {
             await dispatch(updateUserProfile(data)).unwrap();
         } catch (error) {
             console.error('Ошибка при обновлении аватара:', error);
-            // Обработка ошибки
         }
     };
 

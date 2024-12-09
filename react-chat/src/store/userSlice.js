@@ -44,6 +44,7 @@ const userSlice = createSlice({
         logout: (state) => {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
+            console.log("logout");
             state.user = null;
         },
     },

@@ -5,10 +5,15 @@ import {Title} from "../../Title/Title.jsx";
 import {useNavigate} from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
 import {logout} from "../../../store/userSlice.js";
+import {useDispatch} from "react-redux";
 
 export const ProfileHeader = ( {username} ) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
+    const handleLogout = () => {
+        dispatch(logout());
+    }
 
     return (
         <div className={styles.header}>
@@ -18,8 +23,7 @@ export const ProfileHeader = ( {username} ) => {
             </button>
 
             <Title text={username}></Title>
-            {/* for correct centering*/}
-            <div className={styles.logout} onClick={logout}><LogoutIcon className={"white"} /> </div>
+            <div className={styles.logout} onClick={handleLogout}><LogoutIcon className={"white"} /> </div>
         </div>
     );
 };
