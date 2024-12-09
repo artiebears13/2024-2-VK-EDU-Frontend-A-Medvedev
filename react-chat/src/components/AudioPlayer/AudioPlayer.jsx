@@ -9,6 +9,7 @@ export const AudioPlayer = ({ src, currentAudio, setCurrentAudio }) => {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
 
+    const totalBars = 20;
     const progress = Math.floor((currentTime / duration) * totalBars) || 0;
 
 
