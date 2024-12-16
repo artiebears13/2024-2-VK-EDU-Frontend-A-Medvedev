@@ -24,7 +24,7 @@ export const ChatItem = ({chat, message, isSearched}) => {
 
     return (
         <div className={styles.chatItem} onClick={handleClick}>
-            <ChatPhoto person={person}/>
+            <ChatPhoto person={chat}/>
             <ChatInfo title={title} message={message}/>
             {message && message.sender && message.sender.id !== user.id &&
                 <ChatStatus message={message} received={message.sender.id !== user.id}/>
