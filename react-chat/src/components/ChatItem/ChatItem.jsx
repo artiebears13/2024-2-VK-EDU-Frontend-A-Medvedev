@@ -1,18 +1,18 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ChatContext } from '../../context/ChatContext.jsx';
-import { ChatPhoto } from './ChatPhoto.jsx';
-import { ChatInfo } from './ChatInfo.jsx';
-import { ChatStatus } from './ChatStatus.jsx';
-import { ChatTime } from './ChatTime.jsx';
+import React, {useContext} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {ChatContext} from '../../context/ChatContext.jsx';
+import {ChatPhoto} from './ChatPhoto.jsx';
+import {ChatInfo} from './ChatInfo.jsx';
+import {ChatStatus} from './ChatStatus.jsx';
+import {ChatTime} from './ChatTime.jsx';
 import styles from './ChatItem.module.scss';
 
-export const ChatItem = ({ chat, message, isSearched }) => {
+export const ChatItem = ({chat, message, isSearched}) => {
     const navigate = useNavigate();
-    const { markAllReceivedAsRead, user } = useContext(ChatContext);
+    const {user} = useContext(ChatContext);
 
     const handleClick = () => {
-        // markAllReceivedAsRead(chat.id);
+
         localStorage.setItem('currentChatId', chat.id);
         if (message && isSearched) {
             localStorage.setItem('found_message', chat.id || '');
@@ -24,10 +24,12 @@ export const ChatItem = ({ chat, message, isSearched }) => {
 
     return (
         <div className={styles.chatItem} onClick={handleClick}>
-            <ChatPhoto person={person} />
-            <ChatInfo title={title} message={message} />
-            <ChatStatus message={message} />
-            <ChatTime time={chat.updated_at} />
+            <ChatPhoto person={chat}/>
+            <ChatInfo title={title} message={message}/>
+            {message && message.sender && message.sender.id !== user.id &&
+                <ChatStatus message={message} received={message.sender.id !== user.id}/>
+            }
+            <ChatTime time={chat.updated_at}/>
         </div>
     );
 };

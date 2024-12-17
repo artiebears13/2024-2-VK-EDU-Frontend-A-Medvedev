@@ -3,15 +3,16 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import CheckIcon from '@mui/icons-material/Check';
 import styles from './ChatItem.module.scss'
 
-export const StatusBadge = ({message}) => {
+export const StatusBadge = ({message, received}) => {
+
     if (!message) return null;
 
-    if (message.direction === 'received' && message.readStatus === 'unread') {
-        return <div className={styles.unreadCount}>1</div>;
-    } else if (message.direction === 'sent') {
+    if (received && message.was_read_by.length === 0) {
+        return <div className={styles.unreadCount}></div>;
+    } else if (!received) {
         return (
             <>
-            {message.readStatus === 'unread' ? <CheckIcon /> : <DoneAllIcon />}
+            {message.was_read_by.length === 0 ? <CheckIcon /> : <DoneAllIcon />}
             </>
         );
     }

@@ -5,7 +5,6 @@ import {CreatechatOptions} from "../../Modals/CreateChatOptions/CreatechatOption
 
 export const CreateChatButton = ({onGroupChat, onPersonalChat, animate}) => {
     const [showOptions, setShowOptions] = useState(false);
-    console.log({animate});
 
 
     const toggleOptions = () => {
