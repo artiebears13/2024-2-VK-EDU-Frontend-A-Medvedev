@@ -20,20 +20,17 @@ export const ChatItem = ({chat, message, isSearched}) => {
         navigate(`/chat/${chat.id}`);
     };
 
-    const person = chat.members.find(member => member.id !== user?.id);
+    const person = chat.members.find(member => member.id !== user.id);
     const title = chat.title;
 
     return (
         <div className={styles.chatItem} onClick={handleClick}>
-            <ChatPhoto person={person} />
-            <ChatInfo title={title} message={message} />
-            {message && message.sender && message.sender.id !== user.id && (
-                <ChatStatus
-                    message={message}
-                    received={message.sender.id !== user.id}
-                />
-            )}
-            <ChatTime time={chat.updated_at} />
+            <ChatPhoto person={chat}/>
+            <ChatInfo title={title} message={message}/>
+            {message && message.sender && message.sender.id !== user.id &&
+                <ChatStatus message={message} received={message.sender.id !== user.id}/>
+            }
+            <ChatTime time={chat.updated_at}/>
         </div>
     );
 };
