@@ -1,4 +1,4 @@
-export const API_BASE_URL = '';//https://vkedu-fullstack-div2.ru'; // '' in local
+export const API_BASE_URL = 'https://vkedu-fullstack-div2.ru'; // '' in local
 
 export async function fetchWithAuth(url, options = {}) {
     let accessToken = localStorage.getItem('accessToken');

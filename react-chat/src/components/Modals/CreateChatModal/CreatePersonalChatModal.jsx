@@ -5,6 +5,7 @@ import {ErrorContext} from "../../../context/ErrorContext.jsx";
 import {RecommendedUser} from "./RecommendedUser.jsx";
 import {getUsers} from "../../../api/users.js";
 import {createChat} from "../../../api/chats.js";
+import {useSelector} from "react-redux";
 
 export const CreatePersonalChatModal = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ export const CreatePersonalChatModal = ({ isOpen, onClose }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [recommendedUsers, setRecommendedUsers] = useState([]);
     const {setError} = useContext(ErrorContext)
+    const user = useSelector((state) => state.user.user);
 
 
 

@@ -80,6 +80,7 @@ const messageSlice = createSlice({
             if (!state.messages[chatId]) {
                 state.messages[chatId] = [];
             }
+            console.log({messages: state.messages[chatId], message, result: state.messages[chatId].some((msg) => msg.id === message.id)});
             const messageExists = state.messages[chatId].some((msg) => msg.id === message.id);
             if (!messageExists) {
                 state.messages[chatId].unshift(message);
@@ -116,7 +117,11 @@ const messageSlice = createSlice({
                 if (!state.messages[chatId]) {
                     state.messages[chatId] = [];
                 }
-                state.messages[chatId].unshift(message);
+                const messageExists = state.messages[chatId].some((msg) => msg.id === message.id);
+
+                if (!messageExists) {
+                    state.messages[chatId].unshift(message);
+                }
             })
             // markMessageAsRead
             .addCase(markMessageAsRead.fulfilled, (state, action) => {
