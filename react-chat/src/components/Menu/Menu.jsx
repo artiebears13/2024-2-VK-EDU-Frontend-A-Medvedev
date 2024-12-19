@@ -7,13 +7,14 @@ import GroupIcon from '@mui/icons-material/Group';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import {ThemeSwitcher} from "../../utils/themeSwitcher.js";
 import {useContext} from "react";
-import {ChatContext} from "../../context/ChatContext.jsx";
 import {useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
+
 
 
 export const Menu = ({onMenuHide}) => {
     const navigate = useNavigate();
-    const {user} = useContext(ChatContext);
+    const user = useSelector((state) => state.user.user);
 
     const toProfile = () => {
         navigate(`/profile`);

@@ -1,11 +1,12 @@
 // src/pages/RegisterPage/RegisterPage.jsx
 
-import React, {useContext, useRef, useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
-import {login as apiLogin, register} from '../../api/api';
-import classes from './RegisterPage.module.scss'
-import {ProfilePhoto} from "../../components/EditableFields/ProfilePhoto/ProfilePhoto.jsx";
-import {ChatContext} from "../../context/ChatContext.jsx";
+import React, { useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchCurrentUser, login as loginAction } from '../../store/userSlice';
+import { login as apiLogin, register } from '../../api/api';
+import classes from './RegisterPage.module.scss';
+import { ProfilePhoto } from '../../components/EditableFields/ProfilePhoto/ProfilePhoto.jsx';
 
 function RegisterPage() {
     const [formData, setFormData] = useState({
@@ -17,9 +18,8 @@ function RegisterPage() {
         avatar: null,
     });
     const [error, setError] = useState(null);
-    const { login } = useContext(ChatContext);
-
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const avatarInputRef = useRef(null);
 
     const handleChange = (e) => {
@@ -30,16 +30,14 @@ function RegisterPage() {
         }));
     };
 
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await register(formData);
-            // После успешной регистрации перенаправляем на страницу входа
-            const { access, refresh } = await apiLogin(formData.username, formData.password);
-            await login(access, refresh);
-            navigate('/');
+            await register(formData); // Регистрация пользователя
+            const { access, refresh } = await apiLogin(formData.username, formData.password); // Логин после регистрации
+            dispatch(loginAction({ accessToken: access, refreshToken: refresh })); // Сохраняем токены в Redux
+            await dispatch(fetchCurrentUser()); // Загружаем текущего пользователя
+            navigate('/'); // Перенаправляем на главную страницу
         } catch (err) {
             setError('Ошибка при регистрации. Пожалуйста, попробуйте снова.');
             console.error('Ошибка при регистрации:', err);
@@ -50,7 +48,11 @@ function RegisterPage() {
         <div className={classes.registerPage}>
             <h2>Регистрация</h2>
             {error && <p className="error">{error}</p>}
-            <form className={classes.registerForm} onSubmit={handleSubmit} encType="multipart/form-data">
+            <form
+                className={classes.registerForm}
+                onSubmit={handleSubmit}
+                encType="multipart/form-data"
+            >
                 <input
                     type="text"
                     name="username"
@@ -103,10 +105,12 @@ function RegisterPage() {
                     style={{ display: 'none' }}
                 />
                 <ProfilePhoto person={formData} setPerson={setFormData} />
-                <button type="submit" className={classes.registerFormButton}>Зарегистрироваться</button>
+                <button type="submit" className={classes.registerFormButton}>
+                    Зарегистрироваться
+                </button>
             </form>
             <p>
-                Уже есть аккаунт? <Link to={"/login"}>Войти</Link>
+                Уже есть аккаунт? <Link to="/login">Войти</Link>
             </p>
         </div>
     );
