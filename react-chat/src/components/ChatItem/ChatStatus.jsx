@@ -3,10 +3,10 @@ import { StatusBadge } from './StatusBadge.jsx';
 import styles from './ChatItem.module.scss'
 
 
-export const ChatStatus = ({ message, received }) => {
+export const ChatStatus = ({ chat, received }) => {
     return (
         <div className={styles.chatItemStatus}>
-            <StatusBadge message={message} received={received} />
+            <StatusBadge chat={chat} received={received} />
         </div>
     );
 };
