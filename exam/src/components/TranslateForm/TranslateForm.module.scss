@@ -7,7 +7,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    flex-wrap: wrap;
 
   }
 
@@ -25,28 +26,10 @@
     text-align: center;
   }
 
-  &TtranslateButton {
-    padding: 14px 20px;
-    background-color: #1a73e8;
-    color: #fff;
-    border: none;
-    border-radius: 24px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    align-self: center;
-    width: 200px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-
-    &:hover:not(:disabled) {
-      background-color: #1669c1;
-    }
-
     &:disabled {
       background-color: #a6c8ff;
       cursor: not-allowed;
     }
-  }
   &SwapButton{
     padding: 14px;
     background-color: transparent;
@@ -56,11 +39,17 @@
     justify-content: center;
     border: none;
     outline: none;
-
     &:hover {
       background-color: #1669c1;
       color: #fff;
     }
+  }
+  &InputButton{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 }
 
