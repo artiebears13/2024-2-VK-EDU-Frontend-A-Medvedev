@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './PageChat.module.scss';
 import { MessageInput } from '../../components/Inputs/MessageInput/MessageInput.jsx';
@@ -8,11 +8,13 @@ import { PageChatHeader } from '../../components/Headers/PageChatHeader/PageChat
 // import { EditPersonModal } from '../../components/Modals/EditPersonModal/EditPersonModal.jsx';
 import { fetchCurrentChat, setCurrentChat } from '../../store/chatSlice';
 import { fetchMessages, markMessagesAsRead, sendNewMessage } from '../../store/messageSlice';
+import {ChatInfoModal} from "../../components/Modals/ChatInfoModal/ChatInfoModal.jsx";
 
 export const PageChat = memo(() => {
     const { chatId } = useParams();
     const dispatch = useDispatch();
 
+    const navigate = useNavigate();
     const user = useSelector((state) => state.user.user);
     const messages = useSelector((state) => state.messages.messages);
     const currentChat = useSelector((state) => state.chats.currentChat);
@@ -40,6 +42,10 @@ export const PageChat = memo(() => {
     }, [chatId, dispatch]);
 
     const openEditChatModal = () => {
+        if (currentChat.is_private){
+            navigate(`/user/${currentChat.creator.id}`);
+
+        }
         setEditChatModal(true);
     };
 
@@ -101,7 +107,7 @@ export const PageChat = memo(() => {
         <div>
             <PageChatHeader chat={currentChat} openEditChatModal={openEditChatModal} />
             {/* TODO: make chat info editable */}
-            {/* {editChatModal && <EditPersonModal onClose={closeEditChatModal} chat={chatId} updateChat={editChatInfo} />} */}
+             {editChatModal && <ChatInfoModal onClose={closeEditChatModal} currentChat={currentChat} />}
             <div className={styles.chatContainer}>
                 <MessagesList messages={currentMessages} />
                 <MessageInput onSendMessage={sendMessage} active={chatFound} onSendVoice={sendVoiceMessage} />

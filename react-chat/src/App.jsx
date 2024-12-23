@@ -5,11 +5,12 @@ import store from './store/store';
 import { AlertMessage } from './components/Modals/AlertMessage/AlertMessage.jsx';
 import { ChatListPage } from './pages/ChatList/ChatListPage.jsx';
 import { PageChat } from './pages/PageChat/PageChat.jsx';
-import { ProfilePage } from './pages/ProfilePage/ProfilePage.jsx';
+import { SelfProfilePage } from './pages/SelfProfilePage/SelfProfilePage.jsx';
 import LoginPage from './pages/LoginPage/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage/RegisterPage.jsx';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import {fetchCurrentUser} from "./store/userSlice.js";
+import {UserProfilePage} from "./pages/UserProfilePage/UserProfilePage.jsx";
 
 function App() {
     const theme = localStorage.getItem('theme') || 'light';
@@ -45,10 +46,18 @@ function App() {
                             }
                         />
                         <Route
+                            path="/user/:userId"
+                            element={
+                            <PrivateRoute>
+                                <UserProfilePage />
+                            </PrivateRoute>
+                            }
+                        />
+                        <Route
                             path="/profile"
                             element={
                                 <PrivateRoute>
-                                    <ProfilePage />
+                                    <SelfProfilePage />
                                 </PrivateRoute>
                             }
                         />

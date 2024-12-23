@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import styles from './ProfilePage.module.scss';
+import styles from './SelfProfilePage.module.scss';
 import { ProfileHeader } from "../../components/Headers/ProfileHeader/ProfileHeader.jsx";
 import { ProfilePhoto } from "../../components/EditableFields/ProfilePhoto/ProfilePhoto.jsx";
 import { ProfileAbout } from "../../components/EditableFields/ProfileAbout/ProfileAbout.jsx";
@@ -9,7 +9,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserProfile } from "../../store/userSlice.js";
 
-export const ProfilePage = () => {
+export const SelfProfilePage = () => {
     const user = useSelector((state) => state.user.user);
     if (!user) return null;
     const dispatch = useDispatch();

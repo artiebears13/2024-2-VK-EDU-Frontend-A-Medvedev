@@ -26,7 +26,7 @@ export const ChatItem = ({chat, message, isSearched}) => {
             <ChatPhoto person={chat}/>
             <ChatInfo title={title} message={message}/>
             {message && message.sender && message.sender.id !== user.id &&
-                <ChatStatus message={message} received={message.sender.id !== user.id}/>
+                <ChatStatus chat={chat} received={message.sender.id !== user.id}/>
             }
             <ChatTime time={chat.updated_at}/>
         </div>
