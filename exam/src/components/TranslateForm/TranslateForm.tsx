@@ -16,6 +16,7 @@ const TranslateForm: React.FC = () => {
     const [toLang, setToLang] = useState('ru');
     const [translatedText, setTranslatedText] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [placeholder, setPlaceholder] = useState<string>("Введите текст для перевода");
 
     const dispatch = useDispatch();
 
@@ -31,6 +32,26 @@ const TranslateForm: React.FC = () => {
         }
         return recent;
     };
+
+    useEffect(() => {
+        const translatePlaceholder = async () => {
+            try {
+                setError(null);
+                const result: ITranslationResult = await fetchTranslation({
+                    text: "Введите текст для перевода",
+                    fromLanguage: 'ru',
+                    toLanguage: fromLang,
+                });
+                setPlaceholder(result.translatedText);
+            } catch (err) {
+                setError((err as Error).message);
+            }
+        };
+
+        if (fromLang) {
+            translatePlaceholder().then();
+        }
+    }, [fromLang]);
 
     const recentFromLanguages = useMemo(() => getRecentLanguages('fromLang'), [history]);
     const recentToLanguages = useMemo(() => getRecentLanguages('toLang'), [history]);
@@ -82,7 +103,7 @@ const TranslateForm: React.FC = () => {
                     <TextInput
                         value={text}
                         onChange={setText}
-                        placeholder="Введите текст для перевода"
+                        placeholder={placeholder}
                     />
                 </div>
                 <button onClick={handleSwapLanguages} className={styles.translateFormSwapButton} aria-label="Сменить языки">
