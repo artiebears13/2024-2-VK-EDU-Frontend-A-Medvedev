@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import styles from './PageChatHeader.module.scss';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import {ChatContext} from "../../../context/ChatContext.jsx";
 import {useNavigate} from "react-router-dom";
 
 export const PageChatHeader = ({ chat, openEditChatModal }) => {
