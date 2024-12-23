@@ -11,7 +11,6 @@ export async function fetchWithAuth(url, options = {}) {
     let response = await fetch(url, { ...options, headers });
 
     if (response.status === 401) {
-        // Токен истёк, попробуем обновить
         const refreshTokenValue = localStorage.getItem('refreshToken');
         if (refreshTokenValue) {
             try {
@@ -20,11 +19,9 @@ export async function fetchWithAuth(url, options = {}) {
                 localStorage.setItem('accessToken', newTokens.access);
                 localStorage.setItem('refreshToken', newTokens.refresh);
 
-                // Повторим запрос с новым токеном
                 headers['Authorization'] = `Bearer ${accessToken}`;
                 response = await fetch(url, { ...options, headers });
             } catch (error) {
-                // Не удалось обновить токен
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
                 throw new Error('Сессия истекла, пожалуйста, войдите снова');

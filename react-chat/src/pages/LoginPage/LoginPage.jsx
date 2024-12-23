@@ -1,23 +1,25 @@
 // src/pages/LoginPage/LoginPage.jsx
 
-import React, { useState, useContext } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchCurrentUser, login as loginAction } from '../../store/userSlice';
 import { login as apiLogin } from '../../api/api';
-import { ChatContext } from '../../context/ChatContext.jsx';
 import classes from './LoginPage.module.scss';
 
 function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { login } = useContext(ChatContext);
-    const navigate = useNavigate();
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const { access, refresh } = await apiLogin(username, password);
-            await login(access, refresh);
+            dispatch(loginAction({ accessToken: access, refreshToken: refresh })); // Сохраняем токены в Redux
+            await dispatch(fetchCurrentUser()); // Загружаем текущего пользователя
             navigate('/');
         } catch (err) {
             setError('Неверное имя пользователя или пароль');
@@ -49,7 +51,7 @@ function LoginPage() {
                 <button type="submit" className={classes.loginFormButton}>Войти</button>
             </form>
             <p>
-                Нет аккаунта? <Link to={"/register"}>Зарегистрироваться</Link>
+                Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
             </p>
         </div>
     );

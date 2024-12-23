@@ -1,25 +1,33 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import styles from './ProfileHeader.module.scss'
 import {Title} from "../../Title/Title.jsx";
 import {useNavigate} from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
-import {ChatContext} from "../../../context/ChatContext.jsx";
+import {logout} from "../../../store/userSlice.js";
+import {useDispatch} from "react-redux";
 
-export const ProfileHeader = ( {username} ) => {
+export const ProfileHeader = ( {username, self=true} ) => {
     const navigate = useNavigate();
-    const {logout} = useContext(ChatContext);
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        dispatch(logout());
+    }
 
     return (
         <div className={styles.header}>
 
-            <button className={styles.backButton} onClick={() => navigate(`/`)}>
+            <button className={styles.backButton} onClick={() => window.history.back()}>
                 <ArrowBackIosIcon className={styles.white}>arrow_back_ios</ArrowBackIosIcon>
             </button>
 
             <Title text={username}></Title>
-            {/* for correct centering*/}
-            <div className={styles.logout} onClick={logout}><LogoutIcon className={"white"} /> </div>
+            {self?
+                <div className={styles.logout} onClick={handleLogout}><LogoutIcon className={"white"} /> </div>
+                :
+                <div />
+            }
         </div>
     );
 };
