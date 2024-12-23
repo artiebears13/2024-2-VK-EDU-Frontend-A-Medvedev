@@ -5,8 +5,6 @@ import TranslationHistory from './components/TranslationHistory/TranslationHisto
 import './App.scss';
 
 const App: React.FC = () => {
-
-
   return (
       <div className="app-container">
         <header>
