@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './LanguageSelector.module.scss';
 import languages from '../../utils/languages.json';
-import {getLanguageName} from "../../utils/getLanguageName";
+import RecentLanguages from "./RecentLanguages.tsx";
+import LanguageSelect from "./LanguagesSelect.tsx";
 
 interface LanguageSelectorProps {
     selectedLanguage: string;
@@ -16,33 +17,6 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                                                                isSource,
                                                                recentLanguages = [],
                                                            }) => {
-    const renderRecentLanguages = () => {
-        return recentLanguages.map((lang) => (
-            <div
-                key={lang}
-                className={`${styles.recentLanguage} ${selectedLanguage === lang ? styles.selected : ''}`}
-                onClick={() => onChange(lang)}
-            >
-                {getLanguageName(lang)}
-            </div>
-        ));
-    };
-
-    const renderSelectOptions = (): JSX.Element[] => {
-        const options: JSX.Element[] = [];
-
-        Object.entries(languages).forEach(([key, value]) => {
-            if (key !== "Autodetect") {
-                options.push(
-                    <option key={key} value={key}>
-                        {value}
-                    </option>
-                );
-            }
-        });
-
-        return options;
-    };
 
     return (
         <div className={styles.languageSelector}>
@@ -55,15 +29,12 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                 </div>
             )}
 
-            {renderRecentLanguages()}
-
-            <select
-                value={selectedLanguage}
-                onChange={(e) => onChange(e.target.value)}
-                className={styles.select}
-            >
-                {renderSelectOptions()}
-            </select>
+            <RecentLanguages
+                selectedLanguage={selectedLanguage}
+                recentLanguages={recentLanguages}
+                onChange={onChange}
+            />
+            <LanguageSelect selectedLanguage={selectedLanguage} onChange={onChange} />
         </div>
     );
 };

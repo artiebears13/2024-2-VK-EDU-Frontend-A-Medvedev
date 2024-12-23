@@ -41,7 +41,6 @@ const TranslateForm: React.FC = () => {
         }
 
         try {
-            console.log({fromLang, toLang});
             setError(null);
             const result: ITranslationResult = await fetchTranslation({
                 text,
