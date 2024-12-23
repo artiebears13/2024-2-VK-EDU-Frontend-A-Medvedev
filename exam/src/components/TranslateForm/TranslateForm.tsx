@@ -40,7 +40,7 @@ const TranslateForm: React.FC = () => {
                 const result: ITranslationResult = await fetchTranslation({
                     text: "Введите текст для перевода",
                     fromLanguage: 'ru',
-                    toLanguage: fromLang,
+                    toLanguage: fromLang!=='Autodetect'? fromLang : 'en',
                 });
                 setPlaceholder(result.translatedText);
             } catch (err) {
