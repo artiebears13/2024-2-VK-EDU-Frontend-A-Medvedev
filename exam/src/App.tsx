@@ -9,7 +9,7 @@ const App: React.FC = () => {
         <Router>
             <div className="app-container">
                 <header>
-                    <h1>переводчик</h1>
+                    <h1>VK Translate</h1>
                     <nav>
                         <NavLink to="/" className={'links'} end>
                             Переводчик

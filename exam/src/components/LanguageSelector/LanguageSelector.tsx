@@ -43,7 +43,6 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 
         return options;
     };
-    console.log({selectedLanguage});
 
     return (
         <div className={styles.languageSelector}>

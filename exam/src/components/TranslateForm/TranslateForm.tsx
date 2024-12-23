@@ -72,7 +72,7 @@ const TranslateForm: React.FC = () => {
     return (
         <div className={styles.translateForm}>
             <div className={styles.translateFormInputs}>
-                <div className={styles.inputSection}>
+                <div className={styles.translateFormInputSection}>
                     <LanguageSelector
                         selectedLanguage={fromLang}
                         onChange={setFromLang}
@@ -85,10 +85,10 @@ const TranslateForm: React.FC = () => {
                         placeholder="Введите текст для перевода"
                     />
                 </div>
-                <button onClick={handleSwapLanguages} className={styles.swapButton} aria-label="Сменить языки">
+                <button onClick={handleSwapLanguages} className={styles.translateFormSwapButton} aria-label="Сменить языки">
                     <SwapHorizIcon />
                 </button>
-                <div className={styles.outputSection}>
+                <div className={styles.translateFormOutputSection}>
                     <LanguageSelector
                         selectedLanguage={toLang}
                         onChange={setToLang}
@@ -102,7 +102,7 @@ const TranslateForm: React.FC = () => {
                     />
                 </div>
             </div>
-            {error && <p className={styles.error}>{error}</p>}
+            {error && <p className={styles.translateFormEerror}>{error}</p>}
 
         </div>
     );
