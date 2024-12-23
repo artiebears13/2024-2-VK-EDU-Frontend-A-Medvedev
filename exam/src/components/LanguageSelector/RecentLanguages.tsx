@@ -5,7 +5,7 @@ import React from "react";
 interface RecentLanguagesProps {
     selectedLanguage: string;
     onChange: (language: string) => void;
-    recentLanguages?: string[];
+    recentLanguages: string[];
 }
 
 const RecentLanguages: React.FC<RecentLanguagesProps> = ({recentLanguages, onChange, selectedLanguage}) => {

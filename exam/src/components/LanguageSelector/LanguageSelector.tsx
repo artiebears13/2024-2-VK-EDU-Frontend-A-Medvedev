@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './LanguageSelector.module.scss';
-import languages from '../../utils/languages.json';
 import RecentLanguages from "./RecentLanguages.tsx";
 import LanguageSelect from "./LanguagesSelect.tsx";
 
