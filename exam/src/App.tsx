@@ -8,7 +8,7 @@ const App: React.FC = () => {
   return (
       <div className="app-container">
         <header>
-          <h1>Приложение-переводчик</h1>
+          <h1>переводчик</h1>
           <nav>
             <NavLink to="/" className={'links'} end>
               Переводчик
