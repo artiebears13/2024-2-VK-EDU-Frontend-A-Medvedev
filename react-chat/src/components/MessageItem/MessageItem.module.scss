@@ -1,7 +1,6 @@
 @use '../../variables';
 @use '../../mixins';
 
-
 .messageItem {
   background-color: lightblue;
   max-width: 60%;
@@ -94,8 +93,6 @@
       margin: 0;
     }
   }
-
-
 }
 
 .messageItem::after,
@@ -105,7 +102,6 @@
   height: 16px;
   position: absolute;
 }
-
 
 .scaleInCenter {
   @include mixins.animation(scaleInCenter, variables.$transition-medium, cubic-bezier(0.250, 0.460, 0.450, 0.940));

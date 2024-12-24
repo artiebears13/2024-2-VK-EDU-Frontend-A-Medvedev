@@ -4,7 +4,7 @@ import styles from './MessagesList.module.scss';
 import { MessageItem } from '../MessageItem/MessageItem.jsx';
 import { setFoundMessage } from '../../store/messageSlice'; // Импортируем действие для обновления foundMessage
 
-export const MessagesList = memo(({ messages }) => {
+export const MessagesList = memo(({ messages, onMessageDelete }) => {
     const dispatch = useDispatch();
     const foundMessage = useSelector((state) => state.messages.foundMessage);
     const user = useSelector((state) => state.user.user);
@@ -12,6 +12,7 @@ export const MessagesList = memo(({ messages }) => {
     const foundRef = useRef(null);
     const ref = useRef(null);
     const [currentAudio, setCurrentAudio] = useState(null);
+    console.log({messages});
 
     useEffect(() => {
         if (ref.current) {
@@ -40,6 +41,7 @@ export const MessagesList = memo(({ messages }) => {
                         isFound={true}
                         setCurrentAudio={setCurrentAudio}
                         currentAudio={currentAudio}
+                        onMessageDelete={onMessageDelete}
                     />
                 );
             }
@@ -49,6 +51,7 @@ export const MessagesList = memo(({ messages }) => {
                     message={message}
                     setCurrentAudio={setCurrentAudio}
                     currentAudio={currentAudio}
+                    onMessageDelete={onMessageDelete}
                 />
             );
         },

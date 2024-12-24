@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, {memo, useCallback, useContext, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './PageChat.module.scss';
@@ -7,8 +7,9 @@ import { MessagesList } from '../../components/MessagesList/MessagesList.jsx';
 import { PageChatHeader } from '../../components/Headers/PageChatHeader/PageChatHeader.jsx';
 // import { EditPersonModal } from '../../components/Modals/EditPersonModal/EditPersonModal.jsx';
 import { fetchCurrentChat, setCurrentChat } from '../../store/chatSlice';
-import { fetchMessages, markMessagesAsRead, sendNewMessage } from '../../store/messageSlice';
+import {deleteMessage, fetchMessages, markMessagesAsRead, sendNewMessage} from '../../store/messageSlice';
 import {ChatInfoModal} from "../../components/Modals/ChatInfoModal/ChatInfoModal.jsx";
+import {ErrorContext} from "../../context/ErrorContext.jsx";
 
 export const PageChat = memo(() => {
     const { chatId } = useParams();
@@ -23,6 +24,8 @@ export const PageChat = memo(() => {
     const [chatFound, setChatFound] = useState(true);
 
     const currentMessages = messages[chatId] || [];
+
+    const {setError} = useContext(ErrorContext);
 
     useEffect(() => {
         if (chatId) {
@@ -59,6 +62,11 @@ export const PageChat = memo(() => {
         },
         [chatId]
     );
+
+    const handleMessageDelete = useCallback(async (messageId) => {
+        console.log("delete in handleMessageDelete");
+        dispatch(deleteMessage({chatId ,messageId})).then(()=>console.log("done"));
+    }, [dispatch]);
 
     const sendMessage = useCallback(
         async ({ text, files }) => {
@@ -106,10 +114,9 @@ export const PageChat = memo(() => {
     return (
         <div>
             <PageChatHeader chat={currentChat} openEditChatModal={openEditChatModal} />
-            {/* TODO: make chat info editable */}
              {editChatModal && <ChatInfoModal onClose={closeEditChatModal} currentChat={currentChat} />}
             <div className={styles.chatContainer}>
-                <MessagesList messages={currentMessages} />
+                <MessagesList messages={currentMessages} onMessageDelete={handleMessageDelete}/>
                 <MessageInput onSendMessage={sendMessage} active={chatFound} onSendVoice={sendVoiceMessage} />
             </div>
         </div>

@@ -78,7 +78,7 @@ export async function editMessage(messageId, text) {
     return await response.json();
 }
 
-export async function deleteMessage(messageId) {
+export async function deleteMessageApi(messageId) {
     const url = `${API_BASE_URL}/api/message/${messageId}`;
 
     const response = await fetchWithAuth(url, {
@@ -96,7 +96,6 @@ export async function deleteMessage(messageId) {
         throw new Error(errorMessage);
     }
 
-    return await response.json();
 }
 
 export async function readMessage(messageId) {
