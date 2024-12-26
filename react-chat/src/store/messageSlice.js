@@ -1,6 +1,6 @@
 // src/store/messageSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getMessages, sendMessage, readMessage, deleteMessageApi } from '../api/messages.js';
+import {getMessages, sendMessage, readMessage, deleteMessageApi, editMessageApi} from '../api/messages.js';
 
 export const fetchMessages = createAsyncThunk(
     'messages/fetchMessages',
@@ -65,6 +65,19 @@ export const deleteMessage = createAsyncThunk(
                 status: error.response?.status,
                 data: error.response?.data || error.message
             });
+        }
+    }
+);
+
+export const editMessage = createAsyncThunk(
+    'messages/editMessage',
+    async ({ chatId, messageId, messageData }, { rejectWithValue }) => {
+        try {
+            console.log("dispatch", {messageId, messageData});
+            const message = await editMessageApi(messageId, messageData.text);
+            return {chatId, message};
+        } catch (error) {
+            return rejectWithValue(error.response.data);
         }
     }
 );
@@ -159,6 +172,15 @@ const messageSlice = createSlice({
                 console.log("=============");
                 if (state.messages[chatId]) {
                     state.messages[chatId] = state.messages[chatId].filter((msg) => msg.id !== messageId);
+                }
+            })
+            .addCase(editMessage.fulfilled, (state, action) => {
+                const { chatId, message } = action.payload;
+                if (state.messages[chatId]) {
+                    const index = state.messages[chatId].findIndex((msg) => msg.id === message.id);
+                    if (index !== -1) {
+                        state.messages[chatId][index] = message;
+                    }
                 }
             })
     },

@@ -56,12 +56,18 @@ export async function getMessage(messageId) {
     return await response.json();
 }
 
-export async function editMessage(messageId, text) {
+export async function editMessageApi(messageId, text) {
     const url = `${API_BASE_URL}/api/message/${messageId}`;
+    const body = new FormData();
+    if (text) body.append('text', text);
+    console.log({text, body});
 
     const response = await fetchWithAuth(url, {
         method: 'PATCH',
-        body: {text},
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({text})
     });
 
     if (!response.ok) {
@@ -69,6 +75,7 @@ export async function editMessage(messageId, text) {
         try {
             const errorData = await response.json();
             errorMessage = errorData.detail || errorMessage;
+            console.error({errorMessage});
         } catch (e) {
             throw new Error(e)
         }

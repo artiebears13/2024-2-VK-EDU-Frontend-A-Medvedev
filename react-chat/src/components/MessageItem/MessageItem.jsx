@@ -11,10 +11,8 @@ import { getFormattedDate, getFormattedTime } from "../../utils/datetime.js";
 import {MessageItemContextMenu} from "../MessageItemContextMenu/MessageItemContextMenu.jsx";
 
 export const MessageItem = memo(
-    forwardRef(({ message, isFound = false, currentAudio, setCurrentAudio, onMessageDelete, onEdit }, ref) => {
+    forwardRef(({ message, isFound = false, currentAudio, setCurrentAudio, onMessageDelete, onMessageEdit }, ref) => {
         const user = useSelector((state) => state.user.user);
-        const audioRef = useRef(null);
-        const [playing, setPlaying] = useState(false);
 
         const [menuVisible, setMenuVisible] = useState(false);
         const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
@@ -65,8 +63,8 @@ export const MessageItem = memo(
 
         const handleEdit = () => {
             handleCloseMenu();
-            if (onEdit) {
-                onEdit(message.id);
+            if (onMessageEdit) {
+                onMessageEdit(message);
             }
         };
 

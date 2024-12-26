@@ -1,4 +1,4 @@
-import React, {useState, useContext, useRef} from 'react';
+import React, {useState, useContext, useRef, useEffect} from 'react';
 import styles from './MessageInput.module.scss';
 import SendIcon from '@mui/icons-material/Send';
 import AttachmentIcon from '@mui/icons-material/Attachment';
@@ -14,7 +14,7 @@ import {VoiceRecordingAnimation} from "../../voiceMessage/VoiceRecordingAnimatio
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 
-export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
+export const MessageInput = ({onSendMessage, onSendVoice, active, editingMessage, cancelEdit}) => {
     const attachedImageInputRef = useRef(null);
     const [messageText, setMessageText] = useState('');
     const [attachedImage, setAttachedImage] = useState(null);
@@ -23,13 +23,20 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
     const [geolocation, setGeolocation] = useState(null);
     const [voiceMessage, setVoiceMessage] = useState(null);
     const [recording, setRecording] = useState(false);
-
+    const [originalMessageText, setOriginalMessageText] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
     const isCancelledRef = useRef(false);
 
+
+    useEffect(() => {
+        if (editingMessage) {
+            setOriginalMessageText(editingMessage.text);
+            setMessageText(editingMessage.text);
+        }
+    }, [editingMessage]);
 
     const handleClose = () => {
         setAnchorEl(null);
@@ -124,12 +131,17 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
         setRecording(false);
     };
 
+    const handleCancelEdit = () => {
+        cancelEdit();
+        setMessageText("");
+        setOriginalMessageText("");
+    }
 
 
     const startVoiceRecording = () => {
         if (!recording) {
             navigator.mediaDevices
-                .getUserMedia({ audio: true })
+                .getUserMedia({audio: true})
                 .then(stream => {
                     audioChunksRef.current = [];
                     mediaRecorderRef.current = new MediaRecorder(stream);
@@ -141,7 +153,7 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
                             isCancelledRef.current = false;
                             return;
                         }
-                        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
+                        const audioBlob = new Blob(audioChunksRef.current, {type: 'audio/wav'});
                         const audioFile = new File([audioBlob], 'recording.wav', {
                             type: 'audio/wav',
                             lastModified: Date.now(),
@@ -174,6 +186,17 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
                     </button>
                 </div>
             )}
+            {editingMessage && (
+                <div className={styles.inputContainerAttachment}>
+                    <span>{originalMessageText}</span>
+                    <button
+                        className={styles.inputContainerAttachmentClose}
+                        onClick={handleCancelEdit}
+                    >
+                        <CloseIcon sx={{fontSize: 10}}/>
+                    </button>
+                </div>
+            )}
 
             <div className={`${styles.formContainer} ${active ? '' : 'disabled'}`}>
                 {recording ? <VoiceRecordingAnimation/> :
@@ -187,7 +210,7 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
                             onChange={handleAttachmentChange}
                             disabled={!active}
                         />
-                        <label htmlFor="attachment-input">
+                        {!editingMessage && (<><label htmlFor="attachment-input">
                             <button
                                 type="button"
                                 className={styles.attachmentBtn}
@@ -198,23 +221,23 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
                                 <AttachmentIcon className="attachment-icon"/>
                             </button>
                         </label>
-                        <Menu
-                            id="attachment-menu"
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                        >
-                            <MenuItem onClick={handleImageClick}>Картинка</MenuItem>
-                            <MenuItem onClick={handleGeolocationClick}>Геолокация</MenuItem>
-                        </Menu>
+                            <Menu
+                                id="attachment-menu"
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleClose}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                            >
+                                <MenuItem onClick={handleImageClick}>Картинка</MenuItem>
+                                <MenuItem onClick={handleGeolocationClick}>Геолокация</MenuItem>
+                            </Menu></>)}
                         <input
                             className={styles.formInput}
                             type="text"
@@ -246,22 +269,26 @@ export const MessageInput = ({onSendMessage, onSendVoice,active}) => {
                         }
                     </form>
                 }
-                {recording &&
+                {
+                    recording &&
                     <button className={styles.voiceBtn} onClick={stopRecording}>
-                        <StopCircleIcon className={styles.white} fontSize={"medium"} />
-                    </button>}
-                <button
+                        <StopCircleIcon className={styles.white} fontSize={"medium"}/>
+                    </button>
+                }
+                {!editingMessage && (<button
                     className={styles.voiceBtn}
                     type="button"
                     aria-label="Record Voice"
                     onClick={startVoiceRecording}
                     disabled={!active}
                 >
-                    {recording?
+                    {recording ?
                         <ArrowUpwardIcon className={`${styles.sendIcon} ${styles.white}`} fontSize="medium"/>
                         : <MicIcon className={styles.white} fontSize="medium"/>}
                 </button>
+                    )}
             </div>
         </div>
-    );
+    )
+        ;
 };

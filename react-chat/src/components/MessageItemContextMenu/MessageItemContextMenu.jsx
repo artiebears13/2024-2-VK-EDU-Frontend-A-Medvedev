@@ -11,7 +11,6 @@ export const MessageItemContextMenu = ({
                                        }) => {
     const menuRef = useRef(null);
 
-    // Обработчик клика вне меню для закрытия
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -25,7 +24,6 @@ export const MessageItemContextMenu = ({
             document.removeEventListener('mousedown', handleClickOutside);
         }
 
-        // Очистка слушателя при размонтировании компонента
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
@@ -41,15 +39,16 @@ export const MessageItemContextMenu = ({
             role="menu"
             aria-labelledby="context-menu"
         >
-            <li
-                className={styles.contextMenuItem}
-                onClick={onEdit}
-                role="menuitem"
-                tabIndex="0"
-                onKeyPress={(e) => { if (e.key === 'Enter') onEdit(); }}
-            >
-                Редактировать
-            </li>
+            {/*TODO: вернуть как будет готово API*/}
+            {/*<li*/}
+            {/*    className={styles.contextMenuItem}*/}
+            {/*    onClick={onEdit}*/}
+            {/*    role="menuitem"*/}
+            {/*    tabIndex="0"*/}
+            {/*    onKeyPress={(e) => { if (e.key === 'Enter') onEdit(); }}*/}
+            {/*>*/}
+            {/*    Редактировать*/}
+            {/*</li>*/}
             <li
                 className={styles.contextMenuItem}
                 onClick={onDelete}
