@@ -1,6 +1,7 @@
 import React, { useRef, useContext, useState, useEffect } from 'react';
 import { ErrorContext } from "../../../context/ErrorContext.jsx";
 import styles from './ProfilePhoto.module.scss';
+import LazyImage from "../../LazyImage/LazyImage.jsx";
 
 export const ProfilePhoto = ({ person, setPerson }) => {
     const { setError } = useContext(ErrorContext);
@@ -12,13 +13,10 @@ export const ProfilePhoto = ({ person, setPerson }) => {
     useEffect(() => {
         const getImage = async () => {
             if (typeof person.avatar === 'string') {
-                // If avatar is a URL string
                 setImageSrc(person.avatar);
             } else if (!person.avatar) {
-                // If avatar is empty or undefined
                 setImageSrc('https://placehold.co/400x400?text=Фото');
             } else if (!person.avatar.type.startsWith('image/')) {
-                // If the file is not an image
                 setError('Файл должен быть изображением.');
                 setImageSrc('https://placehold.co/400x400?text=Фото');
             } else {
@@ -64,7 +62,7 @@ export const ProfilePhoto = ({ person, setPerson }) => {
                 onClick={() => fileInputRef.current.click()}
             >
                 <div className={styles.ProfilePhotoContainer}>
-                    <img src={imageSrc} alt="Profile Preview" />
+                    <LazyImage src={imageSrc} alt="Profile Preview" />
                     <div
                         className={`${styles.ProfilePhotoContainerChange} ${styles.slideInBottom}`}
                     >

@@ -9,6 +9,7 @@ import { GeoPreview } from '../GeoPreview/GeoPreview.jsx';
 import { AudioPlayer } from '../AudioPlayer/AudioPlayer.jsx';
 import { getFormattedDate, getFormattedTime } from "../../utils/datetime.js";
 import {MessageItemContextMenu} from "../MessageItemContextMenu/MessageItemContextMenu.jsx";
+import LazyImage from "../LazyImage/LazyImage.jsx";
 
 export const MessageItem = memo(
     forwardRef(({ message, isFound = false, currentAudio, setCurrentAudio, onMessageDelete, onMessageEdit }, ref) => {
@@ -78,7 +79,7 @@ export const MessageItem = memo(
             >
                 {message.files && message.files.length > 0 && (
                     <div className={styles.messageItemImage}>
-                        <img src={message.files[0].item} alt="image" />
+                        <LazyImage className={styles.messageItemImageImg} src={message.files[0].item} alt="image" />
                     </div>
                 )}
 
