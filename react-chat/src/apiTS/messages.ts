@@ -1,9 +1,8 @@
 // src/api/messages.ts
 
-import API from './API';
+import API from './api';
 import { IMessage, IPaginatedResponse, IApiError } from '../types/api';
 
-// Отправка сообщения
 export const sendMessage = async (messageData: {
     text?: string;
     voice?: File;
@@ -21,7 +20,7 @@ export const sendMessage = async (messageData: {
         });
     }
 
-    const response = await fetch(`${API['baseUrl']}/api/messages/`, { // Доступ к приватному свойству через индекс
+    const response = await fetch(`${API['baseUrl']}/api/messages/`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -36,7 +35,6 @@ export const sendMessage = async (messageData: {
     return response.json();
 };
 
-// Получение сообщений с пагинацией и поиском
 export const getMessages = async (chatId: string, params: { search?: string; page_size?: number; page?: number }): Promise<IPaginatedResponse<IMessage>> => {
     const queryParams: Record<string, string> = {
         chat: chatId,
@@ -48,12 +46,10 @@ export const getMessages = async (chatId: string, params: { search?: string; pag
     return API.get<IPaginatedResponse<IMessage>>('/api/messages/', queryParams);
 };
 
-// Получение конкретного сообщения по ID
 export const getMessage = async (messageId: string): Promise<IMessage> => {
     return API.get<IMessage>(`/api/message/${messageId}`);
 };
 
-// Редактирование сообщения
 export const editMessageApi = async (messageId: string, text: string): Promise<IMessage> => {
     const url = `/api/message/${messageId}`;
     const body = { text };
@@ -74,7 +70,6 @@ export const editMessageApi = async (messageId: string, text: string): Promise<I
     return response.json();
 };
 
-// Удаление сообщения
 export const deleteMessageApi = async (messageId: string): Promise<void> => {
     const url = `/api/message/${messageId}`;
 
@@ -92,7 +87,6 @@ export const deleteMessageApi = async (messageId: string): Promise<void> => {
     }
 };
 
-// Отметка сообщения как прочитанного
 export const readMessage = async (messageId: string): Promise<void> => {
     const url = `/api/message/${messageId}/read/`;
 

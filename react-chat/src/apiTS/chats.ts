@@ -1,6 +1,6 @@
 // src/api/chats.ts
 
-import API from './API';
+import API from './api';
 import { IChat, IPaginatedResponse, IApiError } from '../types/api';
 
 export const getChats = async (page = 1, pageSize = 10, searchQuery: string | null = null): Promise<IPaginatedResponse<IChat>> => {
@@ -22,9 +22,9 @@ export const createChat = async (chatData: Partial<IChat>): Promise<IChat> => {
         chatData.members.forEach(member => formData.append('members', member.id));
     }
     if (chatData.title) formData.append('title', chatData.title);
-    if (chatData.avatar) formData.append('avatar', chatData.avatar as Blob); // Приведение к Blob для File
+    if (chatData.avatar) formData.append('avatar', chatData.avatar as Blob);
 
-    const response = await fetch(`${API['baseUrl']}/api/chats/`, { // Доступ к приватному свойству через индекс
+    const response = await fetch(`${API['baseUrl']}/api/chats/`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -34,7 +34,7 @@ export const createChat = async (chatData: Partial<IChat>): Promise<IChat> => {
 
     if (!response.ok) {
         const errorData: IApiError = await response.json();
-        if (errorData.detail?.includes('members')) { // Проверка на наличие ошибки связанной с членами
+        if (errorData.detail?.includes('members')) {
             throw new Error('Чат с этим пользователем уже существует');
         }
         throw new Error('Не удалось создать чат');
@@ -54,7 +54,7 @@ export const updateChatInfo = async (uuid: string, newData: Partial<IChat>): Pro
         newData.members.forEach(member => formData.append('members', member.id));
     }
 
-    const response = await fetch(`${API['baseUrl']}/api/chat/${uuid}/`, { // Доступ к приватному свойству через индекс
+    const response = await fetch(`${API['baseUrl']}/api/chat/${uuid}/`, {
         method: 'PATCH',
         body: formData,
         headers: {
@@ -80,7 +80,7 @@ export const deleteChat = async (chat: IChat): Promise<void> => {
     const currentUser = await API.get<ICurrentUser>('/api/user/current/');
     const uuid = chat.id;
 
-    if (currentUser.id !== chat.creator.id) { // Исправление условия проверки
+    if (currentUser.id !== chat.creator.id) {
         throw new Error('Недостаточно прав для удаления этого чата');
     }
 

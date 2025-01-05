@@ -38,7 +38,6 @@ class API {
 
         if (response.status === 401) {
             await this.handleUnauthorized();
-            // Повторный вызов после обновления токена
             if (this.accessToken) {
                 headers['Authorization'] = `Bearer ${this.accessToken}`;
                 const retryResponse = await fetch(url, { ...options, headers });
@@ -159,4 +158,4 @@ class API {
 
 }
 
-export default new API('https://vkedu-fullstack-div2.ru'); // Или другой базовый URL
+export default new API('https://vkedu-fullstack-div2.ru');

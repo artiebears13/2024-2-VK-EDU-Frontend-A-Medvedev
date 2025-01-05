@@ -18,8 +18,8 @@ function LoginPage() {
         e.preventDefault();
         try {
             const { access, refresh } = await API.login(username, password);
-            dispatch(loginAction({ accessToken: access, refreshToken: refresh })); // Сохраняем токены в Redux
-            await dispatch(fetchCurrentUser()); // Загружаем текущего пользователя
+            dispatch(loginAction({ accessToken: access, refreshToken: refresh }));
+            await dispatch(fetchCurrentUser());
             navigate('/');
         } catch (err) {
             setError('Неверное имя пользователя или пароль');

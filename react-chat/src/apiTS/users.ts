@@ -1,23 +1,20 @@
 // src/api/users.ts
 
-import API from './API';
+import API from './api';
 import { ICurrentUser, IUser, IPaginatedResponse, IApiError } from '../types/api';
 
-// Получение текущего пользователя
 export const getCurrentUser = async (): Promise<ICurrentUser> => {
     return API.get<ICurrentUser>('/api/user/current/');
 };
 
-// Получение информации о пользователе по UUID
 export const getUserInfo = async (uuid: string): Promise<IUser> => {
     return API.get<IUser>(`/api/user/${uuid}/`);
 };
 
-// Обновление информации о пользователе
 export const updateUserInfo = async (updateData: Partial<Pick<IUser, 'bio' | 'avatar'>>): Promise<IUser> => {
     const formData = new FormData();
     if (updateData.bio !== undefined) formData.append('bio', updateData.bio);
-    if (updateData.avatar !== undefined) formData.append('avatar', updateData.avatar as Blob); // Приведение к Blob для File
+    if (updateData.avatar !== undefined) formData.append('avatar', updateData.avatar as Blob);
 
     const currentUser = await getCurrentUser();
     const uuid = currentUser.id;
@@ -28,7 +25,7 @@ export const updateUserInfo = async (updateData: Partial<Pick<IUser, 'bio' | 'av
         method: 'PATCH',
         body: formData,
         headers: {
-            'Authorization': `Bearer ${API['accessToken']}`, // Доступ к приватному свойству через индекс
+            'Authorization': `Bearer ${API['accessToken']}`,
         },
     });
 
@@ -40,7 +37,6 @@ export const updateUserInfo = async (updateData: Partial<Pick<IUser, 'bio' | 'av
     return response.json();
 };
 
-// Удаление информации о пользователе
 export const deleteUserInfo = async (): Promise<void> => {
     const currentUser = await getCurrentUser();
     const uuid = currentUser.id;
@@ -50,7 +46,6 @@ export const deleteUserInfo = async (): Promise<void> => {
     await API.delete<void>(url);
 };
 
-// Получение списка пользователей с пагинацией и поиском
 export const getUsers = async (page = 1, pageSize = 10, searchQuery: string | null = null): Promise<IPaginatedResponse<IUser>> => {
     const params: Record<string, string> = {
         page: `${page}`,

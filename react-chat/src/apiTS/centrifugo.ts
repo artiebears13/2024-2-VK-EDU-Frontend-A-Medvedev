@@ -1,11 +1,11 @@
 // src/api/centrifugo.ts
 
 import { Centrifuge } from 'centrifuge';
-import API from './API';
+import API from './api';
 
 export function connectToCentrifugo(userId: string, onMessageReceived: (event: string, message: any) => void): Centrifuge {
     const centrifugoUrl = 'wss://vkedu-fullstack-div2.ru/connection/websocket/';
-    const accessToken = API['accessToken']; // Доступ к приватному свойству через индекс
+    const accessToken = API['accessToken'];
 
     const headers = {
         'Authorization': `Bearer ${accessToken}`,
@@ -13,7 +13,7 @@ export function connectToCentrifugo(userId: string, onMessageReceived: (event: s
 
     const centrifuge = new Centrifuge(centrifugoUrl, {
         getToken: async (ctx: any) => {
-            const response = await fetch(`${API['baseUrl']}/api/centrifugo/connect/`, { // Доступ к приватному свойству через индекс
+            const response = await fetch(`${API['baseUrl']}/api/centrifugo/connect/`, {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify(ctx),
