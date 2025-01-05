@@ -43,8 +43,8 @@ export const MessageItem = memo(
                 return
             }
 
-            const top = -80;
-            const left = 0;
+            const top = -50;
+            const left = -10;
 
             setMenuPosition({ top, left });
             setMenuVisible(true);
