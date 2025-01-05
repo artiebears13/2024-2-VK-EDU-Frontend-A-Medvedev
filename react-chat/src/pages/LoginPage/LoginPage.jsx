@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { fetchCurrentUser, login as loginAction } from '../../store/userSlice';
-import { login as apiLogin } from '../../api/api';
+import API from '../../apiTS/api'
 import classes from './LoginPage.module.scss';
 
 function LoginPage() {
@@ -17,7 +17,7 @@ function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { access, refresh } = await apiLogin(username, password);
+            const { access, refresh } = await API.login(username, password);
             dispatch(loginAction({ accessToken: access, refreshToken: refresh })); // Сохраняем токены в Redux
             await dispatch(fetchCurrentUser()); // Загружаем текущего пользователя
             navigate('/');

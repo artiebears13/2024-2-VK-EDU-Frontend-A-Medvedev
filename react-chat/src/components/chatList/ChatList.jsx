@@ -11,23 +11,15 @@ export const ChatList = memo(({ searchQuery = '' }) => {
     const chats = useSelector((state) => state.chats.chats);
     const messages = useSelector((state) => state.messages.messages);
 
-    const [filteredChats, setFilteredChats] = useState([]);
-
-    useEffect(() => {
+    const filteredChats = useMemo(() => {
         if (searchQuery === '') {
-            const chatsWithLastMessage = chats.map(chat => {
-                const chatMessages = messages[chat.id] || [];
+            return chats.map(chat => {
                 const lastMessage = chat.last_message || null;
-
-                return {
-                    chat,
-                    message: lastMessage,
-                };
+                return { chat, message: lastMessage };
             });
-            setFilteredChats(chatsWithLastMessage);
         } else {
             const query = searchQuery.toLowerCase();
-            const filtered = chats
+            return chats
                 .map(chat => {
                     const chatMessages = messages[chat.id] || [];
                     const chatTitle = chat.title || '';
@@ -39,33 +31,25 @@ export const ChatList = memo(({ searchQuery = '' }) => {
 
                     if (nameMatch) {
                         const lastMessage = chat.last_message || null;
-                        return {
-                            chat,
-                            message: lastMessage,
-                        };
+                        return { chat, message: lastMessage };
                     } else if (matchingMessages.length > 0) {
-                        const lastMatchingMessage = matchingMessages.reduce(
-                            (latest, current) => {
-                                const latestTime = new Date(latest.created_at).getTime();
-                                const currentTime = new Date(current.created_at).getTime();
-                                return currentTime > latestTime ? current : latest;
-                            }
-                        );
+                        const lastMatchingMessage = matchingMessages.reduce((latest, current) => {
+                            const latestTime = new Date(latest.created_at).getTime();
+                            const currentTime = new Date(current.created_at).getTime();
+                            return currentTime > latestTime ? current : latest;
+                        }, matchingMessages[0]);
+
                         dispatch(setFoundMessage(lastMatchingMessage.id));
 
-                        return {
-                            chat,
-                            message: lastMatchingMessage,
-                        };
+                        return { chat, message: lastMatchingMessage };
                     } else {
                         return null;
                     }
                 })
                 .filter(chat => chat !== null);
-
-            setFilteredChats(filtered);
         }
     }, [searchQuery, chats, messages, dispatch]);
+
 
     const sortedChats = useMemo(() => {
         return [...filteredChats].sort((a, b) => {

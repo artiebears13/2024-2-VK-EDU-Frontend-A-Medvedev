@@ -1,6 +1,6 @@
 // src/store/userSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getCurrentUser, updateUserInfo } from '../api/users.js';
+import { getCurrentUser, updateUserInfo } from '../apiTS/users';
 
 export const fetchCurrentUser = createAsyncThunk(
     'user/fetchCurrentUser',

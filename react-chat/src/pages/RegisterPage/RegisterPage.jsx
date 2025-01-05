@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { fetchCurrentUser, login as loginAction } from '../../store/userSlice';
-import { login as apiLogin, register } from '../../api/api';
+import API from '../../apiTS/api';
 import classes from './RegisterPage.module.scss';
 import { ProfilePhoto } from '../../components/EditableFields/ProfilePhoto/ProfilePhoto.jsx';
 
@@ -33,8 +33,8 @@ function RegisterPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await register(formData); // Регистрация пользователя
-            const { access, refresh } = await apiLogin(formData.username, formData.password); // Логин после регистрации
+            await API.register(formData); // Регистрация пользователя
+            const { access, refresh } = await API.login(formData.username, formData.password); // Логин после регистрации
             dispatch(loginAction({ accessToken: access, refreshToken: refresh })); // Сохраняем токены в Redux
             await dispatch(fetchCurrentUser()); // Загружаем текущего пользователя
             navigate('/'); // Перенаправляем на главную страницу

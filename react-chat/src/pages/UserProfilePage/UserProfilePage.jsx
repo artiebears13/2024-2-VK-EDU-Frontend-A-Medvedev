@@ -8,8 +8,8 @@ import React, {useContext, useEffect, useState} from "react";
 import {Avatar} from "@mui/material";
 import {useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {getUserInfo} from "../../api/users.js";
 import {ErrorContext} from "../../context/ErrorContext.jsx";
+import {getUserInfo} from "../../apiTS/users";
 
 export const UserProfilePage = () => {
     const {userId} = useParams();
