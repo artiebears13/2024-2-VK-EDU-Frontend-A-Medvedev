@@ -10,7 +10,6 @@ import RegisterPage from './pages/RegisterPage/RegisterPage.jsx';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import {fetchCurrentUser} from "./store/userSlice.js";
 import {UserProfilePage} from "./pages/UserProfilePage/UserProfilePage.jsx";
-//test fdf
 function App() {
     const theme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', theme);
