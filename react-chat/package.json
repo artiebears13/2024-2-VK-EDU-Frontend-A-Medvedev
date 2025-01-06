@@ -12,6 +12,11 @@
     "lint": "eslint \"src/**/*.{js,jsx}\"",
     "preview": "vite preview"
   },
+  "lint-staged": {
+    "*.{js,jsx}": ["eslint --fix", "git add"],
+    "*.{css,scss}": ["stylelint --fix", "git add"],
+    "*.{json,md}": ["prettier --write", "git add"]
+  },
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
@@ -21,6 +26,7 @@
     "centrifuge": "^5.2.2",
     "eslint-config-standard": "^17.1.0",
     "gh-pages": "^6.2.0",
+    "husky": "^9.1.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.1.2",
