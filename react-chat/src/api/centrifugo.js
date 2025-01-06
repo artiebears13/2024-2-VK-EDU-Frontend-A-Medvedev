@@ -51,10 +51,10 @@ export function connectToCentrifugo(userId, onMessageReceived) {
         }
     });
 
-    centrifuge.on('connect', function (ctx) {
+    centrifuge.on('connect', function () {
     });
 
-    centrifuge.on('disconnect', function (ctx) {
+    centrifuge.on('disconnect', function () {
     });
 
     centrifuge.on('error', function (ctx) {

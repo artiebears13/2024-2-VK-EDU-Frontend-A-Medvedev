@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './ChatItem.module.scss'
-import log from "eslint-plugin-react/lib/util/log.js";
 
 export const ChatInfo = ({title, message}) => {
     let lastMessageText = 'Нет сообщений';

@@ -7,6 +7,7 @@ import {getUsers} from "../../../api/users.js";
 import {createChat} from "../../../api/chats.js";
 import {ProfilePhoto} from "../../EditableFields/ProfilePhoto/ProfilePhoto.jsx";
 
+// eslint-disable-next-line react/prop-types
 export const CreateGroupChatModal = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
     const [newChatInfo, setNewChatInfo] = useState({

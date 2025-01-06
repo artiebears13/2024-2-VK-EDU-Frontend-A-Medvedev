@@ -21,7 +21,6 @@ export const MessageInput = ({onSendMessage, onSendVoice, active, editingMessage
     const [attachedImageBinary, setAttachedImageBinary] = useState(null);
     const {setError} = useContext(ErrorContext);
     const [geolocation, setGeolocation] = useState(null);
-    const [voiceMessage, setVoiceMessage] = useState(null);
     const [recording, setRecording] = useState(false);
     const [originalMessageText, setOriginalMessageText] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
@@ -86,7 +85,7 @@ export const MessageInput = ({onSendMessage, onSendVoice, active, editingMessage
 
         try {
             photoUrl = await readFileAsDataURL(file);
-        } catch (error) {
+        } catch  {
             setError('Ошибка при загрузке фотографии.');
             return;
         }

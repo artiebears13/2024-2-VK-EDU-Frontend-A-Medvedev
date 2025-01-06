@@ -1,5 +1,7 @@
+import React from "react";
 import classes from './CreateChatOptions.module.scss';
 
+// eslint-disable-next-line react/prop-types
 export const CreatechatOptions = ({onClose, onGroupChat, onPersonalChat}) => {
 
     const choosePersonal = () => {

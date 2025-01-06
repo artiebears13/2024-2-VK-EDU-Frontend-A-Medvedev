@@ -2,13 +2,11 @@ import React from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import styles from './ProfileHeader.module.scss'
 import {Title} from "../../Title/Title.jsx";
-import {useNavigate} from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
 import {logout} from "../../../store/userSlice.js";
 import {useDispatch} from "react-redux";
 
 export const ProfileHeader = ( {username, self=true} ) => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleLogout = () => {

@@ -3,6 +3,7 @@ import styles from './SearchBar.module.scss';
 import SearchIcon from '@mui/icons-material/Search';
 import {debounce} from "../../utils/debounce.js";
 
+// eslint-disable-next-line react/prop-types
 export const SearchBar = ({ onSearch, isSearchOpen, setSearchOpen }) => {
     const [isAnimating, setIsAnimating] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');

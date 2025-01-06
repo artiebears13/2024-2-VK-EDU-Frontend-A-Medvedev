@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useContext, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import styles from './PageChat.module.scss';
@@ -9,12 +9,12 @@ import {fetchCurrentChat, setCurrentChat} from '../../store/chatSlice';
 import {deleteMessage, editMessage, fetchMessages, markMessagesAsRead, sendNewMessage} from '../../store/messageSlice';
 import {ChatInfoModal} from "../../components/Modals/ChatInfoModal/ChatInfoModal.jsx";
 
+// eslint-disable-next-line react/display-name
 export const PageChat = memo(() => {
     const {chatId} = useParams();
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
-    const user = useSelector((state) => state.user.user);
     const messages = useSelector((state) => state.messages.messages);
     const currentChat = useSelector((state) => state.chats.currentChat);
 

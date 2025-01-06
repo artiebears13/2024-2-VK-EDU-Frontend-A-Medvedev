@@ -4,7 +4,6 @@ import styles from './MessageItemContextMenu.module.scss';
 export const MessageItemContextMenu = ({
                                            visible,
                                            position,
-                                           onEdit,
                                            onDelete,
                                            onClose,
                                            message

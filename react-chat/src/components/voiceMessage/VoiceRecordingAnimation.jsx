@@ -1,3 +1,4 @@
+import React from "react"
 import classes from './VoiceRecordingAnimation.module.scss';
 
 export const VoiceRecordingAnimation = () => {

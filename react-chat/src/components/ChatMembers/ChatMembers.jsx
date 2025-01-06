@@ -1,4 +1,3 @@
-import {imgOrPlaceholder} from "../../utils/imgOrPlaceholder/imgOrPlaceholder.js";
 import classes from './ChatMembers.module.scss';
 import {Avatar} from "@mui/material";
 import {useNavigate} from "react-router-dom";
