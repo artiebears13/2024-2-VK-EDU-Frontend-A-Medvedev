@@ -62,7 +62,7 @@ export const ProfilePhoto = ({ person, setPerson }) => {
                 onClick={() => fileInputRef.current.click()}
             >
                 <div className={styles.ProfilePhotoContainer}>
-                    <LazyImage src={imageSrc} alt="Profile Preview" />
+                    <LazyImage src={imageSrc} alt="Profile Preview" className={styles.ProfilePhotoPreviewImg}/>
                     <div
                         className={`${styles.ProfilePhotoContainerChange} ${styles.slideInBottom}`}
                     >
