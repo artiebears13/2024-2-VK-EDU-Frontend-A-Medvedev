@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef} from 'react';
 import styles from './MessageItemContextMenu.module.scss';
 
 export const MessageItemContextMenu = ({
@@ -7,7 +7,7 @@ export const MessageItemContextMenu = ({
                                            onEdit,
                                            onDelete,
                                            onClose,
-                                            message
+                                           message
                                        }) => {
     const menuRef = useRef(null);
 
@@ -35,29 +35,33 @@ export const MessageItemContextMenu = ({
         <ul
             className={styles.contextMenu}
             ref={menuRef}
-            style={{ top: position.top, left: position.left }}
+            style={{bottom: position.bottom + 10, right: position.right}}
             role="menu"
             aria-labelledby="context-menu"
         >
-            {/*TODO: вернуть как будет готово API*/}
-            {/*<li*/}
-            {/*    className={styles.contextMenuItem}*/}
-            {/*    onClick={onEdit}*/}
-            {/*    role="menuitem"*/}
-            {/*    tabIndex="0"*/}
-            {/*    onKeyPress={(e) => { if (e.key === 'Enter') onEdit(); }}*/}
-            {/*>*/}
-            {/*    Редактировать*/}
-            {/*</li>*/}
-            <li
-                className={styles.contextMenuItem}
-                onClick={onDelete}
-                role="menuitem"
-                tabIndex="0"
-                onKeyPress={(e) => { if (e.key === 'Enter') onDelete(); }}
-            >
-                Удалить
-            </li>
+            <div className={styles.triangle}>
+                {/*TODO: вернуть как будет готово API*/}
+                {/*<li*/}
+                {/*    className={styles.contextMenuItem}*/}
+                {/*    onClick={onEdit}*/}
+                {/*    role="menuitem"*/}
+                {/*    tabIndex="0"*/}
+                {/*    onKeyPress={(e) => { if (e.key === 'Enter') onEdit(); }}*/}
+                {/*>*/}
+                {/*    Редактировать*/}
+                {/*</li>*/}
+                <li
+                    className={styles.contextMenuItem}
+                    onClick={onDelete}
+                    role="menuitem"
+                    tabIndex="0"
+                    onKeyPress={(e) => {
+                        if (e.key === 'Enter') onDelete();
+                    }}
+                >
+                    Удалить
+                </li>
+            </div>
         </ul>
     );
 };
