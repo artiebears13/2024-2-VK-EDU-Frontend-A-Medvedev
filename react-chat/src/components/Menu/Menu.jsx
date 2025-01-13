@@ -1,3 +1,4 @@
+import React from "react";
 import styles from './Menu.module.scss'
 import {ChatPhoto} from "../ChatItem/ChatPhoto.jsx";
 import ContrastIcon from '@mui/icons-material/Contrast';

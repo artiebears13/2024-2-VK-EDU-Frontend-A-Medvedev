@@ -1,3 +1,4 @@
+import React from "react";
 import {getFormattedDate} from "../../../utils/datetime.js";
 import classes from './OnlineBadge.module.scss';
 

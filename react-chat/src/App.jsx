@@ -11,6 +11,7 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import {fetchCurrentUser} from "./store/userSlice.js";
 import {UserProfilePage} from "./pages/UserProfilePage/UserProfilePage.jsx";
 function App() {
+    //test
     const theme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', theme);
 

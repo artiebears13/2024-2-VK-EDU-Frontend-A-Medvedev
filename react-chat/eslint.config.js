@@ -21,10 +21,6 @@ export default [
     },
     rules: {
       "react/prop-types": "off",
-      "react/react-in-jsx-scope": "off",
-      // Вы можете настроить уровень строгости: "off", "warn", "error"
-      // Например, для более строгой проверки:
-      // "react/prop-types": ["error", { ignore: ["children"] }],
     },
   },
 ];

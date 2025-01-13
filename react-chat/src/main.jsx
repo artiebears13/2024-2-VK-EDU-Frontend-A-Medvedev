@@ -5,7 +5,7 @@ import './index.scss'
 import {ErrorProvider} from "./context/ErrorContext.jsx";
 import {Provider} from "react-redux";
 import store from './store/store'
-
+//test
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <ErrorProvider>
