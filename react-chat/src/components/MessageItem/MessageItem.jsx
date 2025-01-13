@@ -42,11 +42,12 @@ export const MessageItem = memo(
             if (message.sender.id !== user.id){
                 return
             }
+            console.log(itemRef.current.clientHeight);
 
-            const top = -50;
-            const left = -10;
+            const bottom = itemRef.current.clientHeight;
+            const right = 0;
 
-            setMenuPosition({ top, left });
+            setMenuPosition({ bottom, right });
             setMenuVisible(true);
         };
 
