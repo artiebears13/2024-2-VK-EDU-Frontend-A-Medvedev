@@ -6,7 +6,6 @@ export const MessageItemContextMenu = ({
                                            position,
                                            onDelete,
                                            onClose,
-                                           message
                                        }) => {
     const menuRef = useRef(null);
 

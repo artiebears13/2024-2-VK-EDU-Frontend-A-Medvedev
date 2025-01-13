@@ -18,7 +18,7 @@ export const UserProfilePage = () => {
         getUserInfo(userId)
             .then(
                 res => setUserData(res))
-            .catch(setError("Не удалось загрузить информацию о пользователе"));
+            .catch(err => setError(`Не удалось загрузить информацию о пользователе ${err}`));
 
     }, [userId]);
 
