@@ -4,10 +4,10 @@ import styles from './MessagesList.module.scss';
 import { MessageItem } from '../MessageItem/MessageItem.jsx';
 import { setFoundMessage } from '../../store/messageSlice'; // Импортируем действие для обновления foundMessage
 
+// eslint-disable-next-line react/prop-types,react/display-name
 export const MessagesList = memo(({ messages, onMessageDelete, onMessageEdit }) => {
     const dispatch = useDispatch();
     const foundMessage = useSelector((state) => state.messages.foundMessage);
-    const user = useSelector((state) => state.user.user);
 
     const foundRef = useRef(null);
     const ref = useRef(null);

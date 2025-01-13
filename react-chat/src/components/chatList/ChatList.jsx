@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo, useState } from 'react';
+import React, { memo, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './ChatList.module.scss';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
@@ -81,9 +81,11 @@ export const ChatList = memo(({ searchQuery = '' }) => {
             ) : (
                 <div className={styles.notFoundMessage}>
                     <SentimentVeryDissatisfiedIcon />
-                    <p>По запросу "{searchQuery}" ничего не найдено</p>
+                    <p>По запросу &quot;{searchQuery}&quot; ничего не найдено</p>
                 </div>
             )}
         </div>
     );
 });
+
+ChatList.displayName = 'ChatList';

@@ -25,3 +25,5 @@ export const ChatInfo = React.memo(({title, message}) => {
         </div>
     );
 });
+
+ChatInfo.displayName = 'ChatInfo';

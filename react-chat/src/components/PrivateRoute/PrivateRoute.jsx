@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
 
+// eslint-disable-next-line react/prop-types
 function PrivateRoute({ children }) {
     const user = useSelector((state) => state.user.user);
     const status = useSelector((state) => state.user.status);

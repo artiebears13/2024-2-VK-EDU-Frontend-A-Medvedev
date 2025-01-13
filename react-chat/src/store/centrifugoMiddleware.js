@@ -1,6 +1,6 @@
 // src/store/centrifugoMiddleware.js
 
-import {receiveMessage, updateMessage, deleteMessage, deleteMessageLocal} from './messageSlice';
+import {receiveMessage, updateMessage, deleteMessageLocal} from './messageSlice';
 import {connectToCentrifugo} from "../apiTS/centrifugo";
 
 export const centrifugoMiddleware = (storeAPI) => {

@@ -1,6 +1,6 @@
 // components/MessageItem/MessageItem.jsx
 
-import React, { forwardRef, memo, useRef, useState, useEffect } from 'react';
+import React, { forwardRef, memo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './MessageItem.module.scss';
 import CheckIcon from '@mui/icons-material/Check';
@@ -12,6 +12,7 @@ import {MessageItemContextMenu} from "../MessageItemContextMenu/MessageItemConte
 import LazyImage from "../LazyImage/LazyImage.jsx";
 
 export const MessageItem = memo(
+    // eslint-disable-next-line react/prop-types
     forwardRef(({ message, isFound = false, currentAudio, setCurrentAudio, onMessageDelete, onMessageEdit }, ref) => {
         const user = useSelector((state) => state.user.user);
 
@@ -24,6 +25,7 @@ export const MessageItem = memo(
             return null;
         }
 
+        // eslint-disable-next-line react/prop-types
         const direction = message.sender.id === user.id ? 'sent' : 'received';
 
         const formattedDate = getFormattedDate(message.created_at);
@@ -43,11 +45,12 @@ export const MessageItem = memo(
             if (message.sender.id !== user.id){
                 return
             }
+            console.log(itemRef.current.clientHeight);
 
-            const top = -80;
-            const left = 0;
+            const bottom = itemRef.current.clientHeight;
+            const right = 0;
 
-            setMenuPosition({ top, left });
+            setMenuPosition({ bottom, right });
             setMenuVisible(true);
         };
 
@@ -101,6 +104,7 @@ export const MessageItem = memo(
 
                 <div className={styles.messageItemStatus}>
                     <p className={styles.messageItemStatusItem}>
+                        {/* eslint-disable-next-line react/prop-types */}
                         {message.was_read_by.length === 0 ? (
                             <CheckIcon fontSize="small" />
                         ) : (
