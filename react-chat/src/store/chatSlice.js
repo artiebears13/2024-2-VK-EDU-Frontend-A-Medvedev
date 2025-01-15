@@ -1,7 +1,7 @@
 // src/store/chatSlice.js
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import {getChat, getChats} from '../api/chats.js';
-import {sendNewMessage, receiveMessage, updateMessage} from './messageSlice';
+import {sendNewMessage, receiveMessage, updateMessage, deleteMessage} from './messageSlice';
 
 export const fetchChats = createAsyncThunk(
     'chats/fetchChats',
@@ -96,6 +96,16 @@ const chatSlice = createSlice({
                 const chatIndex = state.chats.findIndex((chat) => chat.id === chatId);
                 if (chatIndex !== -1) {
                     state.chats[chatIndex].last_message = message;
+                }
+            })
+            .addCase(deleteMessage.fulfilled, (state, action) => {
+                const { chatId, messageId } = action.payload;
+                const chatIndex = state.chats.findIndex((chat) => chat.id === chatId);
+                if (chatIndex !== -1) {
+                    const lastMessage = state.chats[chatIndex].last_message;
+                    if (lastMessage && lastMessage.id === messageId) {
+                        state.chats[chatIndex].last_message = null;
+                    }
                 }
             });
     },

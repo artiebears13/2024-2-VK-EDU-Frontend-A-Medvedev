@@ -1,6 +1,6 @@
 // src/store/centrifugoMiddleware.js
 
-import { receiveMessage, updateMessage, deleteMessage } from './messageSlice';
+import {receiveMessage, updateMessage, deleteMessage, deleteMessageLocal} from './messageSlice';
 import {connectToCentrifugo} from "../api/centrifugo.js";
 
 export const centrifugoMiddleware = (storeAPI) => {
@@ -34,7 +34,7 @@ const handleCentrifugoEvent = (storeAPI, event, data) => {
     } else if (event === 'update') {
             storeAPI.dispatch(updateMessage({ chatId: data.chat, message: data }));
     } else if (event === 'delete') {
-            storeAPI.dispatch(deleteMessage({ chatId: data.chat, messageId: data.id }));
+            storeAPI.dispatch(deleteMessageLocal({ chatId: data.chat, messageId: data.id }));
     } else if (event === 'read') {
         storeAPI.dispatch(updateMessage({ chatId: data.chat, message: data }));
     }

@@ -7,7 +7,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import {logout} from "../../../store/userSlice.js";
 import {useDispatch} from "react-redux";
 
-export const ProfileHeader = ( {username} ) => {
+export const ProfileHeader = ( {username, self=true} ) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -18,12 +18,16 @@ export const ProfileHeader = ( {username} ) => {
     return (
         <div className={styles.header}>
 
-            <button className={styles.backButton} onClick={() => navigate(`/`)}>
+            <button className={styles.backButton} onClick={() => window.history.back()}>
                 <ArrowBackIosIcon className={styles.white}>arrow_back_ios</ArrowBackIosIcon>
             </button>
 
             <Title text={username}></Title>
-            <div className={styles.logout} onClick={handleLogout}><LogoutIcon className={"white"} /> </div>
+            {self?
+                <div className={styles.logout} onClick={handleLogout}><LogoutIcon className={"white"} /> </div>
+                :
+                <div />
+            }
         </div>
     );
 };

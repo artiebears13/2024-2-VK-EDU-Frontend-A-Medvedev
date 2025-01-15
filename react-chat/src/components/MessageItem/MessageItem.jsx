@@ -1,17 +1,23 @@
-import React, { forwardRef, memo, useRef, useState } from 'react';
+// components/MessageItem/MessageItem.jsx
+
+import React, { forwardRef, memo, useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './MessageItem.module.scss';
 import CheckIcon from '@mui/icons-material/Check';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { GeoPreview } from '../GeoPreview/GeoPreview.jsx';
 import { AudioPlayer } from '../AudioPlayer/AudioPlayer.jsx';
-import {getFormattedDate, getFormattedTime} from "../../utils/datetime.js";
+import { getFormattedDate, getFormattedTime } from "../../utils/datetime.js";
+import {MessageItemContextMenu} from "../MessageItemContextMenu/MessageItemContextMenu.jsx";
 
 export const MessageItem = memo(
-    forwardRef(({ message, isFound = false, currentAudio, setCurrentAudio }, ref) => {
+    forwardRef(({ message, isFound = false, currentAudio, setCurrentAudio, onMessageDelete, onMessageEdit }, ref) => {
         const user = useSelector((state) => state.user.user);
-        const audioRef = useRef(null);
-        const [playing, setPlaying] = useState(false);
+
+        const [menuVisible, setMenuVisible] = useState(false);
+        const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+
+        const itemRef = useRef(null);
 
         if (!user) {
             return null;
@@ -19,16 +25,57 @@ export const MessageItem = memo(
 
         const direction = message.sender.id === user.id ? 'sent' : 'received';
 
-    const formattedDate = getFormattedDate(message.created_at);
-    const formattedTime = getFormattedTime(message.created_at);
+        const formattedDate = getFormattedDate(message.created_at);
+        const formattedTime = getFormattedTime(message.created_at);
 
+        const setRefs = (el) => {
+            itemRef.current = el;
+            if (typeof ref === 'function') {
+                ref(el);
+            } else if (ref) {
+                ref.current = el;
+            }
+        };
+
+        const handleContextMenu = (event) => {
+            event.preventDefault();
+            if (message.sender.id !== user.id){
+                return
+            }
+            console.log(itemRef.current.clientHeight);
+
+            const bottom = itemRef.current.clientHeight;
+            const right = 0;
+
+            setMenuPosition({ bottom, right });
+            setMenuVisible(true);
+        };
+
+        const handleCloseMenu = () => {
+            setMenuVisible(false);
+        };
+
+        const handleDelete = () => {
+            handleCloseMenu();
+            if (onMessageDelete) {
+                onMessageDelete(message.id);
+            }
+        };
+
+        const handleEdit = () => {
+            handleCloseMenu();
+            if (onMessageEdit) {
+                onMessageEdit(message);
+            }
+        };
 
         return (
             <li
                 className={`${styles.messageItem} ${
                     direction === 'received' ? styles.received : styles.sent
                 } ${styles.scaleInCenter}`}
-                ref={ref}
+                ref={setRefs}
+                onContextMenu={handleContextMenu}
             >
                 {message.files && message.files.length > 0 && (
                     <div className={styles.messageItemImage}>
@@ -52,18 +99,27 @@ export const MessageItem = memo(
                     />
                 )}
 
-            <div className={styles.messageItemStatus}>
-                <p className={styles.messageItemStatusItem}>
-                    {message.was_read_by.length === 0 ? (
-                        <CheckIcon fontSize="small" />
-                    ) : (
-                        <DoneAllIcon fontSize="small" />
-                    )}
-                </p>
-                <p className={styles.time}>
-                    {formattedDate && formattedTime ? `${formattedDate}, ${formattedTime}` : ''}
-                </p>
-            </div>
-        </li>
-    );
-}));
+                <div className={styles.messageItemStatus}>
+                    <p className={styles.messageItemStatusItem}>
+                        {message.was_read_by.length === 0 ? (
+                            <CheckIcon fontSize="small" />
+                        ) : (
+                            <DoneAllIcon fontSize="small" />
+                        )}
+                    </p>
+                    <p className={styles.time}>
+                        {formattedDate && formattedTime ? `${formattedDate}, ${formattedTime}` : ''}
+                    </p>
+                </div>
+
+                <MessageItemContextMenu
+                    visible={menuVisible}
+                    position={menuPosition}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                    onClose={handleCloseMenu}
+                />
+            </li>
+        );
+    })
+);
