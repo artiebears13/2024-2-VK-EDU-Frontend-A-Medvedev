@@ -45,7 +45,7 @@ function fillHeader(chatId) {
 
         const receiverNameSpan = `<span class="receiver-name white">${person.name}</span>`;
 
-        const receiverPhotoDiv = `<div class="receiver-photo"><img 
+        const receiverPhotoDiv = `<div class="receiver-photo"><LazyImage 
             class="receiver-photo__image" 
             src="${person.photo}" 
             width="50px" 

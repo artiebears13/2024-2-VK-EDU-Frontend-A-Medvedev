@@ -2,6 +2,7 @@ import classes from './ChatInfoModal.module.scss'
 import React from "react";
 import {imgOrPlaceholder} from "../../../utils/imgOrPlaceholder/imgOrPlaceholder.js";
 import {ChatMembers} from "../../ChatMembers/ChatMembers.jsx";
+import LazyImage from "../../LazyImage/LazyImage.jsx";
 
 export const ChatInfoModal = ({onClose, currentChat}) => {
 
@@ -13,7 +14,7 @@ export const ChatInfoModal = ({onClose, currentChat}) => {
                 <span className={classes.EditChatModalCloseButton} onClick={onClose}>&times;</span>
                 {currentChat && <h1 className={classes.EditChatName}>{currentChat.title}</h1>}
                 <div className={classes.EditChatPhotoContainer}>
-                    {currentChat && <img src={chatAvatarSrc} alt={currentChat.title} className={classes.EditChatPhoto}/>}
+                    {currentChat && <LazyImage src={chatAvatarSrc} alt={currentChat.title} className={classes.EditChatPhoto}/>}
                 </div>
                 <h1 >Участники</h1>
                 <ChatMembers members={currentChat.members}/>
