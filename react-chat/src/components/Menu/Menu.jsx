@@ -1,12 +1,11 @@
+import React from "react";
 import styles from './Menu.module.scss'
 import {ChatPhoto} from "../ChatItem/ChatPhoto.jsx";
-import {readUserData} from "../../utils/storage.js";
 import ContrastIcon from '@mui/icons-material/Contrast';
 import SettingsIcon from '@mui/icons-material/Settings';
 import GroupIcon from '@mui/icons-material/Group';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import {ThemeSwitcher} from "../../utils/themeSwitcher.js";
-import {useContext} from "react";
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import styles from './PageChatHeader.module.scss';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {useNavigate} from "react-router-dom";

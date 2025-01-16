@@ -21,7 +21,7 @@ export async function fetchWithAuth(url, options = {}) {
 
                 headers['Authorization'] = `Bearer ${accessToken}`;
                 response = await fetch(url, { ...options, headers });
-            } catch (error) {
+            } catch {
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
                 throw new Error('Сессия истекла, пожалуйста, войдите снова');

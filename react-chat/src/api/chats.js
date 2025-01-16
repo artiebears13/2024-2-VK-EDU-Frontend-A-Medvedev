@@ -1,5 +1,6 @@
 import {fetchWithAuth} from "./api.js";
 import {API_BASE_URL} from "./api.js";
+import {getCurrentUser} from "./users.js";
 
 export async function getChats(page=1, pageSize=10, searchQuery=null) {
 

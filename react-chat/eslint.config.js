@@ -1,38 +1,26 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import pluginReact from "eslint-plugin-react";
 
+/** @type {import('eslint').Linter.Config[]} */
 export default [
-  { ignores: ['dist'] },
+  // Основные настройки для файлов JS, MJS, CJS, JSX
   {
-    files: ['**/*.{js,jsx}'],
-    languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
-      },
-    },
-    settings: { react: { version: '18.3' } },
+    files: ["**/*.{js,mjs,cjs,jsx}"],
+    languageOptions: { globals: globals.browser },
+  },
+  // Рекомендуемые правила ESLint
+  pluginJs.configs.recommended,
+  // Рекомендуемые правила плагина React (Flat Config)
+  pluginReact.configs.flat.recommended,
+  // Дополнительные правила для проверки prop-types
+  {
+    files: ["**/*.{js,mjs,cjs,jsx}"],
     plugins: {
-      react,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      react: pluginReact,
     },
     rules: {
-      ...js.configs.recommended.rules,
-      ...react.configs.recommended.rules,
-      ...react.configs['jsx-runtime'].rules,
-      ...reactHooks.configs.recommended.rules,
-      'react/jsx-no-target-blank': 'off',
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      "react/prop-types": "off",
     },
   },
-]
+];

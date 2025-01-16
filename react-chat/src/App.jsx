@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import {Provider, useDispatch} from 'react-redux';
-import store from './store/store';
+import {useDispatch} from 'react-redux';
 import { AlertMessage } from './components/Modals/AlertMessage/AlertMessage.jsx';
 import { ChatListPage } from './pages/ChatList/ChatListPage.jsx';
 import { PageChat } from './pages/PageChat/PageChat.jsx';
@@ -11,8 +10,8 @@ import RegisterPage from './pages/RegisterPage/RegisterPage.jsx';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute.jsx';
 import {fetchCurrentUser} from "./store/userSlice.js";
 import {UserProfilePage} from "./pages/UserProfilePage/UserProfilePage.jsx";
-
 function App() {
+    //test
     const theme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', theme);
 

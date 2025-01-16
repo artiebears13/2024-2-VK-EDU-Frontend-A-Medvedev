@@ -5,6 +5,7 @@ import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDiss
 import { ChatItem } from '../ChatItem/ChatItem.jsx';
 import { setFoundMessage } from '../../store/messageSlice'; // Импортируем действие для установки найденного сообщения
 
+// eslint-disable-next-line react/prop-types,react/display-name
 export const ChatList = memo(({ searchQuery = '' }) => {
     const dispatch = useDispatch();
 
@@ -16,7 +17,6 @@ export const ChatList = memo(({ searchQuery = '' }) => {
     useEffect(() => {
         if (searchQuery === '') {
             const chatsWithLastMessage = chats.map(chat => {
-                const chatMessages = messages[chat.id] || [];
                 const lastMessage = chat.last_message || null;
 
                 return {
@@ -97,7 +97,7 @@ export const ChatList = memo(({ searchQuery = '' }) => {
             ) : (
                 <div className={styles.notFoundMessage}>
                     <SentimentVeryDissatisfiedIcon />
-                    <p>По запросу "{searchQuery}" ничего не найдено</p>
+                    <p>По запросу &quot;{searchQuery}&quot; ничего не найдено</p>
                 </div>
             )}
         </div>
