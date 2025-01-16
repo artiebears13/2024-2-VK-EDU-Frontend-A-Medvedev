@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styles from './CreateChatModal.module.scss';
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {ErrorContext} from "../../../context/ErrorContext.jsx";
 import {RecommendedUser} from "./RecommendedUser.jsx";
 import {getUsers} from "../../../api/users.js";
@@ -8,13 +8,12 @@ import {createChat} from "../../../api/chats.js";
 import {useSelector} from "react-redux";
 
 // eslint-disable-next-line react/prop-types
-export const CreatePersonalChatModal = ({ isOpen, onClose }) => {
+export const CreatePersonalChatModal = ({isOpen, onClose}) => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
     const [recommendedUsers, setRecommendedUsers] = useState([]);
     const {setError} = useContext(ErrorContext)
     const user = useSelector((state) => state.user.user);
-
 
 
     const onNameInput = (e) => {
@@ -42,13 +41,12 @@ export const CreatePersonalChatModal = ({ isOpen, onClose }) => {
             creator: user
         }
         createChat(params).then(res => {
-            navigate(`/chat/${res.id}`);
+                navigate(`/chat/${res.id}`);
             }
         ).catch((err) => {
             setError(err.message);
         })
     }
-
 
 
     if (!isOpen) return null;
@@ -58,7 +56,6 @@ export const CreatePersonalChatModal = ({ isOpen, onClose }) => {
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
                 <span className={styles.closeButton} onClick={onClose}>&times;</span>
                 <h2>Создать новый чат</h2>
-
 
 
                 <input

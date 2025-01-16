@@ -26,8 +26,6 @@ export const PageChat = memo(() => {
     const currentMessages = messages[chatId] || [];
 
 
-
-
     useEffect(() => {
         if (chatId) {
             dispatch(fetchCurrentChat(chatId))
