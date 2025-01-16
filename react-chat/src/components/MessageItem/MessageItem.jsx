@@ -45,7 +45,6 @@ export const MessageItem = memo(
             if (message.sender.id !== user.id){
                 return
             }
-            console.log(itemRef.current.clientHeight);
 
             const bottom = itemRef.current.clientHeight;
             const right = 0;

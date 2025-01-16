@@ -1,7 +1,7 @@
 // src/api/users.ts
 
-import API from './api';
-import { ICurrentUser, IUser, IPaginatedResponse, IApiError } from '../types/api';
+import API from './API';
+import { ICurrentUser, IUser, IPaginatedResponse } from '../types/api';
 
 export const getCurrentUser = async (): Promise<ICurrentUser> => {
     return API.get<ICurrentUser>('/api/user/current/');
@@ -11,7 +11,9 @@ export const getUserInfo = async (uuid: string): Promise<IUser> => {
     return API.get<IUser>(`/api/user/${uuid}/`);
 };
 
-export const updateUserInfo = async (updateData: Partial<Pick<IUser, 'bio' | 'avatar'>>): Promise<IUser> => {
+export const updateUserInfo = async (
+    updateData: Partial<Pick<IUser, 'bio' | 'avatar'>>
+): Promise<IUser> => {
     const formData = new FormData();
     if (updateData.bio !== undefined) formData.append('bio', updateData.bio);
     if (updateData.avatar !== undefined) formData.append('avatar', updateData.avatar as Blob);
@@ -21,20 +23,7 @@ export const updateUserInfo = async (updateData: Partial<Pick<IUser, 'bio' | 'av
 
     const url = `/api/user/${uuid}/`;
 
-    const response = await fetch(`${API.baseUrl}${url}`, {
-        method: 'PATCH',
-        body: formData,
-        headers: {
-            'Authorization': `Bearer ${API['accessToken']}`,
-        },
-    });
-
-    if (!response.ok) {
-        const errorData: IApiError = await response.json();
-        throw new Error(errorData.detail || 'Не удалось обновить данные пользователя');
-    }
-
-    return response.json();
+    return API.patch<IUser>(url, formData);
 };
 
 export const deleteUserInfo = async (): Promise<void> => {
@@ -43,10 +32,14 @@ export const deleteUserInfo = async (): Promise<void> => {
 
     const url = `/api/user/${uuid}/`;
 
-    await API.delete<void>(url);
+    return API.delete<void>(url);
 };
 
-export const getUsers = async (page = 1, pageSize = 10, searchQuery: string | null = null): Promise<IPaginatedResponse<IUser>> => {
+export const getUsers = async (
+    page = 1,
+    pageSize = 10,
+    searchQuery: string | null = null
+): Promise<IPaginatedResponse<IUser>> => {
     const params: Record<string, string> = {
         page: `${page}`,
         page_size: `${pageSize}`,

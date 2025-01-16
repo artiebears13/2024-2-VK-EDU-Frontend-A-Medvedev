@@ -60,7 +60,6 @@ export async function editMessageApi(messageId, text) {
     const url = `${API_BASE_URL}/api/message/${messageId}`;
     const body = new FormData();
     if (text) body.append('text', text);
-    console.log({text, body});
 
     const response = await fetchWithAuth(url, {
         method: 'PATCH',

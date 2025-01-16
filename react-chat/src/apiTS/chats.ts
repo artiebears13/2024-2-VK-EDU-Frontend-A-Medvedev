@@ -1,9 +1,13 @@
 // src/api/chats.ts
 
-import API from './api';
-import { IChat, IPaginatedResponse, IApiError } from '../types/api';
+import API from './API';
+import { IChat, IPaginatedResponse, IApiError, ICurrentUser } from '../types/api';
 
-export const getChats = async (page = 1, pageSize = 10, searchQuery: string | null = null): Promise<IPaginatedResponse<IChat>> => {
+export const getChats = async (
+    page = 1,
+    pageSize = 10,
+    searchQuery: string | null = null
+): Promise<IPaginatedResponse<IChat>> => {
     const params: Record<string, string> = {
         page: `${page}`,
         page_size: `${pageSize}`,
@@ -24,23 +28,7 @@ export const createChat = async (chatData: Partial<IChat>): Promise<IChat> => {
     if (chatData.title) formData.append('title', chatData.title);
     if (chatData.avatar) formData.append('avatar', chatData.avatar as Blob);
 
-    const response = await fetch(`${API['baseUrl']}/api/chats/`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'Authorization': `Bearer ${API['accessToken']}`,
-        },
-    });
-
-    if (!response.ok) {
-        const errorData: IApiError = await response.json();
-        if (errorData.detail?.includes('members')) {
-            throw new Error('Чат с этим пользователем уже существует');
-        }
-        throw new Error('Не удалось создать чат');
-    }
-
-    return response.json();
+    return API.post<IChat>('/api/chats/', formData);
 };
 
 export const getChat = async (uuid: string): Promise<IChat> => {
@@ -54,26 +42,7 @@ export const updateChatInfo = async (uuid: string, newData: Partial<IChat>): Pro
         newData.members.forEach(member => formData.append('members', member.id));
     }
 
-    const response = await fetch(`${API['baseUrl']}/api/chat/${uuid}/`, {
-        method: 'PATCH',
-        body: formData,
-        headers: {
-            'Authorization': `Bearer ${API['accessToken']}`,
-        },
-    });
-
-    if (!response.ok) {
-        let errorMessage = 'Не удалось обновить данные чата';
-        try {
-            const errorData: IApiError = await response.json();
-            errorMessage = errorData.detail || errorMessage;
-        } catch (e) {
-            throw new Error('Не удалось обработать ошибку');
-        }
-        throw new Error(errorMessage);
-    }
-
-    return response.json();
+    return API.patch<IChat>(`/api/chat/${uuid}/`, formData);
 };
 
 export const deleteChat = async (chat: IChat): Promise<void> => {
@@ -81,21 +50,10 @@ export const deleteChat = async (chat: IChat): Promise<void> => {
     const uuid = chat.id;
 
     if (currentUser.id !== chat.creator.id) {
-        throw new Error('Недостаточно прав для удаления этого чата');
+        return
     }
 
     const url = `/api/chat/${uuid}/`;
 
-    const response = await API.delete<void>(url);
-
-    if (!response.ok) {
-        let errorMessage = 'Не удалось удалить чат';
-        try {
-            const errorData: IApiError = await response.json();
-            errorMessage = errorData.detail || errorMessage;
-        } catch (e) {
-            throw new Error('Не удалось обработать ошибку');
-        }
-        throw new Error(errorMessage);
-    }
+    await API.delete<void>(url);
 };

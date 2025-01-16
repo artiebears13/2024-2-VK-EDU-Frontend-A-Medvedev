@@ -12,7 +12,6 @@ const LazyImage = ({ src, alt, placeholder, errorPlaceholder, className, ...prop
 
 
     useEffect(() => {
-        console.log({isLoaded, src, alt});
     }, [isLoaded]);
 
     const handleLoad = () => {

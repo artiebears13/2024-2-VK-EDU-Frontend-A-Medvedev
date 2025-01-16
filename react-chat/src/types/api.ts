@@ -7,7 +7,6 @@ export interface IPaginatedResponse<T> {
     results: T[];
 }
 
-// Пользователь
 export interface IUser {
     id: string;
     username: string;
@@ -47,7 +46,7 @@ export interface IMessage {
     text?: string;
     voice?: string;
     chatId: string;
-    files?: string[];
+    files?: { item: string }[];
     created_at: string;
     updated_at: string;
 }

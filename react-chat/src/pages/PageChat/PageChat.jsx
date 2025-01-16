@@ -67,13 +67,11 @@ export const PageChat = memo(() => {
     }, [])
 
     const handleMessageDelete = useCallback(async (messageId) => {
-        console.log("delete in handleMessageDelete");
         dispatch(deleteMessage({chatId, messageId})).then(() => console.log("done"));
     }, [dispatch]);
 
     const sendMessage = useCallback(
         async ({text, files}) => {
-            console.log("onSendMessage", {text, files, editingMessage});
             const messageText = text.trim();
             if (messageText || (files && files.length > 0)) {
                 try {

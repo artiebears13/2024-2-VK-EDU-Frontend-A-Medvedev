@@ -1,6 +1,6 @@
 // src/api/messages.ts
 
-import API from './api';
+import API from './API';
 import { IMessage, IPaginatedResponse, IApiError } from '../types/api';
 
 export const sendMessage = async (messageData: {
@@ -20,22 +20,13 @@ export const sendMessage = async (messageData: {
         });
     }
 
-    const response = await fetch(`${API['baseUrl']}/api/messages/`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'Authorization': `Bearer ${API['accessToken']}`,
-        },
-    });
-
-    if (!response.ok) {
-        throw new Error('Не удалось отправить сообщение');
-    }
-
-    return response.json();
+    return API.post<IMessage>('/api/messages/', formData);
 };
 
-export const getMessages = async (chatId: string, params: { search?: string; page_size?: number; page?: number }): Promise<IPaginatedResponse<IMessage>> => {
+export const getMessages = async (
+    chatId: string,
+    params: { search?: string; page_size?: number; page?: number }
+): Promise<IPaginatedResponse<IMessage>> => {
     const queryParams: Record<string, string> = {
         chat: chatId,
     };
@@ -47,59 +38,24 @@ export const getMessages = async (chatId: string, params: { search?: string; pag
 };
 
 export const getMessage = async (messageId: string): Promise<IMessage> => {
-    return API.get<IMessage>(`/api/message/${messageId}`);
+    return API.get<IMessage>(`/api/message/${messageId}/`);
 };
 
 export const editMessageApi = async (messageId: string, text: string): Promise<IMessage> => {
-    const url = `/api/message/${messageId}`;
+    const url = `/api/message/${messageId}/`;
     const body = { text };
 
-    const response = await API.patch<IMessage>(url, body);
-
-    if (!response.ok) {
-        let errorMessage = 'Не удалось обновить сообщение';
-        try {
-            const errorData: IApiError = await response.json();
-            errorMessage = errorData.detail || errorMessage;
-        } catch (e) {
-            throw new Error('Не удалось обработать ошибку');
-        }
-        throw new Error(errorMessage);
-    }
-
-    return response.json();
+    return API.patch<IMessage>(url, body);
 };
 
 export const deleteMessageApi = async (messageId: string): Promise<void> => {
-    const url = `/api/message/${messageId}`;
+    const url = `/api/message/${messageId}/`;
 
-    const response = await API.delete<void>(url);
-
-    if (!response.ok) {
-        let errorMessage = 'Не удалось удалить сообщение';
-        try {
-            const errorData: IApiError = await response.json();
-            errorMessage = errorData.detail || errorMessage;
-        } catch (e) {
-            throw new Error('Не удалось обработать ошибку');
-        }
-        throw new Error(errorMessage);
-    }
+    return API.delete<void>(url);
 };
 
 export const readMessage = async (messageId: string): Promise<void> => {
     const url = `/api/message/${messageId}/read/`;
 
-    const response = await API.post<void>(url, {});
-
-    if (!response.ok) {
-        let errorMessage = 'Не удалось отметить сообщение как прочитанное';
-        try {
-            const errorData: IApiError = await response.json();
-            errorMessage = errorData.detail || errorMessage;
-        } catch (e) {
-            throw new Error('Не удалось обработать ошибку');
-        }
-        throw new Error(errorMessage);
-    }
+    return API.post<void>(url, {});
 };
