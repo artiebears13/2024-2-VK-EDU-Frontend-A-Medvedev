@@ -1,6 +1,6 @@
 // src/api/messages.ts
 
-import API from './API';
+import API from './api';
 import { IMessage, IPaginatedResponse, IApiError } from '../types/api';
 
 export const sendMessage = async (messageData: {

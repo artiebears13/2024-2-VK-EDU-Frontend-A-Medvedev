@@ -1,6 +1,6 @@
 // src/api/chats.ts
 
-import API from './API';
+import API from './api';
 import { IChat, IPaginatedResponse, IApiError, ICurrentUser } from '../types/api';
 
 export const getChats = async (

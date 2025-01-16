@@ -1,10 +1,9 @@
-// src/api/API.ts
+// src/api/api.ts
 
 import {
     IRegisterData,
     ILoginResponse,
     ICurrentUser,
-    IApiError,
 } from '../types/api';
 
 class API {

@@ -1,6 +1,6 @@
 // src/api/users.ts
 
-import API from './API';
+import API from './api';
 import { ICurrentUser, IUser, IPaginatedResponse } from '../types/api';
 
 export const getCurrentUser = async (): Promise<ICurrentUser> => {
