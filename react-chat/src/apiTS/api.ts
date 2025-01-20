@@ -29,7 +29,7 @@ class API {
         return body && typeof body === 'object' && !(body instanceof FormData);
     }
 
-    private async call<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    private async call<T>(endpoint: string, options: RequestInit = {}): Promise<T | null> {
         const url = endpoint.startsWith('http') ? endpoint : this.getUrl(endpoint);
         const headers: HeadersInit = {
             ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
@@ -60,7 +60,7 @@ class API {
             }
         }
         if (response.status === 204) {
-            return {} as T;
+            return null;
         }
 
         return response.json();

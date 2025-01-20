@@ -1,9 +1,16 @@
 // src/api/centrifugo.ts
 
-import {Centrifuge, ConnectionTokenContext, SubscriptionTokenContext} from 'centrifuge';
+import {
+    Centrifuge,
+    ConnectionTokenContext,
+    ErrorContext,
+    PublicationContext,
+    SubscriptionTokenContext
+} from 'centrifuge';
 import API from './api';
+import {IMessage} from "../types/api";
 
-export function connectToCentrifugo(userId: string, onMessageReceived: (event: string, message: any) => void): Centrifuge {
+export function connectToCentrifugo(userId: string, onMessageReceived: (event: string, message: IMessage) => void): Centrifuge {
     const centrifugoUrl = 'wss://vkedu-fullstack-div2.ru/connection/websocket/';
 
     const centrifuge = new Centrifuge(centrifugoUrl, {
@@ -20,7 +27,7 @@ export function connectToCentrifugo(userId: string, onMessageReceived: (event: s
         },
     });
 
-    subscription.on('publication', (ctx) => {
+    subscription.on('publication', (ctx: PublicationContext) => {
         const {event, message} = ctx.data;
         onMessageReceived(event, message);
     });
@@ -33,7 +40,7 @@ export function connectToCentrifugo(userId: string, onMessageReceived: (event: s
         console.log('Disconnected from Centrifugo');
     });
 
-    centrifuge.on('error', (ctx) => {
+    centrifuge.on('error', (ctx: ErrorContext) => {
         console.error('Ошибка Centrifugo:', ctx);
     });
 

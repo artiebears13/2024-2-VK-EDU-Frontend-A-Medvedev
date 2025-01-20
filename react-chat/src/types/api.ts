@@ -14,6 +14,7 @@ export interface IUser {
     last_name: string;
     bio: string | null;
     avatar: string | null;
+    last_online_at: string | null;
 }
 
 export interface ICurrentUser extends IUser {}
@@ -41,14 +42,20 @@ export interface IChat {
     avatar?: string;
 }
 
+export interface IAttachment {
+    item: string;
+}
+
 export interface IMessage {
     id: string;
-    text?: string;
-    voice?: string;
-    chatId: string;
-    files?: { item: string }[];
+    chat: string;
     created_at: string;
-    updated_at: string;
+    files?: IAttachment[];
+    text?: string | null;
+    updated_at?: string | null;
+    voice?: string | null;
+    was_read_by: IUser[];
+
 }
 
 export interface IApiError {
