@@ -15,6 +15,9 @@ export async function fetchTranslation(options: ITranslateOptions): Promise<ITra
     const fromLang: string = options.fromLanguage;
     const toLang: string = options.toLanguage;
     const text: string = options.text.trim();
+    if (!text) {
+        return null;
+    }
 
     const cacheKey: string = `${fromLang}:${toLang}:${text}`;
 
@@ -32,13 +35,21 @@ export async function fetchTranslation(options: ITranslateOptions): Promise<ITra
     const url: string = createTranslationUrl(options);
 
     const response: Response = await fetch(url);
+    console.log("====================");
+    console.log(response);
+    console.log("====================");
+
     if (!response.ok) {
-        throw new Error(`Fetch error: ${response.status} ${response.statusText}`);
+        console.error(`Fetch error: ${response.status} ${response.statusText}`);
     }
 
     const data: ITranslationApiResponse = await response.json();
+    if (data.responseStatus)
+    console.log("====================");
+    console.log({data});
+    console.log("====================");
     if (!data.responseData?.translatedText) {
-        throw new Error('API did not return translatedText');
+        console.error('API did not return translatedText');
     }
 
     const resultText: string = data.responseData.translatedText;

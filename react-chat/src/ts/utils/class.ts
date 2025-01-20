@@ -2,7 +2,7 @@ import {ICacheResponse, ITranslationApiResponse, ITranslationResult} from './int
 import { fetchTranslation } from './translate';
 
 export class Translator {
-    private readonly _base_url: string = 'https://api.mymemory.translated.net/get?q=';
+    private readonly _base_url: string = 'https://api.mymemory.translated.net/get?';
     private _fromLang: string = 'en';
     private _toLang: string = 'ru';
     private _translationCache: Map<string, string> = new Map<string, string>();
@@ -45,13 +45,12 @@ export class Translator {
     }
 
     private createTranslationUrl(text: string): string {
-        return `${this._base_url}${encodeURIComponent(text)}&langpair=${this._fromLang}|${this._toLang}`;
+        return `${this._base_url}q=${encodeURIComponent(text)}&langpair=${this._fromLang}|${this._toLang}`;
     }
 
     private checkInCache(text: string): ICacheResponse {
         const cacheKey: string = `${this._fromLang}:${this._toLang}:${text}`;
         const translatedText: string = this._translationCache.get(cacheKey) || text;
-        console.log({cache: this._translationCache, key: cacheKey,has: this._translationCache.has(cacheKey)});
         if (this._translationCache.has(cacheKey)){
             return {
                 originalText: text,
@@ -73,14 +72,13 @@ export class Translator {
 
     private async fetchTranslation(text: string): Promise<ITranslationResult> {
         const url: string = this.createTranslationUrl(text);
-        console.log({url});
 
         const response: Response = await fetch(url);
         if (!response.ok){
             throw new Error(`Fetch error: ${response.statusText}`);
         }
         const responseData: ITranslationApiResponse = await response.json();
-        if (!responseData.responseData.translatedText){
+        if (!responseData?.responseData?.translatedText){
             throw new Error("Api did not return translation");
         }
 

@@ -1,12 +1,15 @@
-export interface ITranslationResult {
+interface IBaseTranslationResponse{
     originalText: string;
     translatedText: string;
     fromLang: string;
     toLang: string;
     match: boolean;
-    usedCache: boolean;
 }
 
+export interface ITranslationResult extends IBaseTranslationResponse{
+    usedCache: boolean;
+}
+export interface ICacheResponse extends IBaseTranslationResponse {}
 
 export interface ITranslateOptions {
     text: string;
@@ -27,11 +30,5 @@ export interface ITranslationApiResponse {
     }>;
 }
 
-export interface ICacheResponse {
-    originalText: string;
-    translatedText: string;
-    match: boolean;
-    fromLang: string;
-    toLang: string;
-}
+
 
