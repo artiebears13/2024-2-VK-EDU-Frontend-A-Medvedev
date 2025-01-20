@@ -35,9 +35,6 @@ export async function fetchTranslation(options: ITranslateOptions): Promise<ITra
     const url: string = createTranslationUrl(options);
 
     const response: Response = await fetch(url);
-    console.log("====================");
-    console.log(response);
-    console.log("====================");
 
     if (!response.ok) {
         console.error(`Fetch error: ${response.status} ${response.statusText}`);
@@ -45,9 +42,6 @@ export async function fetchTranslation(options: ITranslateOptions): Promise<ITra
 
     const data: ITranslationApiResponse = await response.json();
     if (data.responseStatus)
-    console.log("====================");
-    console.log({data});
-    console.log("====================");
     if (!data.responseData?.translatedText) {
         console.error('API did not return translatedText');
     }
