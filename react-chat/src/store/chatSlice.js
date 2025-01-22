@@ -1,6 +1,6 @@
 // src/store/chatSlice.js
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import {getChat, getChats} from '../api/chats.js';
+import {getChat, getChats} from '../apiTS/chats';
 import {sendNewMessage, receiveMessage, updateMessage, deleteMessage} from './messageSlice';
 
 export const fetchChats = createAsyncThunk(

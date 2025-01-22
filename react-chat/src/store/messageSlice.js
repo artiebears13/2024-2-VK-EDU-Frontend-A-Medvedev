@@ -1,6 +1,6 @@
 // src/store/messageSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {getMessages, sendMessage, readMessage, deleteMessageApi, editMessageApi} from '../api/messages.js';
+import {getMessages, sendMessage, readMessage, deleteMessageApi, editMessageApi} from '../apiTS/messages';
 
 export const fetchMessages = createAsyncThunk(
     'messages/fetchMessages',
@@ -73,7 +73,6 @@ export const editMessage = createAsyncThunk(
     'messages/editMessage',
     async ({ chatId, messageId, messageData }, { rejectWithValue }) => {
         try {
-            console.log("dispatch", {messageId, messageData});
             const message = await editMessageApi(messageId, messageData.text);
             return {chatId, message};
         } catch (error) {
@@ -169,7 +168,6 @@ const messageSlice = createSlice({
             // deleteMessage
             .addCase(deleteMessage.fulfilled, (state, action) => {
                 const { chatId, messageId } = action.payload;
-                console.log("=============");
                 if (state.messages[chatId]) {
                     state.messages[chatId] = state.messages[chatId].filter((msg) => msg.id !== messageId);
                 }
