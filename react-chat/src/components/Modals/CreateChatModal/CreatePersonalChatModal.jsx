@@ -1,22 +1,19 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styles from './CreateChatModal.module.scss';
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {ErrorContext} from "../../../context/ErrorContext.jsx";
 import {RecommendedUser} from "./RecommendedUser.jsx";
 import {getUsers} from "../../../api/users.js";
 import {createChat} from "../../../api/chats.js";
 import {useSelector} from "react-redux";
 
-export const CreatePersonalChatModal = ({ isOpen, onClose }) => {
+// eslint-disable-next-line react/prop-types
+export const CreatePersonalChatModal = ({isOpen, onClose}) => {
     const navigate = useNavigate();
-    const [personName, setPersonName] = useState('');
-    const [personPhoto, setPersonPhoto] = useState(null);
-    const [photoPreview, setPhotoPreview] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [recommendedUsers, setRecommendedUsers] = useState([]);
     const {setError} = useContext(ErrorContext)
     const user = useSelector((state) => state.user.user);
-
 
 
     const onNameInput = (e) => {
@@ -32,9 +29,6 @@ export const CreatePersonalChatModal = ({ isOpen, onClose }) => {
 
     useEffect(() => {
         if (isOpen) {
-            setPersonName('');
-            setPersonPhoto(null);
-            setPhotoPreview('');
             getUsers(1, 5).then(res => setRecommendedUsers(res.results));
         }
     }, [isOpen]);
@@ -47,13 +41,12 @@ export const CreatePersonalChatModal = ({ isOpen, onClose }) => {
             creator: user
         }
         createChat(params).then(res => {
-            navigate(`/chat/${res.id}`);
+                navigate(`/chat/${res.id}`);
             }
         ).catch((err) => {
             setError(err.message);
         })
     }
-
 
 
     if (!isOpen) return null;
@@ -63,7 +56,6 @@ export const CreatePersonalChatModal = ({ isOpen, onClose }) => {
             <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
                 <span className={styles.closeButton} onClick={onClose}>&times;</span>
                 <h2>Создать новый чат</h2>
-
 
 
                 <input

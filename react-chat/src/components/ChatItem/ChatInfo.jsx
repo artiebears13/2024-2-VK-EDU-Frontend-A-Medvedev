@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from './ChatItem.module.scss'
-import log from "eslint-plugin-react/lib/util/log.js";
 
-export const ChatInfo = ({title, message}) => {
+export const ChatInfo = React.memo(({title, message}) => {
     let lastMessageText = 'Нет сообщений';
     if (message) {
         lastMessageText = message.text ? message.text : 'файл';
@@ -25,4 +24,6 @@ export const ChatInfo = ({title, message}) => {
             <div className={styles.chatItemLastMessage}>{displayText}</div>
         </div>
     );
-};
+});
+
+ChatInfo.displayName = 'ChatInfo';

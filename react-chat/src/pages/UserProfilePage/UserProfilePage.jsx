@@ -1,4 +1,3 @@
-import {imgOrPlaceholder} from "../../utils/imgOrPlaceholder/imgOrPlaceholder.js";
 import classes from './UserProfilePage.module.scss';
 import {ProfileHeader} from "../../components/Headers/ProfileHeader/ProfileHeader.jsx";
 import styles from "../SelfProfilePage/SelfProfilePage.module.scss";
@@ -7,13 +6,11 @@ import {ProfileAbout} from "../../components/EditableFields/ProfileAbout/Profile
 import React, {useContext, useEffect, useState} from "react";
 import {Avatar} from "@mui/material";
 import {useParams} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import {getUserInfo} from "../../api/users.js";
 import {ErrorContext} from "../../context/ErrorContext.jsx";
+import {getUserInfo} from "../../apiTS/users";
 
 export const UserProfilePage = () => {
     const {userId} = useParams();
-    const dispatch = useDispatch();
     const [userData, setUserData] = useState({});
     const {setError} = useContext(ErrorContext)
 
@@ -21,7 +18,7 @@ export const UserProfilePage = () => {
         getUserInfo(userId)
             .then(
                 res => setUserData(res))
-            .catch(err => setError("Не удалось загрузить информацию о пользователе"));
+            .catch(err => setError(`Не удалось загрузить информацию о пользователе ${err}`));
 
     }, [userId]);
 

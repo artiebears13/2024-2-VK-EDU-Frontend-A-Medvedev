@@ -1,3 +1,4 @@
+import React from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import styles from './AlertMessage.module.scss'
 import {useContext, useEffect} from "react";

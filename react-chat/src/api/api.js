@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://vkedu-fullstack-div2.ru'; // '' in local
+export const API_BASE_URL =  'https://vkedu-fullstack-div2.ru';//'';// in local
 
 export async function fetchWithAuth(url, options = {}) {
     let accessToken = localStorage.getItem('accessToken');
@@ -21,7 +21,7 @@ export async function fetchWithAuth(url, options = {}) {
 
                 headers['Authorization'] = `Bearer ${accessToken}`;
                 response = await fetch(url, { ...options, headers });
-            } catch (error) {
+            } catch {
                 localStorage.removeItem('accessToken');
                 localStorage.removeItem('refreshToken');
                 throw new Error('Сессия истекла, пожалуйста, войдите снова');

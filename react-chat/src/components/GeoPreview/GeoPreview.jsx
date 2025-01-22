@@ -1,3 +1,4 @@
+import React from "react";
 import classes from './GeoPreview.module.scss';
 
 export const GeoPreview = ({width, height, href}) => {

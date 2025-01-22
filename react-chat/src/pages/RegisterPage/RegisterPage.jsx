@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { fetchCurrentUser, login as loginAction } from '../../store/userSlice';
-import { login as apiLogin, register } from '../../api/api';
+import API from '../../apiTS/api';
 import classes from './RegisterPage.module.scss';
 import { ProfilePhoto } from '../../components/EditableFields/ProfilePhoto/ProfilePhoto.jsx';
 
@@ -33,11 +33,11 @@ function RegisterPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await register(formData); // Регистрация пользователя
-            const { access, refresh } = await apiLogin(formData.username, formData.password); // Логин после регистрации
-            dispatch(loginAction({ accessToken: access, refreshToken: refresh })); // Сохраняем токены в Redux
-            await dispatch(fetchCurrentUser()); // Загружаем текущего пользователя
-            navigate('/'); // Перенаправляем на главную страницу
+            await API.register(formData);
+            const { access, refresh } = await API.login(formData.username, formData.password);
+            dispatch(loginAction({ accessToken: access, refreshToken: refresh }));
+            await dispatch(fetchCurrentUser());
+            navigate('/');
         } catch (err) {
             setError('Ошибка при регистрации. Пожалуйста, попробуйте снова.');
             console.error('Ошибка при регистрации:', err);
