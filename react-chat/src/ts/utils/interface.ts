@@ -9,7 +9,7 @@ interface IBaseTranslationResponse{
 export interface ITranslationResult extends IBaseTranslationResponse{
     usedCache: boolean;
 }
-export interface ICacheResponse extends IBaseTranslationResponse {}
+export type ICacheResponse = IBaseTranslationResponse;
 
 export interface ITranslateOptions {
     text: string;

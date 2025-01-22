@@ -2,7 +2,7 @@ import {ICacheResponse, ITranslationApiResponse, ITranslationResult} from './int
 import { fetchTranslation } from './translate';
 
 export class Translator {
-    private readonly _base_url: string = 'https://api.mymemory.translated.net/get?';
+    private readonly _base_url: string = 'https://api.mymemory.translated.net/get';
     private _fromLang: string = 'en';
     private _toLang: string = 'ru';
     private _translationCache: Map<string, string> = new Map<string, string>();
@@ -14,7 +14,6 @@ export class Translator {
 
     public async translate(text: string): Promise<ITranslationResult> {
         const checkInCacheResult: ICacheResponse = this.checkInCache(text);
-        // console.log({ checkInCacheResult });
         if (checkInCacheResult.match) {
             return {
                 ...checkInCacheResult,
@@ -45,7 +44,7 @@ export class Translator {
     }
 
     private createTranslationUrl(text: string): string {
-        return `${this._base_url}q=${encodeURIComponent(text)}&langpair=${this._fromLang}|${this._toLang}`;
+        return `${this._base_url}?q=${encodeURIComponent(text)}&langpair=${this._fromLang}|${this._toLang}`;
     }
 
     private checkInCache(text: string): ICacheResponse {
